@@ -125,7 +125,7 @@ function emojiText(local, nodes, links) {
                     .on("end", dragended));
 
             node.append("image")
-                .attr("xlink:href", function(d) { return ( "http://" + document.location.host + "/media/images/" + d.status + ".svg"); })
+                .attr("xlink:href", function(d) { return ( "http://" + document.location.host + "/emojiText/src/media/images/" + d.status + ".svg"); })
                 .attr("width", function(d) { return circleScale(d.size); })
                 .attr("height", function(d) { return circleScale(d.size); })
                 .attr("transform", function(d) { return ( "translate(-" + circleScale(d.size)/2 + ", -"  + circleScale(d.size)/2 + ")"); })

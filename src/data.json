@@ -1,0 +1,677 @@
+[
+  {
+    "id": 3569,
+    "start": "0.000000",
+    "stop": "5.000000",
+    "text": "Qual o sentimento",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3570,
+    "start": "5.000000",
+    "stop": "10.000000",
+    "text": "de maior duração",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3571,
+    "start": "10.000000",
+    "stop": "15.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3572,
+    "start": "15.000000",
+    "stop": "20.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3573,
+    "start": "20.000000",
+    "stop": "25.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3574,
+    "start": "25.000000",
+    "stop": "30.000000",
+    "text": "comprei um frango",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3575,
+    "start": "30.000000",
+    "stop": "35.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3576,
+    "start": "35.000000",
+    "stop": "40.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3577,
+    "start": "40.000000",
+    "stop": "45.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3578,
+    "start": "45.000000",
+    "stop": "50.000000",
+    "text": "contratada de nascimento que tem a palavra de maior frequência presente",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3579,
+    "start": "50.000000",
+    "stop": "55.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3580,
+    "start": "55.000000",
+    "stop": "60.000000",
+    "text": "creio que seja aqui né",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3581,
+    "start": "60.000000",
+    "stop": "65.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3582,
+    "start": "65.000000",
+    "stop": "70.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3583,
+    "start": "70.000000",
+    "stop": "75.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3584,
+    "start": "75.000000",
+    "stop": "80.000000",
+    "text": "e o negócio mandou para sair",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3585,
+    "start": "80.000000",
+    "stop": "85.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3586,
+    "start": "85.000000",
+    "stop": "90.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3587,
+    "start": "90.000000",
+    "stop": "95.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3588,
+    "start": "95.000000",
+    "stop": "100.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3589,
+    "start": "100.000000",
+    "stop": "105.000000",
+    "text": "frente CG telefone",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3590,
+    "start": "105.000000",
+    "stop": "110.000000",
+    "text": "intensidade",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3591,
+    "start": "110.000000",
+    "stop": "115.000000",
+    "text": "maior frequência pelo",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3592,
+    "start": "115.000000",
+    "stop": "120.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3593,
+    "start": "120.000000",
+    "stop": "125.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3594,
+    "start": "125.000000",
+    "stop": "130.000000",
+    "text": "nome da fase 3",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3595,
+    "start": "130.000000",
+    "stop": "135.000000",
+    "text": "cidades maiores selecione três",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3596,
+    "start": "135.000000",
+    "stop": "140.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3597,
+    "start": "140.000000",
+    "stop": "145.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3598,
+    "start": "145.000000",
+    "stop": "150.000000",
+    "text": "qual a região da terra que o",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3599,
+    "start": "150.000000",
+    "stop": "155.000000",
+    "text": "tão pouca sofrer",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3600,
+    "start": "155.000000",
+    "stop": "160.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3601,
+    "start": "160.000000",
+    "stop": "165.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3602,
+    "start": "165.000000",
+    "stop": "170.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3603,
+    "start": "170.000000",
+    "stop": "175.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3604,
+    "start": "175.000000",
+    "stop": "180.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3605,
+    "start": "180.000000",
+    "stop": "185.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3606,
+    "start": "185.000000",
+    "stop": "190.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3607,
+    "start": "190.000000",
+    "stop": "195.000000",
+    "text": "só não lembro qual é o nome dessa região aqui",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3608,
+    "start": "195.000000",
+    "stop": "200.000000",
+    "text": "vou escrever aqui",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3609,
+    "start": "200.000000",
+    "stop": "205.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3610,
+    "start": "205.000000",
+    "stop": "210.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3611,
+    "start": "210.000000",
+    "stop": "215.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3612,
+    "start": "215.000000",
+    "stop": "220.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3613,
+    "start": "220.000000",
+    "stop": "225.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3614,
+    "start": "225.000000",
+    "stop": "230.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3615,
+    "start": "230.000000",
+    "stop": "235.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3616,
+    "start": "235.000000",
+    "stop": "240.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3617,
+    "start": "240.000000",
+    "stop": "245.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3618,
+    "start": "245.000000",
+    "stop": "250.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3619,
+    "start": "250.000000",
+    "stop": "255.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3620,
+    "start": "255.000000",
+    "stop": "260.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3621,
+    "start": "260.000000",
+    "stop": "265.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3622,
+    "start": "265.000000",
+    "stop": "270.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3623,
+    "start": "270.000000",
+    "stop": "275.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3624,
+    "start": "275.000000",
+    "stop": "280.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3625,
+    "start": "280.000000",
+    "stop": "285.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3626,
+    "start": "285.000000",
+    "stop": "290.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3627,
+    "start": "290.000000",
+    "stop": "295.000000",
+    "text": "a for mais né Maior",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3628,
+    "start": "295.000000",
+    "stop": "300.000000",
+    "text": "aqui",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3629,
+    "start": "300.000000",
+    "stop": "305.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3630,
+    "start": "305.000000",
+    "stop": "310.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3631,
+    "start": "310.000000",
+    "stop": "315.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3632,
+    "start": "315.000000",
+    "stop": "320.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3633,
+    "start": "320.000000",
+    "stop": "325.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3634,
+    "start": "325.000000",
+    "stop": "330.000000",
+    "text": "eu consigo fazer essa conta",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3635,
+    "start": "330.000000",
+    "stop": "335.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3636,
+    "start": "335.000000",
+    "stop": "340.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3637,
+    "start": "340.000000",
+    "stop": "345.000000",
+    "text": "telefone 10",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3638,
+    "start": "345.000000",
+    "stop": "350.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3639,
+    "start": "350.000000",
+    "stop": "355.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3640,
+    "start": "355.000000",
+    "stop": "360.000000",
+    "text": "Mas qual a tarefa",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3641,
+    "start": "360.000000",
+    "stop": "365.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3642,
+    "start": "365.000000",
+    "stop": "370.000000",
+    "text": "",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  },
+  {
+    "id": 3643,
+    "start": "370.000000",
+    "stop": "372.900000",
+    "text": "procurando outra coisa",
+    "emotion": "neutral",
+    "polarity": "neutral",
+    "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
+  }
+]

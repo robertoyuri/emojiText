@@ -8,43 +8,85 @@
 <div id="vis7"></div>
 </body>
 <script type="text/javascript" src="emojiText.js"></script>
-<script type="text/javascript" src="d3.v5.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 <script type="application/javascript">
+    function comparePolarity(words) {
+        let polarity = ["", "positive", "negative", "neutral", "positive", "negative", "neutral"];
+        let pol = [];
+        pol["positive"] = 1;
+        pol["negative"] = 2;
+        pol["neutral"] = 3;
+        let id = 0;
+        for(let i = 0; i < words.length; i++){
+            if(words[i].size == words[0].size){
+                id += pol[words[i].name];
+            }
+        }
+        return polarity[id];
+    }
+
+    function compareEmotion(words) {
+        return words[0].name;
+    }
+
+    function sortSize(words) {
+        let sizes = [];
+        let keys = [];
+        for(let i = 0; i < words.length; i++){
+            if(sizes[words[i]] == undefined){
+                keys.push(words[i]);
+                sizes[words[i]] = 1;
+            } else{
+                sizes[words[i]] += 1;
+            }
+        }
+        words = [];
+        for(let i = 0; i < keys.length; i++){
+            words.push({"name":keys[i], "size":sizes[keys[i]]});
+        }
+        if(words.length > 1){
+            words.sort(function(a,b) {
+                return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
+            });
+        }
+        return words;
+    }
+
     let words = [];
     let links = [];
     let keys = [];
+    let types = [];
     let contents = [];
     let group = 0;
 
     let datas = [
-        {"name":"Content","path":"http://uxmood.roberto.eti.br/UXmood/api/transcriptions/?test=95"}
+        {"name":"Content","path":"data.json"}
     ];
 
     let promises = [];
     for (let i = 0; i < datas.length; i++) {
         promises.push(d3.json(datas[i].path));
-        keys.push(datas[i].name);
     }
 
     Promise.all(promises).then((dataJsons) => {
+        console.log(dataJsons);
         for(let i = 0; i < dataJsons.length; i++){
             let dataJson = dataJsons[i];
 
-            if((dataJsons[i].length > 0) && (datas[i].name == "Audio" || datas[i].name == "Video" || datas[i].name == "Content" || datas[i].name == "Multimodal")){
+            if((dataJsons[i].length > 0) && (datas[i].name == "Content")){
                 types.push(datas[i].name);
                 for (let j = 0; j < dataJson.length; j++){
-                    if(settings.emotion ? isStatus(dataJson[j].emotion) : isStatus(dataJson[j].polarity) ){
-                        let line = {
-                            "startDate": new Date(settings.startTime*1000 + (dataJson[j].start * 1000)),
-                            "endDate": new Date(settings.startTime*1000 + (dataJson[j].stop * 1000)),
+                    let line = {
+                            "startDate": new Date(dataJson[j].start * 1000),
+                            "endDate": new Date(dataJson[j].stop * 1000),
                             "name": datas[i].name,
-                            "status": settings.emotion ? dataJson[j].emotion: dataJson[j].polarity,
+                            "status": dataJson[j].emotion,
                             "polarity": dataJson[j].polarity,
                             "emotion": dataJson[j].emotion,
                             "text": dataJson[j].text,
                             "image": dataJson[j].image
-                        };
-                    }
+                    };
+                    contents.push(line);
                 }
             }
         }
@@ -170,7 +212,31 @@
             }
         }
 
+        let temp = [];
+        for(let i = 0; i < keys.length; i++){
+            console.log(keys[i]);
+            let emotion = compareEmotion(sortSize(words[keys[i]]["emotion"].split(" ")));
+            let polarity = comparePolarity(sortSize(words[keys[i]]["polarity"].split(" ")));
+            temp.push({
+                "word":keys[i],
+                "status":emotion,
+                "emotion":emotion,
+                "polarity":polarity,
+                "size":words[keys[i]]["size"],
+            });
+        }
+
+        temp.sort(function(a,b) {
+            return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
+        });
+        words = temp;
+
+        console.log(words);
+        console.log(links);
+
         emojiText("#vis7", words, links);
     });
+
+
 </script>
 </html>
