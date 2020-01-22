@@ -1,0 +1,14 @@
+.idea
+dashboard/migrations/*
+media/audios/*
+media/frames/*
+templates/test_luti.html
+
+*.log
+*.wav
+*.mp4
+*.mov
+*.pyc
+*.iml
+*.sqlite3
+*.sqlite3-journal
