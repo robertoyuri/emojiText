@@ -12,3 +12,4 @@ templates/test_luti.html
 *.iml
 *.sqlite3
 *.sqlite3-journal
+.idea
