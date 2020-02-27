@@ -1,15 +1,16 @@
 function emojiText(local, nodes, links) {
-    if(nodes.length > 0){
-        let height = document.getElementById(local.replace('#','')).clientHeight;
-        if(height < 800){height = 800}
-        const width = document.getElementById(local.replace('#','')).clientWidth;
+    if (nodes.length > 0) {
+        const lineSize = 15;
+        let height = document.getElementById(local.replace('#', '')).clientHeight;
+        if (height < 800) { height = 800 }
+        const width = document.getElementById(local.replace('#', '')).clientWidth;
         //const colors = d3.scaleLinear().range(["gold", "blue", "green", "yellow", "black", "grey", "darkgreen", "pink", "brown", "slateblue", "grey1", "orange"]);
         const colors = d3.schemeSet3;//d3.schemeSet3;
-        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length-1].size, nodes[0].size]).range([30, 120]);
+        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, 100]);
         function distanceScale(source, target) {
-            if(source.size > target.size){
+            if (source.size > target.size) {
                 return distanceScalePart(source.size);
-            }else {
+            } else {
                 return distanceScalePart(target.size);
             }
         }
@@ -25,16 +26,16 @@ function emojiText(local, nodes, links) {
 
         svg.append("defs")
             .append("marker")
-            .attr("id","arrow")
-            .attr("markerUnits","strokeWidth")
-            .attr("markerWidth","10")
-            .attr("markerHeight","10")
-            .attr("viewBox","-5 -5 10 10")
-            .attr("refX","0")
-            .attr("refY","0")
-            .attr("orient","auto")
+            .attr("id", "arrow")
+            .attr("markerUnits", "strokeWidth")
+            .attr("markerWidth", "10")
+            .attr("markerHeight", "10")
+            .attr("viewBox", "-5 -5 10 10")
+            .attr("refX", "0")
+            .attr("refY", "0")
+            .attr("orient", "auto")
             .append("path")
-            .attr("d","M 0,0 m -5,-5 L 5,0 L -5,5 Z")
+            .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
             .attr("fill", "black");
 
         const simulation = d3.forceSimulation(nodes)
@@ -42,18 +43,7 @@ function emojiText(local, nodes, links) {
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        // let simulation = d3.forceSimulation()
-        //     .force("link", d3.forceLink().distance(100).id(function(d) { return d.word; }))
-        //     //.force("charge", d3.forceManyBody())
-        //     .force("center2", d3.forceCenter(width/2.5, height/2.5))
-        //
-        //     .force("", d3.forceManyBody().strength(200).distanceMax(200).distanceMin(150))
-        //     .force("", d3.forceManyBody().strength(-150).distanceMax(200).distanceMin(150))
-        //     .force("radial", d3.forceRadial().radius(300))
-        // ;
-        //.stop();
-        //simulation.tick(120);
-        draw(nodes,links);
+        draw(nodes, links);
 
         function draw(nodes, links) {
 
@@ -62,15 +52,40 @@ function emojiText(local, nodes, links) {
 
             let shadow = svg.append("g")
                 .attr("class", "links")
-                .selectAll("line")
+                .selectAll("g.par")
                 .data(links)
                 .enter()
-                .append("line")
-                .attr("stroke-width", function(d) { return (10 * d.value); })
-                //.attr("opacity", 0.2)
-                .attr("stroke", d => {
-                    let control = parseInt(d.group / colors.length);
-                    return colors[d.group - (colors.length * control)];
+                .append("g")
+                .classed("par", true)
+                .each(function (groupd) {
+                    
+                    let lines = groupd.group.split(',');
+                    lines = lines.slice(0, lines.length-1).map(v=>({
+                        value: v,
+                        source: groupd.source,
+                        target: groupd.target,
+                    }))
+                    
+                    d3.select(this).selectAll('line.data').data(lines).enter()
+                        //.append("line")
+                        //.attr("stroke-width",lineSize * groupd.value)
+                        .append("line")
+                        .classed('data', true)
+                        .attr("len", lines.length)
+                        .attr("stroke-width", lineSize//(d,i) => {
+                            //if(i>lines.length/2){
+                            //    return (lineSize);
+                            ///}else{
+                               /// return (lineSize * groupd.value);
+                            //}
+                       /// }
+                        )
+                        .attr("stroke", (lined, i) => {
+                            console.log(groupd);
+                            const group = parseInt(lined.value)
+                            let control = parseInt(group / colors.length);
+                            return colors[group - (colors.length * control)];
+                        })
                 });
 
             let triangle = svg.append("g")
@@ -78,16 +93,16 @@ function emojiText(local, nodes, links) {
                 .selectAll("line")
                 .data(links)
                 .enter().append("line")
-                .attr("stroke-width", function(d) { return (Math.sqrt(d.value) + "px"); })
+                .attr("stroke-width", function (d) { return (Math.sqrt(d.value) + "px"); })
                 .attr("stroke", "black")
-                .attr("marker-end","url(#arrow)");
+                .attr("marker-end", "url(#arrow)");
 
             let link = svg.append("g")
                 .attr("class", "links")
                 .selectAll("line")
                 .data(links)
                 .enter().append("line")
-                .attr("stroke-width", function(d) { return (d.value); })
+                .attr("stroke-width", function (d) { return (2 * d.value); })
                 .attr("stroke", "black");
 
             let node = svg.append("g")
@@ -97,23 +112,16 @@ function emojiText(local, nodes, links) {
                 .enter().append("g");
 
             let circles = node.append("circle")
-                .attr("r", function(d) { return (circleScale(d.size)/2)+2; })
-                // .attr("x", 0)
-                // .attr("y", 0)
-                // .attr("width", function(d) { return circleScale(d.size)+3; })
-                // .attr("height", function(d) { return circleScale(d.size)+3; })
-                //.attr("transform", function(d) { return "translate(-" + (circleScale(d.size)+3)/2 + ",-" + (circleScale(d.size)+3)/2 + ")"; })
-                .attr("class", function(d) { return d.status; })
-                //.attr("stroke", "#ffcacb")
-                //.attr("stroke-width", "5px")
-                //.attr("stroke-opacity", 0.2)
+                .attr("r", function (d) { return (circleScale(d.size) / 2) + 2; })
+                .attr("class", function (d) { return d.status; })
+
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
 
             let circles2 = node.append("circle")
-                .attr("r", function(d) { return (circleScale(d.size)/2); })
+                .attr("r", function (d) { return (circleScale(d.size) / 2); })
                 //.attr("class", function(d) { return (d.status); })
                 .attr("fill", "#FFFFFF")
                 //.attr("stroke", "green")
@@ -125,30 +133,30 @@ function emojiText(local, nodes, links) {
                     .on("end", dragended));
 
             node.append("image")
-                .attr("xlink:href", function(d) { return ( "http://" + document.location.host + "/emojiText/src/media/images/" + d.status + ".svg"); })
-                .attr("width", function(d) { return circleScale(d.size); })
-                .attr("height", function(d) { return circleScale(d.size); })
-                .attr("transform", function(d) { return ( "translate(-" + circleScale(d.size)/2 + ", -"  + circleScale(d.size)/2 + ")"); })
+                .attr("xlink:href", function (d) { return ("http://" + document.location.host + "/src/media/images/" + d.status + ".svg"); })
+                .attr("width", function (d) { return circleScale(d.size); })
+                .attr("height", function (d) { return circleScale(d.size); })
+                .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); })
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
 
             let lables = node.append("text")
-                .text(function(d) { return d.word; })
+                .text(function (d) { return d.word; })
                 .style("font-size", "14px")
                 //.style("font-size", function(d) { return sizeScale(d.size) + "px"; })
                 .style("font-family", "Arial")
-                .attr("class", function(d) { return d.status; })
+                .attr("class", function (d) { return d.status; })
                 .attr("text-anchor", "start")
                 .attr("font-weight", "bold")
                 //.attr("stroke", "black")
                 //.attr("stroke-width", ".5px")
-                .attr('x', function(d) { return sizeScale(d.size) + "px"; })
+                .attr('x', function (d) { return sizeScale(d.size) + "px"; })
                 .attr('y', 7);
 
             node.append("title")
-                .text(function(d) { return d.word; });
+                .text(function (d) { return d.word; });
 
             simulation
                 .nodes(nodes)
@@ -159,25 +167,25 @@ function emojiText(local, nodes, links) {
 
             function ticked() {
                 triangle
-                    .attr("x1", function(d) { return d.source.x; })
-                    .attr("y1", function(d) { return d.source.y; })
-                    .attr("x2", function(d) { return (d.target.x + d.source.x)/2; })
-                    .attr("y2", function(d) { return (d.target.y + d.source.y)/2; });
+                    .attr("x1", function (d) { return d.source.x; })
+                    .attr("y1", function (d) { return d.source.y; })
+                    .attr("x2", function (d) { return (d.target.x + d.source.x) / 2; })
+                    .attr("y2", function (d) { return (d.target.y + d.source.y) / 2; });
 
                 link
-                    .attr("x1", function(d) { return d.source.x; })
-                    .attr("y1", function(d) { return d.source.y; })
-                    .attr("x2", function(d) { return d.target.x; })
-                    .attr("y2", function(d) { return d.target.y; });
+                    .attr("x1", function (d) { return d.source.x; })
+                    .attr("y1", function (d) { return d.source.y; })
+                    .attr("x2", function (d) { return d.target.x; })
+                    .attr("y2", function (d) { return d.target.y; });
 
-                shadow
-                    .attr("x1", function(d) { return d.source.x; })
-                    .attr("y1", function(d) { return d.source.y; })
-                    .attr("x2", function(d) { return d.target.x; })
-                    .attr("y2", function(d) { return d.target.y; });
+                shadow.selectAll('line')
+                    .attr("x1", function (d,i) { return d.source.x + i * calcTranslationExact(lineSize, d.target, d.source).dx; })
+                    .attr("y1", function (d,i) { return d.source.y + i * calcTranslationExact(lineSize, d.target, d.source).dy; })
+                    .attr("x2", function (d,i) { return d.target.x + i * calcTranslationExact(lineSize, d.target, d.source).dx; })
+                    .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact(lineSize, d.target, d.source).dy; });
 
                 node
-                    .attr("transform", function(d) {
+                    .attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     })
             }
@@ -212,4 +220,22 @@ function emojiText(local, nodes, links) {
             d.fy = null;
         }
     }
+
+}function calcTranslationExact(targetDistance, point0, point1) {
+    var x1_x0 = point1.x - point0.x,
+        y1_y0 = point1.y - point0.y,
+        x2_x0, y2_y0;
+    if (y1_y0 === 0) {
+        x2_x0 = 0;
+        y2_y0 = targetDistance;
+    } else {
+        let angle = Math.atan((x1_x0) / (y1_y0));
+        x2_x0 = -targetDistance * Math.cos(angle);
+        y2_y0 = targetDistance * Math.sin(angle);
+    }
+    return {
+        dx: x2_x0,
+        dy: y2_y0
+    };
 }
+

@@ -192,7 +192,7 @@
     "id": 3590,
     "start": "105.000000",
     "stop": "110.000000",
-    "text": "intensidade",
+    "text": "maior frequência de intensidade",
     "emotion": "neutral",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
@@ -201,7 +201,7 @@
     "id": 3591,
     "start": "110.000000",
     "stop": "115.000000",
-    "text": "maior frequência pelo",
+    "text": "maior frequência pelo carro",
     "emotion": "neutral",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
