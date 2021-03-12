@@ -1,9 +1,14 @@
 [
   {
-    "id": 3569,
-    "start": "0.000000",
-    "stop": "5.000000",
-    "text": "Qual o sentimento",
+    "text": "Qual a tarefa com a maior frequência do sentimento quando comprei os três outra negócio que me fazer sofrer aqui no telefone",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 3570,
+    "start": "5.000000",
+    "stop": "10.000000",
+    "text": "de maior duração",
     "emotion": "neutral",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
@@ -12,7 +17,7 @@
     "id": 3570,
     "start": "5.000000",
     "stop": "10.000000",
-    "text": "de maior duração",
+    "text": "sentimento comprei",
     "emotion": "neutral",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
@@ -49,8 +54,8 @@
     "start": "25.000000",
     "stop": "30.000000",
     "text": "comprei um frango",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "happy",
+    "polarity": "positive",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {

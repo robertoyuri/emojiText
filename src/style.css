@@ -1,0 +1,142 @@
+.home{
+    color: red;
+}
+
+.context-menu-icon {
+    min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px;
+}
+
+.context-menu-icon-zoomout {
+    background-image: url("http://127.0.0.1:8000/media/images/zoomout.svg");
+    background-size: 20px;
+}
+
+.context-menu-icon-zoomin {
+    background-image: url("http://127.0.0.1:8000/media/images/zoomin.svg");
+    background-size: 20px;
+}
+
+html,body,#wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+.chart {
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.axis path,.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.background-color {
+    fill: #007bff;
+    background-color: #007bff;
+}
+
+.selected {
+    fill: #00ff00;
+    background-color: #00ff00;
+}
+
+.negative {
+    fill: #CC0000;
+    background-color: #CC0000;
+}
+
+.positive {
+    fill: #669900;
+    background-color: #669900;
+}
+
+.neutral {
+    fill: dimgray/*33b5e5*/;
+    background-color: dimgray/*7CAAD4 #33b5e5*/;
+}
+
+.blank {
+    fill: #ffffff;
+    background-color: #ffffff;
+}
+
+.none {
+    fill: none;
+}
+
+.angry {
+    fill: #CC0000/*DB655F*/;
+    background-color: #CC0000/*#CC0000/*DB655F*/;
+    stroke: #CC0000;
+}
+
+.disgust {
+    fill: #5EA884/*639874*/;
+    background-color: #5EA884/*#5EA884/*639874*/;
+    stroke: #5EA884;
+}
+
+.happy {
+    fill: #f69b01/*F3B45F*/;
+    background-color: #f69b01/*#ffe854/*F3B45F*/;
+    stroke: #f69b01;
+}
+
+.sad {
+    fill: #453d98/*7CAAD4*/;
+    background-color: #453d98/*#453d98/*7CAAD4*/;
+    stroke: #453d98;
+}
+
+.surprise {
+    fill: #59bdff;
+    background-color: #59bdff/*#ff7400*/;
+    stroke: #59bdff;
+}
+.fear {
+    fill: green/*#009600/*921c92*/;
+    background-color: green/*#009600/*#F06DEF/*921c92*/;
+    stroke: green;
+}
+
+.contempt {
+    fill: #808080;
+    background-color: #808080;
+    stroke: #808080;
+}
+
+.tooltipBig {
+    width: 250px;
+    height: 175px;
+    background-color: #ffffff;
+    padding: 5px 5px;
+    font-family: sans-serif;
+    border: 1px solid #bbbbbb;
+    box-shadow: 1px 1px 1px #bbbbbb;
+}
+.tooltipSlim {
+    width: 80px;
+    height: 60px;
+    background-color: #ffffff;
+    padding: 10px 10px;
+    font-family: sans-serif;
+    border: 1px solid #bbbbbb;
+    box-shadow: 1px 1px 1px #bbbbbb;
+}
+img {
+    max-width: 200px;
+    max-height: 120px;
+}
+path.data {
+    fill:none;
+    stroke-width: 0.5px;
+}
+text.categoricalLabel {
+    fill: black;
+    stroke: black;
+    font-size: 150%;
+}

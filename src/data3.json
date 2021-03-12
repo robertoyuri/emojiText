@@ -1,0 +1,27 @@
+[
+  {
+    "text": "Bom dia senhora",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "text": "a senhora matou seu marido hoje",
+    "emotion": "angry",
+    "polarity": "negative"
+  },
+  {
+    "text": "hoje foi um bom dia de trabalho",
+    "emotion": "happy",
+    "polarity": "positive"
+  },
+  {
+    "text": "Meu Deus que dia foi hoje",
+    "emotion": "surprise",
+    "polarity": "neutral"
+  },
+  {
+    "text": "Bom dia senhora",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  }
+]

@@ -1,10 +1,9 @@
 function emojiText(local, nodes, links) {
     if (nodes.length > 0) {
-        const lineSize = 15;
+        const lineSize = 20;
         let height = document.getElementById(local.replace('#', '')).clientHeight;
         if (height < 800) { height = 800 }
         const width = document.getElementById(local.replace('#', '')).clientWidth;
-        //const colors = d3.scaleLinear().range(["gold", "blue", "green", "yellow", "black", "grey", "darkgreen", "pink", "brown", "slateblue", "grey1", "orange"]);
         const colors = d3.schemeSet3;//d3.schemeSet3;
         const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, 100]);
         function distanceScale(source, target) {
@@ -14,10 +13,6 @@ function emojiText(local, nodes, links) {
                 return distanceScalePart(target.size);
             }
         }
-        //const colors = ["#F0F8FF", "#F8F8FF", "#FFFAFA", "#FFF5EE", "#FFFAF0", "#F5F5F5", "#F5F5DC", "#FDF5E6", "#FFFFF0",
-        //"#FAF0E6", "#FFF8DC", "#FAEBD7", "#FFEBCD", "#FFE4C4", "#FFFFE0", "#FFFACD", "#FAFAD2", "#FFEFD5", "#FFDAB9",
-        ///"#FFE4B5", "#EEE8AA", "#FFE4E1", "#FFF0F5", "#E6E6FA", "#D8BFD8", "#F0FFFF", "#E0FFFF", "#B0E0E6", "#E0FFFF",
-        //"#F0FFF0", "#F5FFFA"];
 
         const svg = d3.select(local)
             .append("svg")
@@ -57,29 +52,21 @@ function emojiText(local, nodes, links) {
                 .enter()
                 .append("g")
                 .classed("par", true)
+                .attr("transform",d => "translate(" + ((d.group.split(',').length > 2) ? "10,10" : "0,0") + ")")
                 .each(function (groupd) {
-                    
                     let lines = groupd.group.split(',');
                     lines = lines.slice(0, lines.length-1).map(v=>({
                         value: v,
                         source: groupd.source,
                         target: groupd.target,
                     }))
+
                     
                     d3.select(this).selectAll('line.data').data(lines).enter()
-                        //.append("line")
-                        //.attr("stroke-width",lineSize * groupd.value)
                         .append("line")
                         .classed('data', true)
                         .attr("len", lines.length)
-                        .attr("stroke-width", lineSize//(d,i) => {
-                            //if(i>lines.length/2){
-                            //    return (lineSize);
-                            ///}else{
-                               /// return (lineSize * groupd.value);
-                            //}
-                       /// }
-                        )
+                        .attr("stroke-width", lineSize/lines.length)
                         .attr("stroke", (lined, i) => {
                             console.log(groupd);
                             const group = parseInt(lined.value)
@@ -102,7 +89,7 @@ function emojiText(local, nodes, links) {
                 .selectAll("line")
                 .data(links)
                 .enter().append("line")
-                .attr("stroke-width", function (d) { return (2 * d.value); })
+                .attr("stroke-width", function (d) { return (1); })//2 * d.value); })
                 .attr("stroke", "black");
 
             let node = svg.append("g")
@@ -122,18 +109,14 @@ function emojiText(local, nodes, links) {
 
             let circles2 = node.append("circle")
                 .attr("r", function (d) { return (circleScale(d.size) / 2); })
-                //.attr("class", function(d) { return (d.status); })
                 .attr("fill", "#FFFFFF")
-                //.attr("stroke", "green")
-                //.attr("class", function(d) { return d.status; })
-                //.attr("stroke-width", "5px")
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
 
             node.append("image")
-                .attr("xlink:href", function (d) { return ("http://" + document.location.host + "/src/media/images/" + d.status + ".svg"); })
+                .attr("xlink:href", function (d) { return ("http://" + document.location.host + "/emojiText/src/media/images/" + d.status + ".svg"); })
                 .attr("width", function (d) { return circleScale(d.size); })
                 .attr("height", function (d) { return circleScale(d.size); })
                 .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); })
@@ -150,8 +133,6 @@ function emojiText(local, nodes, links) {
                 .attr("class", function (d) { return d.status; })
                 .attr("text-anchor", "start")
                 .attr("font-weight", "bold")
-                //.attr("stroke", "black")
-                //.attr("stroke-width", ".5px")
                 .attr('x', function (d) { return sizeScale(d.size) + "px"; })
                 .attr('y', 7);
 
@@ -179,10 +160,13 @@ function emojiText(local, nodes, links) {
                     .attr("y2", function (d) { return d.target.y; });
 
                 shadow.selectAll('line')
-                    .attr("x1", function (d,i) { return d.source.x + i * calcTranslationExact(lineSize, d.target, d.source).dx; })
-                    .attr("y1", function (d,i) { return d.source.y + i * calcTranslationExact(lineSize, d.target, d.source).dy; })
-                    .attr("x2", function (d,i) { return d.target.x + i * calcTranslationExact(lineSize, d.target, d.source).dx; })
-                    .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact(lineSize, d.target, d.source).dy; });
+                    .attr("x1", function (d,i) { return d.source.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
+                    .attr("y1", function (d,i) { return d.source.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; })
+                    .attr("x2", function (d,i) { return d.target.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
+                    .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; });
+
+                shadow.selectAll('g')
+                    .attr("transform", "translate(30,30)");
 
                 node
                     .attr("transform", function (d) {
@@ -192,36 +176,33 @@ function emojiText(local, nodes, links) {
         }
 
         function dragstarted(d) {
-            // d3.select(this.parentElement)
-            //     .attr("transform", function(d) {
-            //         return "translate(" + d3.event.x + "," + d3.event.y + ")";
-            //     });
             if (!d3.event.active) simulation.alphaTarget(1.6).restart();
             d.fx = d.x;
             d.fy = d.y;
         }
 
         function dragged(d) {
-            // d3.select(this.parentElements)
-            //     .attr("transform", function(d) {
-            //         return "translate(" + d3.event.x + "," + d3.event.y + ")";
-            //     });
             d.fx = d3.event.x;
             d.fy = d3.event.y;
         }
 
         function dragended(d) {
-            // d3.select(this.parentElement)
-            //     .attr("transform", function(d) {
-            //         return "translate(" + d3.event.x + "," + d3.event.y + ")";
-            //     });
             if (!d3.event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
         }
+
+        function adjustment(len) {
+            let adj = 0;
+            if(len > 1){
+                adj = (15*len)/2
+            }
+            return adj;
+        }
     }
 
-}function calcTranslationExact(targetDistance, point0, point1) {
+}function calcTranslationExact(targetDistance, point0, point1, len) {
+    targetDistance = targetDistance
     var x1_x0 = point1.x - point0.x,
         y1_y0 = point1.y - point0.y,
         x2_x0, y2_y0;
@@ -233,6 +214,7 @@ function emojiText(local, nodes, links) {
         x2_x0 = -targetDistance * Math.cos(angle);
         y2_y0 = targetDistance * Math.sin(angle);
     }
+
     return {
         dx: x2_x0,
         dy: y2_y0
