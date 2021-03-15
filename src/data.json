@@ -2,16 +2,16 @@
   {
     "id": 1,
     "text": "Qual a tarefa com a maior frequência do sentimento quando comprei os três outra negócio que me fazer sofrer aqui no telefone",
-    "emotion": "neutral",
-    "polarity": "neutral"
+    "emotion": "angry",
+    "polarity": "negative"
   },
   {
     "id": 2,
     "start": "5.000000",
     "stop": "10.000000",
     "text": "de maior duração",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "contempt",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -19,8 +19,8 @@
     "start": "5.000000",
     "stop": "10.000000",
     "text": "Qual o sentimento quando comprei um barco",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "disgust",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -37,8 +37,8 @@
     "start": "45.000000",
     "stop": "50.000000",
     "text": "contratada de nascimento que tem a palavra de maior frequência presente",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "fear",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -55,8 +55,8 @@
     "start": "75.000000",
     "stop": "80.000000",
     "text": "e o negócio mandou para sair",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "sad",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -64,7 +64,7 @@
     "start": "100.000000",
     "stop": "105.000000",
     "text": "frente CG telefone",
-    "emotion": "neutral",
+    "emotion": "surprise",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
@@ -73,8 +73,8 @@
     "start": "105.000000",
     "stop": "110.000000",
     "text": "maior frequência de intensidade",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "angry",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -82,8 +82,8 @@
     "start": "110.000000",
     "stop": "115.000000",
     "text": "maior frequência pelo carro",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "contempt",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -91,8 +91,8 @@
     "start": "125.000000",
     "stop": "130.000000",
     "text": "nome da fase 3",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "disgust",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -100,8 +100,8 @@
     "start": "130.000000",
     "stop": "135.000000",
     "text": "cidades maiores selecione três",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "fear",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -109,8 +109,8 @@
     "start": "145.000000",
     "stop": "150.000000",
     "text": "qual a região da terra que o",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "happy",
+    "polarity": "positive",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -127,8 +127,8 @@
     "start": "190.000000",
     "stop": "195.000000",
     "text": "só não lembro qual é o nome dessa região aqui",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "sad",
+    "polarity": "negative",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -136,7 +136,7 @@
     "start": "195.000000",
     "stop": "200.000000",
     "text": "vou escrever aqui",
-    "emotion": "neutral",
+    "emotion": "surprise",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
@@ -145,8 +145,8 @@
     "start": "290.000000",
     "stop": "295.000000",
     "text": "a for mais né Maior",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "happy",
+    "polarity": "positive",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -154,8 +154,8 @@
     "start": "295.000000",
     "stop": "300.000000",
     "text": "aqui",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "happy",
+    "polarity": "positive",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
@@ -163,8 +163,8 @@
     "start": "325.000000",
     "stop": "330.000000",
     "text": "eu consigo fazer essa conta",
-    "emotion": "neutral",
-    "polarity": "neutral",
+    "emotion": "happy",
+    "polarity": "positive",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
   },
   {
