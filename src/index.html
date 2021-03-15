@@ -69,7 +69,6 @@
     }
 
     Promise.all(promises).then((dataJsons) => {
-        console.log(dataJsons);
         for(let i = 0; i < dataJsons.length; i++){
             let dataJson = dataJsons[i];
 
@@ -77,6 +76,7 @@
                 types.push(datas[i].name);
                 for (let j = 0; j < dataJson.length; j++){
                     let line = {
+                            "id": dataJson[j].id,
                             "startDate": new Date(dataJson[j].start * 1000),
                             "endDate": new Date(dataJson[j].stop * 1000),
                             "name": datas[i].name,
@@ -93,7 +93,7 @@
 
         let stopwords = ", . ; \" I de a o que e do da em um para é com uma os no se na por mais as dos como mas foi ao ele " +
             "das tem à seu sua ou ser quando há nos já está eu também só pelo pela até isso ela entre era depois " +
-            "sem mesmo aos ter seus quem nas me esse eles estão você tinha foram essa num nem suas meu às minha têm numa " +
+            "sem mesmo aos ter seus quem nas me esse eles estão tinha foram essa num nem suas meu às minha têm numa " +
             "pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos lhes " +
             " meus minhas teu tua teus tuas nosso nossa nossos nossas dela delas esta estes estas aquele aquela aqueles " +
             " aquelas isto aquilo estou está estamos estão estive esteve estivemos estiveram estava estávamos estavam " +
@@ -131,8 +131,9 @@
                             words[ws[j]]["emotion"] = contents[i].emotion;
                             words[ws[j]]["polarity"] = contents[i].polarity;
                             words[ws[j]]["size"] = 1;
+                            words[ws[j]]["id"] = contents[i].id;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+","};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
@@ -141,14 +142,16 @@
                                 }else {
                                     links[index].value++;
                                     links[index].group += ""+group+",";
+                                    links[index].id += ","+contents[i].id;
                                 }
                             }
                         }else{
                             words[ws[j]]["emotion"] += " " + contents[i].emotion;
                             words[ws[j]]["polarity"] += " " + contents[i].polarity;
                             words[ws[j]]["size"]++;
+                            words[ws[j]]["id"] += "," + contents[i].id;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+","};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
@@ -157,6 +160,7 @@
                                 }else {
                                     links[index].value++;
                                     links[index].group += ""+group+",";
+                                    links[index].id += ","+contents[i].id;
                                 }
                             }
                         }
@@ -168,7 +172,6 @@
        
         let temp = [];
         for(let i = 0; i < keys.length; i++){
-            console.log(keys[i]);
             let emotion = compareEmotion(sortSize(words[keys[i]]["emotion"].split(" ")));
             let polarity = comparePolarity(sortSize(words[keys[i]]["polarity"].split(" ")));
             temp.push({
@@ -177,6 +180,7 @@
                 "emotion":emotion,
                 "polarity":polarity,
                 "size":words[keys[i]]["size"],
+                "id":words[keys[i]]["id"],
             });
         }
 
@@ -184,9 +188,6 @@
             return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
         });
         words = temp;
-
-        console.log(words);
-        console.log(links);
 
         emojiText("#vis7", words, links);
     });

@@ -41,56 +41,55 @@ function emojiText(local, nodes, links) {
         draw(nodes, links);
 
         function draw(nodes, links) {
-
             let sizeScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([15, 25]);
             let circleScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([20, 40]);
 
-            let shadow = svg.append("g")
-                .attr("class", "links")
-                .selectAll("g.par")
+            let linksLines = svg.append('g')
+                .attr('class', 'links')
+                .selectAll('g')
                 .data(links)
-                .enter()
-                .append("g")
-                .classed("par", true)
-                .attr("transform",d => "translate(" + ((d.group.split(',').length > 2) ? "10,10" : "0,0") + ")")
-                .each(function (groupd) {
+                .enter().append('g');
+
+            linksLines.attr("name", "links")
+                .attr("phraseID", function (d){return d.id;})
+                .attr("opacity",1);
+
+            linksLines.each(function (groupd) {
                     let lines = groupd.group.split(',');
                     lines = lines.slice(0, lines.length-1).map(v=>({
+                        id:groupd.id,
                         value: v,
                         source: groupd.source,
                         target: groupd.target,
-                    }))
+                    }));
 
-                    
-                    d3.select(this).selectAll('line.data').data(lines).enter()
+                    d3.select(this).selectAll('line').data(lines).enter()
                         .append("line")
-                        .classed('data', true)
+                        .attr("class", "shadow")
+                        //.attr("phraseID", function (d){console.log(d.id);return d.id;})
+                        //.attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,0" : "0,0") + ")")
+                        //.attr("transform",d => "translate(" + lineSize/d.id.split(',').length + ",0)")
                         .attr("len", lines.length)
                         .attr("stroke-width", lineSize/lines.length)
                         .attr("stroke", (lined, i) => {
-                            console.log(groupd);
                             const group = parseInt(lined.value)
                             let control = parseInt(group / colors.length);
                             return colors[group - (colors.length * control)];
-                        })
+                        });
                 });
 
-            let triangle = svg.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(links)
-                .enter().append("line")
+            linksLines.append("line")
+                .attr("class", "line")
+                .attr("stroke-width", function (d) { return (1); })//2 * d.value); })
+                .attr("stroke", "black");
+
+            linksLines.append("line")
+                .attr("class", "triangle")
                 .attr("stroke-width", function (d) { return (Math.sqrt(d.value) + "px"); })
                 .attr("stroke", "black")
                 .attr("marker-end", "url(#arrow)");
 
-            let link = svg.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(links)
-                .enter().append("line")
-                .attr("stroke-width", function (d) { return (1); })//2 * d.value); })
-                .attr("stroke", "black");
+
 
             let node = svg.append("g")
                 .attr("class", "nodes")
@@ -98,7 +97,11 @@ function emojiText(local, nodes, links) {
                 .data(nodes)
                 .enter().append("g");
 
-            let circles = node.append("circle")
+            node.attr("name", "nodes")
+                .attr("phraseID", function (d){return d.id;})
+                .attr("opacity",1);
+
+            node.append("circle")
                 .attr("r", function (d) { return (circleScale(d.size) / 2) + 2; })
                 .attr("class", function (d) { return d.status; })
 
@@ -107,7 +110,7 @@ function emojiText(local, nodes, links) {
                     .on("drag", dragged)
                     .on("end", dragended));
 
-            let circles2 = node.append("circle")
+            node.append("circle")
                 .attr("r", function (d) { return (circleScale(d.size) / 2); })
                 .attr("fill", "#FFFFFF")
                 .call(d3.drag()
@@ -125,7 +128,7 @@ function emojiText(local, nodes, links) {
                     .on("drag", dragged)
                     .on("end", dragended));
 
-            let lables = node.append("text")
+            node.append("text")
                 .text(function (d) { return d.word; })
                 .style("font-size", "14px")
                 //.style("font-size", function(d) { return sizeScale(d.size) + "px"; })
@@ -147,32 +150,29 @@ function emojiText(local, nodes, links) {
                 .links(links);
 
             function ticked() {
-                triangle
+                linksLines.selectAll('line.triangle')
                     .attr("x1", function (d) { return d.source.x; })
                     .attr("y1", function (d) { return d.source.y; })
                     .attr("x2", function (d) { return (d.target.x + d.source.x) / 2; })
                     .attr("y2", function (d) { return (d.target.y + d.source.y) / 2; });
 
-                link
+                linksLines.selectAll('line.line')
                     .attr("x1", function (d) { return d.source.x; })
                     .attr("y1", function (d) { return d.source.y; })
                     .attr("x2", function (d) { return d.target.x; })
                     .attr("y2", function (d) { return d.target.y; });
 
-                shadow.selectAll('line')
+                linksLines.selectAll('line.shadow')
                     .attr("x1", function (d,i) { return d.source.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
                     .attr("y1", function (d,i) { return d.source.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; })
                     .attr("x2", function (d,i) { return d.target.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
                     .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; });
 
-                shadow.selectAll('g')
-                    .attr("transform", "translate(30,30)");
-
-                node
-                    .attr("transform", function (d) {
+                node.attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
-                    })
+                    });
             }
+            afterLoad();
         }
 
         function dragstarted(d) {
@@ -190,14 +190,6 @@ function emojiText(local, nodes, links) {
             if (!d3.event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
-        }
-
-        function adjustment(len) {
-            let adj = 0;
-            if(len > 1){
-                adj = (15*len)/2
-            }
-            return adj;
         }
     }
 
@@ -221,3 +213,44 @@ function emojiText(local, nodes, links) {
     };
 }
 
+function afterLoad(){
+    let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
+    for (let n of nodesLinks){
+        n.addEventListener("click", function (){
+            if(n.getAttribute('opacity') !== '1'){
+                nodesLinksON();
+            }else{
+                nodesLinksOFF();
+                nodeLinkOpacity(n.getAttribute('phraseID'));
+            }
+        });
+
+    }
+}
+
+function nodeLinkOpacity(phraseID){
+    console.log(phraseID);
+    let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
+    for(let n of nodesLinks){
+        for(let p of phraseID.split(',')){
+            if((','+n.getAttribute("phraseID")+',').includes(','+p+',')){
+                console.log((','+n.getAttribute("phraseID")+',') + "==" + (','+p+','));
+                n.setAttribute('opacity', 1);
+            }
+        }
+    }
+}
+
+function nodesLinksON(){
+    let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
+    for(let n of nodesLinks){
+        n.setAttribute('opacity', 1);
+    }
+}
+
+function nodesLinksOFF(){
+    let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
+    for(let n of nodesLinks){
+        n.setAttribute('opacity', 0.1);
+    }
+}
