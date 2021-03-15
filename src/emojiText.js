@@ -1,11 +1,12 @@
 function emojiText(local, nodes, links, dataset) {
     if (nodes.length > 0) {
         const lineSize = 20;
-        let height = document.getElementById(local.replace('#', '')).clientHeight;
-        if (height < 800) { height = 800 }
+        const height = document.getElementById(local.replace('#', '')).clientHeight;
         const width = document.getElementById(local.replace('#', '')).clientWidth;
-        const colors = d3.schemeSet3;//d3.schemeSet3;
-        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, 100]);
+        const colors = d3.schemeSet3;
+        let sizeScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([15, 25]);
+        let circleScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([20, 50]);
+        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, nodes[0].size*12]);
         function distanceScale(source, target) {
             if (source.size > target.size) {
                 return distanceScalePart(source.size);
@@ -33,16 +34,21 @@ function emojiText(local, nodes, links, dataset) {
             .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
             .attr("fill", "black");
 
-        const simulation = d3.forceSimulation(nodes)
-            .force("link", d3.forceLink(links).distance(d => distanceScale(d.source, d.target)).id(d => d.word))
-            .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width / 2, height / 2));
+        const simulation = d3.forceSimulation(nodes);
+
+        simulation.force("link", d3.forceLink(links).distance(function (d){
+            return distanceScale(d.source, d.target);
+        }).id(d => d.word));
+
+        simulation.force("center", d3.forceCenter(width / 2, height / 2));
+        simulation.force('collision', d3.forceCollide().radius(function(d) {
+            return circleScale(d.size)+(distanceScalePart(d.size)*.5);
+        }));
+        simulation.force("charge", d3.forceManyBody().strength(-50));
 
         draw(nodes, links);
 
         function draw(nodes, links) {
-            let sizeScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([15, 25]);
-            let circleScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([20, 40]);
 
             let linksLines = svg.append('g')
                 .attr('class', 'links')
@@ -54,33 +60,30 @@ function emojiText(local, nodes, links, dataset) {
                 .attr("phraseID", function (d){return d.id;})
                 .attr("opacity",1);
 
-            linksLines.each(function (groupd) {
-                    let lines = groupd.group.split(',');
-                    lines = lines.slice(0, lines.length-1).map(v=>({
-                        id:groupd.id,
-                        value: v,
-                        status: groupd.emotion,
-                        emotion: groupd.emotion,
-                        polarity: groupd.polarity,
-                        source: groupd.source,
-                        target: groupd.target,
-                    }));
+            linksLines.each(function (d) {
+                let lines = d.group.split(',');
+                lines = lines.slice(0, lines.length-1).map(v=>({
+                    id:d.id,
+                    value: v,
+                    status: d.emotion,
+                    emotion: d.emotion,
+                    polarity: d.polarity,
+                    source: d.source,
+                    target: d.target,
+                }));
 
-                    d3.select(this).selectAll('line').data(lines).enter()
-                        .append("line")
-                        .attr("class", "shadow")
-                        //.attr("class", function (d) {return "shadow " + d.status})
-                        //.attr("phraseID", function (d){console.log(d.id);return d.id;})
-                        //.attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,0" : "0,0") + ")")
-                        //.attr("transform",d => "translate(" + lineSize/d.id.split(',').length + ",0)")
-                        .attr("len", lines.length)
-                        .attr("stroke-width", lineSize/lines.length)
-                        .attr("stroke", (d) => {return colors[parseInt(d.id) - (colors.length * parseInt(parseInt(d.id) / colors.length))];});
-                });
+                d3.select(this).selectAll('line').data(lines).enter()
+                    .append("line")
+                    .attr("class", "shadow")
+                    .attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
+                    .attr("len", lines.length)
+                    .attr("stroke-width", lineSize/lines.length)
+                    .attr("stroke", (d) => {return colors[(parseInt(d.value) - (colors.length * parseInt(""+ parseInt(d.value) / colors.length)))];});
+            });
 
             linksLines.append("line")
                 .attr("class", "line")
-                .attr("stroke-width", function (d) { return (1); })//2 * d.value); })
+                .attr("stroke-width", 1)
                 .attr("stroke", "black");
 
             linksLines.append("line")
@@ -98,7 +101,11 @@ function emojiText(local, nodes, links, dataset) {
                 .attr("class", "nodes")
                 .selectAll("g")
                 .data(nodes)
-                .enter().append("g");
+                .enter().append("g")
+                .call(d3.drag()
+                    .on("start", dragStarted)
+                    .on("drag", dragged)
+                    .on("end", dragEnded));
 
             node.attr("name", "nodes")
                 .attr("phraseID", function (d){return d.id;})
@@ -106,30 +113,17 @@ function emojiText(local, nodes, links, dataset) {
 
             node.append("circle")
                 .attr("r", function (d) { return (circleScale(d.size) / 2) + 2; })
-                .attr("class", function (d) { return d.status; })
-
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));
+                .attr("class", function (d) { return d.status; });
 
             node.append("circle")
                 .attr("r", function (d) { return (circleScale(d.size) / 2); })
-                .attr("fill", "#FFFFFF")
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));
+                .attr("fill", "#FFFFFF");
 
             node.append("image")
                 .attr("xlink:href", function (d) { return (document.location.toString().split('index')[0] + "media/images/" + d.status + ".svg"); })
                 .attr("width", function (d) { return circleScale(d.size); })
                 .attr("height", function (d) { return circleScale(d.size); })
-                .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); })
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));
+                .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); });
 
             node.append("text")
                 .text(function (d) { return d.word; })
@@ -152,9 +146,6 @@ function emojiText(local, nodes, links, dataset) {
                 .nodes(nodes)
                 .on("tick", ticked);
 
-            simulation.force("link")
-                .links(links);
-
             function ticked() {
                 linksLines.selectAll('line.triangle')
                     .attr("x1", function (d) { return d.source.x; })
@@ -175,8 +166,9 @@ function emojiText(local, nodes, links, dataset) {
                     .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; });
 
                 node.attr("transform", function (d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    });
+                    //return "translate(" + d.x > width ? width-50 : d.x  + "," + d.y > height ? height-50 : d.y + ")";
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
             }
             afterLoad();
 
@@ -191,35 +183,33 @@ function emojiText(local, nodes, links, dataset) {
 
             function handleMouseOver(d) {
                 tooltip.selectAll('*').remove();
-                if (d.id != "blank") {
-                    let top = d3.event.pageY + 10;
-                    tooltip.style("top", top + "px")
-                        .style("left", d3.event.pageX + 0 + "px")
-                        .style("visibility", "visible");
-                    for(let n of dataset){
-                        for(let id of (d.id+',').split(',')){
-                            if((','+n.id+',').includes(','+id+',')){
-                                tooltip.append('div')
-                                    .attr("width", 15).attr("height", 15)
-                                    .style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
-                                    .append("p")
-                                    .style('font-size', '14px')
-                                    .style("margin-top", "0px")
-                                    .style("margin-bottom", "3px")
-                                    .text("(" + id + ") " + n.text + " (" + n.emotion + " - " + n.polarity + ")");
-                            }
+                let top = d3.event.pageY + 10;
+                tooltip.style("top", top + "px")
+                    .style("left", d3.event.pageX + "px")
+                    .style("visibility", "visible");
+                for(let n of dataset){
+                    for(let id of (d.id+',').split(',')){
+                        if((','+n.id+',').includes(','+id+',')){
+                            tooltip.append('div')
+                                .attr("width", 15).attr("height", 15)
+                                .style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
+                                .append("p")
+                                .style('font-size', '14px')
+                                .style("margin-top", "0px")
+                                .style("margin-bottom", "3px")
+                                .text("(" + id + ") " + n.text + " (" + n.emotion + " - " + n.polarity + ")");
                         }
                     }
                 }
             }
 
-            function handleMouseOut(d, i) {
+            function handleMouseOut() {
                 tooltip.style("visibility", "hidden");
                 tooltip.selectAll('*').remove();
             }
         }
 
-        function dragstarted(d) {
+        function dragStarted(d) {
             if (!d3.event.active) simulation.alphaTarget(1.6).restart();
             d.fx = d.x;
             d.fy = d.y;
@@ -230,7 +220,7 @@ function emojiText(local, nodes, links, dataset) {
             d.fy = d3.event.y;
         }
 
-        function dragended(d) {
+        function dragEnded(d) {
             if (!d3.event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
@@ -238,9 +228,8 @@ function emojiText(local, nodes, links, dataset) {
     }
 
 }
-function calcTranslationExact(targetDistance, point0, point1, len) {
-    targetDistance = targetDistance
-    var x1_x0 = point1.x - point0.x,
+function calcTranslationExact(targetDistance, point0, point1) {
+    let x1_x0 = point1.x - point0.x,
         y1_y0 = point1.y - point0.y,
         x2_x0, y2_y0;
     if (y1_y0 === 0) {

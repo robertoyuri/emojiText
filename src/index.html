@@ -5,7 +5,9 @@
     <title>emojiText</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body id="vis7">
+<body>
+<div id="emojiText" style="width: 100%; height: 100%">
+</div>
 </body>
 <script type="text/javascript" src="emojiText.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -60,7 +62,7 @@
     let group = 0;
 
     let datas = [
-        {"name":"Content","path":"data4.json"}
+        {"name":"Content","path":"data.json"}
     ];
 
     let promises = [];
@@ -91,7 +93,7 @@
             }
         }
 
-        let stopwords = ", . ; \" I de a o que e do da em um para é com uma os no se na por mais as dos como mas foi ao ele " +
+        let stopwords = "? ! ) ( e é , . ; \" I de a o que do da em um para com uma os no se na por mais as dos como mas foi ao ele " +
             "das tem à seu sua ou ser quando há nos já está eu também só pelo pela até isso ela entre era depois " +
             "sem mesmo aos ter seus quem nas me esse eles estão tinha foram essa num nem suas meu às minha têm numa " +
             "pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos lhes " +
@@ -196,7 +198,7 @@
         });
         words = temp;
 
-        emojiText("#vis7", words, links, contents);
+        emojiText("#emojiText", words, links, contents);
     });
 
 

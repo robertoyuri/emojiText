@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,"text": "É preciso casar João",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 2,"text": "é preciso suportar Antônio",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 3,"text": "é preciso odiar Melquíades",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 4,"text": "é preciso substituir nós todos",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 5,"text": "É preciso salvar o país",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 6,"text": "é preciso crer em Deus",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 7,"text": "é preciso pagar as dívidas",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 8,"text": "é preciso comprar um rádio",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 9,"text": "é preciso esquecer fulana",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 10,"text": "É preciso estudar volapuque",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 11,"text": "é preciso estar sempre bêbedo",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 12,"text": "é preciso ler Baudelaire",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 13,"text": "é preciso colher as flores",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 14,"text": "de que rezam velhos autores",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 15,"text": "É preciso viver com os homens",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 16,"text": "é preciso não assassiná-los",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 17,"text": "é preciso ter mãos pálidas",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  },
+  {
+    "id": 18,"text": "e anunciar o FIM DO MUNDO",
+    "emotion": "neutral",
+    "polarity": "neutral"
+  }
+]

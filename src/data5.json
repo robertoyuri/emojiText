@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1 ,
+    "text": "Sem sacar que o espinho é seco" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 2 ,
+    "text": "Sem sacar que seco é ser sol" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 3 ,
+    "text": "Sem sacar que algum espinho seco secará" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 4 ,
+    "text": "Se acabar não acostumando" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 5 ,
+    "text": "Se acabar parado calado" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 6 ,
+    "text": "Se acabar baixinho chorando" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 7 ,
+    "text": "Se acabar meio abandonado" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  },
+  {
+    "id": 8 ,
+    "text": "Segue Seco Marisa Monte abandonado" ,
+    "emotion": "neutral" ,
+    "polarity": "neutral"
+  }
+]
