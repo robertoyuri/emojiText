@@ -1,4 +1,4 @@
-function emojiText(local, nodes, links) {
+function emojiText(local, nodes, links, dataset) {
     if (nodes.length > 0) {
         const lineSize = 20;
         let height = document.getElementById(local.replace('#', '')).clientHeight;
@@ -75,11 +75,7 @@ function emojiText(local, nodes, links) {
                         //.attr("transform",d => "translate(" + lineSize/d.id.split(',').length + ",0)")
                         .attr("len", lines.length)
                         .attr("stroke-width", lineSize/lines.length)
-                        .attr("stroke", (lined, i) => {
-                            const group = parseInt(lined.value)
-                            let control = parseInt(group / colors.length);
-                            return colors[group - (colors.length * control)];
-                        });
+                        .attr("stroke", (d) => {return colors[parseInt(d.id) - (colors.length * parseInt(parseInt(d.id) / colors.length))];});
                 });
 
             linksLines.append("line")
@@ -92,6 +88,9 @@ function emojiText(local, nodes, links) {
                 .attr("stroke-width", function (d) { return (Math.sqrt(d.value) + "px"); })
                 .attr("stroke", "black")
                 .attr("marker-end", "url(#arrow)");
+
+            linksLines.on("mouseover", handleMouseOver)
+                .on("mouseleave", handleMouseOut);
 
 
 
@@ -146,6 +145,9 @@ function emojiText(local, nodes, links) {
             node.append("title")
                 .text(function (d) { return d.word; });
 
+            node.on("mouseover", handleMouseOver)
+                .on("mouseleave", handleMouseOut);
+
             simulation
                 .nodes(nodes)
                 .on("tick", ticked);
@@ -177,6 +179,44 @@ function emojiText(local, nodes, links) {
                     });
             }
             afterLoad();
+
+            let tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "tooltipBig")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("top", "0px")
+                .style("left", "0px")
+                .style("visibility", "hidden");
+
+            function handleMouseOver(d) {
+                tooltip.selectAll('*').remove();
+                if (d.id != "blank") {
+                    let top = d3.event.pageY + 10;
+                    tooltip.style("top", top + "px")
+                        .style("left", d3.event.pageX + 0 + "px")
+                        .style("visibility", "visible");
+                    for(let n of dataset){
+                        for(let id of (d.id+',').split(',')){
+                            if((','+n.id+',').includes(','+id+',')){
+                                tooltip.append('div')
+                                    .attr("width", 15).attr("height", 15)
+                                    .style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
+                                    .append("p")
+                                    .style('font-size', '14px')
+                                    .style("margin-top", "0px")
+                                    .style("margin-bottom", "3px")
+                                    .text("(" + id + ") " + n.text + " (" + n.emotion + " - " + n.polarity + ")");
+                            }
+                        }
+                    }
+                }
+            }
+
+            function handleMouseOut(d, i) {
+                tooltip.style("visibility", "hidden");
+                tooltip.selectAll('*').remove();
+            }
         }
 
         function dragstarted(d) {
@@ -197,7 +237,8 @@ function emojiText(local, nodes, links) {
         }
     }
 
-}function calcTranslationExact(targetDistance, point0, point1, len) {
+}
+function calcTranslationExact(targetDistance, point0, point1, len) {
     targetDistance = targetDistance
     var x1_x0 = point1.x - point0.x,
         y1_y0 = point1.y - point0.y,
@@ -233,12 +274,10 @@ function afterLoad(){
 }
 
 function nodeLinkOpacity(phraseID){
-    console.log(phraseID);
     let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
     for(let n of nodesLinks){
         for(let p of phraseID.split(',')){
             if((','+n.getAttribute("phraseID")+',').includes(','+p+',')){
-                console.log((','+n.getAttribute("phraseID")+',') + "==" + (','+p+','));
                 n.setAttribute('opacity', 1);
             }
         }

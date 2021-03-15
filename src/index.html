@@ -60,7 +60,7 @@
     let group = 0;
 
     let datas = [
-        {"name":"Content","path":"data.json"}
+        {"name":"Content","path":"data4.json"}
     ];
 
     let promises = [];
@@ -132,8 +132,11 @@
                             words[ws[j]]["polarity"] = contents[i].polarity;
                             words[ws[j]]["size"] = 1;
                             words[ws[j]]["id"] = contents[i].id;
+                            words[ws[j]]["text"] = contents[i].text;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
+                                    "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
+                                    "text":contents[i].text};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
@@ -150,8 +153,11 @@
                             words[ws[j]]["polarity"] += " " + contents[i].polarity;
                             words[ws[j]]["size"]++;
                             words[ws[j]]["id"] += "," + contents[i].id;
+                            words[ws[j]]["text"] = contents[i].text;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
+                                    "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
+                                    "text":contents[i].text};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
@@ -180,6 +186,7 @@
                 "emotion":emotion,
                 "polarity":polarity,
                 "size":words[keys[i]]["size"],
+                "text":words[keys[i]]["text"],
                 "id":words[keys[i]]["id"],
             });
         }
@@ -189,7 +196,7 @@
         });
         words = temp;
 
-        emojiText("#vis7", words, links);
+        emojiText("#vis7", words, links, contents);
     });
 
 
