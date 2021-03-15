@@ -59,6 +59,9 @@ function emojiText(local, nodes, links) {
                     lines = lines.slice(0, lines.length-1).map(v=>({
                         id:groupd.id,
                         value: v,
+                        status: groupd.emotion,
+                        emotion: groupd.emotion,
+                        polarity: groupd.polarity,
                         source: groupd.source,
                         target: groupd.target,
                     }));
@@ -66,6 +69,7 @@ function emojiText(local, nodes, links) {
                     d3.select(this).selectAll('line').data(lines).enter()
                         .append("line")
                         .attr("class", "shadow")
+                        //.attr("class", function (d) {return "shadow " + d.status})
                         //.attr("phraseID", function (d){console.log(d.id);return d.id;})
                         //.attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,0" : "0,0") + ")")
                         //.attr("transform",d => "translate(" + lineSize/d.id.split(',').length + ",0)")
@@ -119,7 +123,7 @@ function emojiText(local, nodes, links) {
                     .on("end", dragended));
 
             node.append("image")
-                .attr("xlink:href", function (d) { return ("http://" + document.location.host + "/media/images/" + d.status + ".svg"); })
+                .attr("xlink:href", function (d) { return (document.location.toString().split('index')[0] + "media/images/" + d.status + ".svg"); })
                 .attr("width", function (d) { return circleScale(d.size); })
                 .attr("height", function (d) { return circleScale(d.size); })
                 .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); })

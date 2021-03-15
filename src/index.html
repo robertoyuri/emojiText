@@ -133,7 +133,7 @@
                             words[ws[j]]["size"] = 1;
                             words[ws[j]]["id"] = contents[i].id;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
@@ -151,7 +151,7 @@
                             words[ws[j]]["size"]++;
                             words[ws[j]]["id"] += "," + contents[i].id;
                             if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id};
+                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",", "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity};
                                 let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                     (a.target == line.source && a.source == line.target));
 
