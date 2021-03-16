@@ -34,17 +34,19 @@ function emojiText(local, nodes, links, dataset) {
             .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
             .attr("fill", "black");
 
-        const simulation = d3.forceSimulation(nodes);
-
+        const simulation = d3.forceSimulation([...nodes, ...links]);
         simulation.force("link", d3.forceLink(links).distance(function (d){
             return distanceScale(d.source, d.target);
         }).id(d => d.word));
 
         simulation.force("center", d3.forceCenter(width / 2, height / 2));
         simulation.force('collision', d3.forceCollide().radius(function(d) {
-            return circleScale(d.size)+(distanceScalePart(d.size)*.5);
+            return circleScale(d.size)+(distanceScalePart(d.size)*.6);
         }));
-        simulation.force("charge", d3.forceManyBody().strength(-50));
+        simulation.force("charge", d3.forceManyBody().strength(30));
+
+        simulation.force('forceX', d3.forceX(d => d.x > (width*.9) ? (width*.9) : d.x));
+            simulation.force('forceY', d3.forceY(d => d.y > (height*.9) ? (height*.9) : d.y));
 
         draw(nodes, links);
 
@@ -75,7 +77,7 @@ function emojiText(local, nodes, links, dataset) {
                 d3.select(this).selectAll('line').data(lines).enter()
                     .append("line")
                     .attr("class", "shadow")
-                    .attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
+                    //.attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
                     .attr("len", lines.length)
                     .attr("stroke-width", lineSize/lines.length)
                     .attr("stroke", (d) => {return colors[(parseInt(d.value) - (colors.length * parseInt(""+ parseInt(d.value) / colors.length)))];});
@@ -166,7 +168,6 @@ function emojiText(local, nodes, links, dataset) {
                     .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; });
 
                 node.attr("transform", function (d) {
-                    //return "translate(" + d.x > width ? width-50 : d.x  + "," + d.y > height ? height-50 : d.y + ")";
                     return "translate(" + d.x + "," + d.y + ")";
                 });
             }
