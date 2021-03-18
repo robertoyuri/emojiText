@@ -3,204 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <title>emojiText</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </head>
 <body>
-<div id="emojiText" style="width: 100%; height: 100%">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://emojitext.roberto.eti.br">emojiText</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDatasets" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Datasets
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownDatasets">
+                        <li><a class="dropdown-item" onclick="loadPath('data.json')">UX Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('data2.json')">Twitter Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('data3.json')">Random Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('data4.json')">Batuque Poetry Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('data5.json')">Segue Seco Music Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('data6.json')">Necessidade Poetry Data</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loadYourData">Load your dataset</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFilter" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filters
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownFilter">
+                        <li><a class="dropdown-item disabled" href="#">Emotion</a></li>
+                        <li><a class="dropdown-item disabled" href="#">Polarity</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="collapse" href="#attributeFilter" role="button" aria-expanded="false" aria-controls="attributeFilter">
+                            Attribute</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSettings" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Settings
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownSettings">
+                        <li><a class="dropdown-item" data-bs-toggle="collapse" href="#showSentiment" role="button" aria-expanded="false" aria-controls="showSentiment">
+                            Sentiment type</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="collapse" href="#legendEmotion" role="button" aria-expanded="false" aria-controls="legendEmotion">
+                            Legend Emotion</a></li>
+                        <li><a class="dropdown-item disabled" data-bs-toggle="collapse" href="#legendPolarity" role="button" aria-expanded="false" aria-controls="legendPolarity">
+                            Legend Polarity</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="row" style="height: 95%;">
+    <div class="col-2 bg-dark" style="height: 100%;overflow-y:scroll;">
+        <div class="card collapse" id="showSentiment">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm">
+                        <h5 class="text-nowrap">Sentiment type</h5>
+                    </div>
+                    <div class="col-sm d-grid justify-content-md-end text-nowrap">
+                        <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#showSentiment" aria-expanded="false" aria-controls="showSentiment"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnemotion" autocomplete="off" checked onclick="showEmotion()">
+                    <label class="btn btn-outline-secondary" for="btnemotion">Emotion</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="btnpolarity" autocomplete="off" onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="btnpolarity">Polarity</label>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="card collapse" id="legendEmotion">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm">
+                        <h5 class="text-nowrap">Legend emotion</h5>
+                    </div>
+                    <div class="col-sm d-grid justify-content-md-end text-nowrap">
+                        <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#legendEmotion" aria-expanded="false" aria-controls="legendEmotion"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
+                    <input type="checkbox" class="btn-check" name="btncheck" id="happy" autocomplete="off" checked onclick="showEmotion()">
+                    <label class="btn btn-outline-secondary" for="happy">Happy</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="surprise" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="surprise">Surprise</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="neutral" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="neutral">Neutral</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="angry" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="angry">
+                        <img src="media/images/angry.svg" height="30px"> Angry</label>
+
+                    <input type="checkbox" class="btn-check" name="btncheck" id="disgust" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="disgust">Disgust</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="fear" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="fear">Fear</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="sad" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="sad">Sad</label>
+                    <input type="checkbox" class="btn-check" name="btncheck" id="contempt" autocomplete="off" checked onclick="showPolarity()">
+                    <label class="btn btn-outline-secondary" for="contempt">Contempt</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card collapse" id="attributeFilter">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm">
+                        <h5 class="text-nowrap">Attribute Filter</h5>
+                    </div>
+                    <div class="col-sm d-grid justify-content-md-end text-nowrap">
+                        <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#attributeFilter" aria-expanded="false" aria-controls="attributeFilter"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <select id="selectAttribute" class="form-select" aria-label="Select attribute">
+                    <option selected>Select attribute</option>
+                </select>
+                <div class="input-group mb-3">
+                    <input id="typeTerm" type="text" class="form-control" placeholder="Type term" aria-label="Type term" aria-describedby="btnFilter">
+                    <button class="btn btn-outline-secondary" type="button" id="btnFilter" onclick="filter()">Filter</button>
+                </div>
+                <br>
+                <table class="table" id="filterTable"></table>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+    <div class="col-10">
+        <div class="row" style="height: 95%;">
+            <div id="alert" class="alert collapse" role="alert" style="height: 60px;">
+                <p id="alertMensage">You should check in on some of those fields below.</p>
+                <button type="button" class="btn-close" onclick="hide();" aria-label="Close"></button>
+            </div>
+            <div id="emojiText"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loadYourData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loadYourDataLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loadYourDataLabel">Load Your Dataset</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p>Only accept file type <b>.json</b> in mandatory format:</p>
+                    <p>[{<b>"id"</b>: 1,<br>
+                        <b>"text"</b>: "Text Text Text",<br>
+                            <b>"emotion"</b>: "happy",<br>
+                                <b>"polarity"</b>: "positive"}]</p>
+                    <p>Other fields can be added.</p>
+                    <p></p>
+                    <input class="form-control form-control-lg" id="loadFile" type="file" accept=".json">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="loadDataset()">Load</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
-<script type="text/javascript" src="emojiText.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script type="application/javascript">
-    function comparePolarity(words) {
-        let polarity = ["", "positive", "negative", "neutral", "positive", "negative", "neutral"];
-        let pol = [];
-        pol["positive"] = 1;
-        pol["negative"] = 2;
-        pol["neutral"] = 3;
-        let id = 0;
-        for(let i = 0; i < words.length; i++){
-            if(words[i].size == words[0].size){
-                id += pol[words[i].name];
-            }
-        }
-        return polarity[id];
-    }
-
-    function compareEmotion(words) {
-        return words[0].name;
-    }
-
-    function sortSize(words) {
-        let sizes = [];
-        let keys = [];
-        for(let i = 0; i < words.length; i++){
-            if(sizes[words[i]] == undefined){
-                keys.push(words[i]);
-                sizes[words[i]] = 1;
-            } else{
-                sizes[words[i]] += 1;
-            }
-        }
-        words = [];
-        for(let i = 0; i < keys.length; i++){
-            words.push({"name":keys[i], "size":sizes[keys[i]]});
-        }
-        if(words.length > 1){
-            words.sort(function(a,b) {
-                return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
-            });
-        }
-        return words;
-    }
-
-    let words = [];
-    let links = [];
-    let keys = [];
-    let types = [];
-    let contents = [];
-    let group = 0;
-
-    let datas = [
-        {"name":"Content","path":"data.json"}
-    ];
-
-    let promises = [];
-    for (let i = 0; i < datas.length; i++) {
-        promises.push(d3.json(datas[i].path));
-    }
-
-    Promise.all(promises).then((dataJsons) => {
-        for(let i = 0; i < dataJsons.length; i++){
-            let dataJson = dataJsons[i];
-
-            if((dataJsons[i].length > 0) && (datas[i].name == "Content")){
-                types.push(datas[i].name);
-                for (let j = 0; j < dataJson.length; j++){
-                    let line = {
-                            "id": dataJson[j].id,
-                            "startDate": new Date(dataJson[j].start * 1000),
-                            "endDate": new Date(dataJson[j].stop * 1000),
-                            "name": datas[i].name,
-                            "status": dataJson[j].emotion,
-                            "polarity": dataJson[j].polarity,
-                            "emotion": dataJson[j].emotion,
-                            "text": dataJson[j].text,
-                            "image": dataJson[j].image
-                    };
-                    contents.push(line);
-                }
-            }
-        }
-
-        let stopwords = "? ! ) ( e é , . ; \" I de a o que do da em um para com uma os no se na por mais as dos como mas foi ao ele " +
-            "das tem à seu sua ou ser quando há nos já está eu também só pelo pela até isso ela entre era depois " +
-            "sem mesmo aos ter seus quem nas me esse eles estão tinha foram essa num nem suas meu às minha têm numa " +
-            "pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos lhes " +
-            " meus minhas teu tua teus tuas nosso nossa nossos nossas dela delas esta estes estas aquele aquela aqueles " +
-            " aquelas isto aquilo estou está estamos estão estive esteve estivemos estiveram estava estávamos estavam " +
-            "estivera estivéramos esteja estejamos estejam estivesse estivéssemos estivessem estiver estivermos estiverem " +
-            "hei há havemos hão houve houvemos houveram houvera houvéramos haja hajamos hajam houvesse houvéssemos " +
-            "houvessem houver houvermos houverem houverei houverá houveremos houverão houveria houveríamos houveriam sou " +
-            "somos são era éramos eram fui foi fomos foram fora fôramos seja sejamos sejam fosse fôssemos fossem for " +
-            "formos forem serei será seremos serão seria seríamos seriam tenho tem temos tém tinha tínhamos tinham tive " +
-            "teve tivemos tiveram tivera tivéramos tenha tenhamos tenham tivesse tivéssemos tivessem tiver tivermos " +
-            "tiverem gay terei terá teremos terão teria teríamos teriam aí c****** = 1 2 3 4 5 6 7 8 9 0 * + : , roberto " +
-            "a's able about above according accordingly across actually after afterwards again against ain't all allow" +
-            " allows almost alone along already also although always am among amongst an and another any anybody anyhow" +
-            " anyone anything anyway anyways anywhere apart appear appreciate appropriate are aren't around as aside ask" +
-            " asking associated at available away awfully be became because become becomes becoming been before " +
-            "beforehand behind being believe below beside besides best better between beyond both brief but by c'mon" +
-            " c's came can can't cannot cant cause causes certain certainly changes clearly co com come comes concerning" +
-            " consequently consider considering contain containing contains corresponding could couldn't course currently" +
-            " definitely described despite did didn't different do does doesn't doing don't done down downwards during " +
-            "each edu eg eight either else elsewhere enough entirely especially et etc even ever every everybody " +
-            "everyone everything everywhere ex exactly example except far few fifth first five followed following " +
-            "follows for former formerly forth four from further furthermore get gets getting given gives go goes going gone got gotten greetings had hadn't happens hardly has hasn't have haven't having he he's hello help hence her here here's hereafter hereby herein hereupon hers herself hi him himself his hither hopefully how howbeit however i'd i'll i'm i've ie if ignored immediate in inasmuch inc indeed indicate indicated indicates inner insofar instead into inward is isn't it it'd it'll it's its itself just keep keeps kept know known knows last lately later latter latterly least less lest let let's like liked likely little look looking looks ltd mainly many may maybe me mean meanwhile merely might more moreover most mostly much must my myself name namely nd near nearly necessary need needs neither never nevertheless new next nine no nobody non none noone nor normally not nothing novel now nowhere obviously of off often oh ok okay old on once one ones only onto or other others otherwise ought our ours ourselves out outside over overall own particular particularly per perhaps placed please plus possible presumably probably provides que quite qv rather rd re really reasonably regarding regardless regards relatively respectively right said same saw say saying says second secondly see seeing seem seemed seeming seems seen self selves sensible sent serious seriously seven several shall she should shouldn't since six so some somebody somehow someone something sometime sometimes somewhat somewhere soon sorry specified specify specifying still sub such sup sure t's take taken tell tends th than thank thanks thanx that that's thats the their theirs them themselves then thence there there's thereafter thereby therefore therein theres thereupon these they they'd they'll they're they've think third this thorough thoroughly those though three through throughout thru thus to together too took toward towards tried tries truly try trying twice two un under unfortunately unless unlikely until unto up upon us use used useful uses using usually value various very via viz vs want wants was wasn't way we we'd we'll we're we've welcome well went were weren't what what's whatever when whence whenever where where's whereafter whereas whereby wherein whereupon wherever whether which while whither who who's whoever whole whom whose why will willing wish with within without won't wonder would wouldn't yes yet you you'd you'll you're you've your yours yourself yourselves zero";
-
-        for(let i = 0; i < contents.length; i++){
-            contents[i].text = contents[i].text.toLowerCase();
-            if(contents[i].text != undefined && contents[i].text != null && contents[i].text != ""){
-                group++;
-                let ws = contents[i].text.split(" ");
-                let lastWord = "";
-                for (let j = 0; j < ws.length; j++) {
-                    ws[j] = ws[j].toLowerCase();
-                    if(!stopwords.includes(" " + ws[j] + " ")){
-                        if(words[ws[j]] == undefined){
-                            keys.push(ws[j]);
-                            words[ws[j]] = [];
-                            words[ws[j]]["emotion"] = contents[i].emotion;
-                            words[ws[j]]["polarity"] = contents[i].polarity;
-                            words[ws[j]]["size"] = 1;
-                            words[ws[j]]["id"] = contents[i].id;
-                            words[ws[j]]["text"] = contents[i].text;
-                            if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
-                                    "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
-                                    "text":contents[i].text};
-                                let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
-                                    (a.target == line.source && a.source == line.target));
-
-                                if (index === -1){
-                                    links.push(line);
-                                }else {
-                                    links[index].value++;
-                                    links[index].group += ""+group+",";
-                                    links[index].id += ","+contents[i].id;
-                                }
-                            }
-                        }else{
-                            words[ws[j]]["emotion"] += " " + contents[i].emotion;
-                            words[ws[j]]["polarity"] += " " + contents[i].polarity;
-                            words[ws[j]]["size"]++;
-                            words[ws[j]]["id"] += "," + contents[i].id;
-                            words[ws[j]]["text"] = contents[i].text;
-                            if(lastWord != ""){
-                                let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
-                                    "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
-                                    "text":contents[i].text};
-                                let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
-                                    (a.target == line.source && a.source == line.target));
-
-                                if (index === -1){
-                                    links.push(line);
-                                }else {
-                                    links[index].value++;
-                                    links[index].group += ""+group+",";
-                                    links[index].id += ","+contents[i].id;
-                                }
-                            }
-                        }
-                        lastWord = ws[j];
-                    }
-                }
-            }
-        }
-       
-        let temp = [];
-        for(let i = 0; i < keys.length; i++){
-            let emotion = compareEmotion(sortSize(words[keys[i]]["emotion"].split(" ")));
-            let polarity = comparePolarity(sortSize(words[keys[i]]["polarity"].split(" ")));
-            temp.push({
-                "word":keys[i],
-                "status":emotion,
-                "emotion":emotion,
-                "polarity":polarity,
-                "size":words[keys[i]]["size"],
-                "text":words[keys[i]]["text"],
-                "id":words[keys[i]]["id"],
-            });
-        }
-
-        temp.sort(function(a,b) {
-            return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
-        });
-        words = temp;
-
-        emojiText("#emojiText", words, links, contents);
-    });
-
-
-</script>
+<script type="text/javascript" src="preProcess.js"></script>
+<script type="text/javascript" src="emojiText.js"></script>
 </html>

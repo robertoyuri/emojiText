@@ -21,6 +21,11 @@ html,body,#wrapper {
     height: 100%;
     margin: 0px;
 }
+body {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+}
 
 .chart {
     font-family: Arial;
@@ -54,11 +59,6 @@ html,body,#wrapper {
     background-color: #669900;
 }
 
-.neutral {
-    fill: dimgray/*33b5e5*/;
-    background-color: dimgray/*7CAAD4 #33b5e5*/;
-}
-
 .blank {
     fill: #ffffff;
     background-color: #ffffff;
@@ -68,45 +68,45 @@ html,body,#wrapper {
     fill: none;
 }
 
+.neutral {
+    fill: dimgray/*33b5e5*/;
+    background-color: dimgray/*7CAAD4 #33b5e5*/;
+    color: dimgray;
+    border-color: dimgray;
+}
+
 .angry {
     fill: #CC0000/*DB655F*/;
     background-color: #CC0000/*#CC0000/*DB655F*/;
-    stroke: #CC0000;
 }
 
 .disgust {
     fill: #5EA884/*639874*/;
     background-color: #5EA884/*#5EA884/*639874*/;
-    stroke: #5EA884;
 }
 
 .happy {
     fill: #f69b01/*F3B45F*/;
     background-color: #f69b01/*#ffe854/*F3B45F*/;
-    stroke: #f69b01;
 }
 
 .sad {
     fill: #453d98/*7CAAD4*/;
     background-color: #453d98/*#453d98/*7CAAD4*/;
-    stroke: #453d98;
 }
 
 .surprise {
     fill: #59bdff;
     background-color: #59bdff/*#ff7400*/;
-    stroke: #59bdff;
 }
 .fear {
     fill: green/*#009600/*921c92*/;
     background-color: green/*#009600/*#F06DEF/*921c92*/;
-    stroke: green;
 }
 
 .contempt {
     fill: #808080;
     background-color: #808080;
-    stroke: #808080;
 }
 
 .tooltipBig {
