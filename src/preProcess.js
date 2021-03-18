@@ -232,10 +232,9 @@ function filter(){
     let term = document.getElementById('typeTerm').value;
     if(attribute !== "Select attribute" && term !== ""){
         let phraseID = "";
-
         if(attribute == "id"){
             if(contents[term] !== undefined){
-                phraseID = term+',';
+                phraseID = term;
             }
         }else{
             for(let c in contents){
@@ -270,10 +269,12 @@ function mergeFilter(){
     }
     let phraseIDEnd = "";
     for (let s of phraseID.split(',')){
-        if(!phraseIDEnd.includes(s)){
+        if(!(','+phraseIDEnd).includes(','+s+',')){
             phraseIDEnd += s + ",";
         }
     }
+    phraseIDEnd = phraseIDEnd.replace(',,',',');
+    phraseIDEnd = phraseIDEnd.replace(',,',',');
     nodesLinksOFF();
     nodeLinkOpacity(phraseIDEnd);
 }
