@@ -233,10 +233,9 @@ function filter(){
     if(attribute !== "Select attribute" && term !== ""){
         let phraseID = "";
 
-        console.log(contents[term]);
         if(attribute == "id"){
             if(contents[term] !== undefined){
-                phraseID = term;
+                phraseID = term+',';
             }
         }else{
             for(let c in contents){
@@ -254,8 +253,6 @@ function filter(){
                 "</td><td>"+term+"</td><td><a onclick='deleteFilter("+filterListID+")'><img src='media/images/trash.svg' height='15px'></a></td></tr>";
             filterList.push({"id":filterListID,"attribute":attribute, "term":term, "phraseID":phraseID});
             filterListID++;
-            console.log(filterList);
-
             mergeFilter();
             alertB.setAttribute('class', "alert alert-success alert-dismissible fade show");
             alertMensage.innerHTML = "DONE!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' was successfully filtered.";
@@ -277,19 +274,14 @@ function mergeFilter(){
             phraseIDEnd += s + ",";
         }
     }
-    console.log(phraseIDEnd);
     nodesLinksOFF();
     nodeLinkOpacity(phraseIDEnd);
 }
 
 function deleteFilter(id){
-    console.log(id);
     for(let i = 0; i < filterList.length; i++){
         if(filterList[i].id == id){
-            console.log(filterList);
-            console.log(i);
             filterList.splice(i, 1);
-            console.log(filterList);
             document.getElementById('filterLine'+id).remove();
             mergeFilter();
         }
