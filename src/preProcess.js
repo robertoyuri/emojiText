@@ -1,4 +1,5 @@
 let datas = [];
+let dataType = [];
 let contents = [];
 let filterList = [];
 let filterListID = 0;
@@ -16,6 +17,7 @@ function loadPath(filePath){
 function loadData(promises){
     document.getElementById('filterTable').innerHTML = "<tr><th>Attribute</th><th>Term</th><th></th></tr>";
     filterListID = 0;
+    dataType = [];
     function comparePolarity(words) {
         let polarity = ["", "positive", "negative", "neutral", "positive", "negative", "neutral"];
         let pol = [];
@@ -62,42 +64,50 @@ function loadData(promises){
     let links = [];
     let keys = [];
     let types = [];
+    let group = 0;
     contents = [];
     filterList = [];
-    let group = 0;
+    dataType = [];
+
+    let select = document.getElementById('selectAttribute');
+    for(let opt in select.options){
+        select.remove(opt);
+    }
+    let option = document.createElement('option'); option.text="Select attribute";
+    select.add(option, null);
 
     Promise.all(promises).then((dataJsons) => {
         for(let i = 0; i < dataJsons.length; i++){
             let dataJson = dataJsons[i];
-            let select = document.getElementById('selectAttribute');
-            for(let o in select.options){
-                select.remove(o);
-            }
-            let option = document.createElement('option'); option.text="Select attribute";
-            select.add(option, null);
             for(let item in dataJson[0]){
                 let option = document.createElement('option');
                 option.setAttribute('value', item);
                 option.text = item;
+                if(isNaN(dataJson[0][item])){
+                    dataType[item] = {"attribute":item, "type":'categorical'};
+                    option.setAttribute('dataType','categorical');
+                }else{
+                    option.setAttribute('dataType','continuous');
+                    let min = Number.MAX_VALUE;
+                    let max = Number.MIN_VALUE;
+                    for(let ddd in dataJson){
+                        console.log(dataJson[ddd][item]);
+                        if(parseFloat(dataJson[ddd][item]) < parseFloat(min)){
+                            min = parseFloat(dataJson[ddd][item]);
+                        }
+                        if(parseFloat(dataJson[ddd][item]) > parseFloat(max)){
+                            max = parseFloat(dataJson[ddd][item]);
+                        }
+                    }
+                    option.setAttribute('min', min);
+                    option.setAttribute('max', max);
+                    dataType[item] = {"attribute":item, "type":'continuous', "min":min, "max":max};
+                }
                 select.add(option, null);
             }
             if((dataJsons[i].length > 0) && (datas[i].name == "Content")){
                 types.push(datas[i].name);
-                for (let j = 0; j < dataJson.length; j++){
-                    let line = {
-                        "id": dataJson[j].id,
-                        "status": dataJson[j].emotion,
-                        "polarity": dataJson[j].polarity,
-                        "emotion": dataJson[j].emotion,
-                        "text": dataJson[j].text,
-
-                        "startDate": new Date(dataJson[j].start * 1000),
-                        "endDate": new Date(dataJson[j].stop * 1000),
-                        "name": datas[i].name,
-                        "image": dataJson[j].image
-                    };
-                    contents.push(line);
-                }
+                contents = dataJson;
             }
         }
 
@@ -228,37 +238,53 @@ function loadDataset(){
 function filter(){
     let alertB = document.getElementById('alert');
     let alertMensage = document.getElementById('alertMensage');
-    let attribute = document.getElementById('selectAttribute').value;
+    let attribute = document.getElementById('selectAttribute');
     let term = document.getElementById('typeTerm').value;
     if(attribute !== "Select attribute" && term !== ""){
         let phraseID = "";
-        if(attribute == "id"){
-            if(contents[term] !== undefined){
-                phraseID = term;
+        if(dataType[attribute.value].type == "continuous"){
+            if(attribute.value == 'id'){
+                if(contents[term] !== undefined){
+                    phraseID = term;
+                }
+            }else{
+                for(let c in contents){
+                    if(term.includes('-')){
+                        let mimMax = term.split('-');
+                        if(parseFloat(contents[c][attribute.value]) >= parseFloat(mimMax[0]) && parseFloat(contents[c][attribute.value]) <= parseFloat(mimMax[1])){
+                            phraseID += contents[c].id + ",";
+                        }
+                    }else{
+                        if(parseFloat(contents[c][attribute.value]) == parseFloat(term)){
+                            phraseID += contents[c].id + ",";
+                        }
+                    }
+                }
             }
         }else{
             for(let c in contents){
-                if(contents[c][attribute].includes(term)){
+                if(contents[c][attribute.value].includes(term)){
                     phraseID += contents[c].id + ",";
                 }
             }
         }
         if(phraseID.length == 0){
             alertB.setAttribute('class', "alert alert-danger alert-dismissible fade show");
-            alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' not found.";
+            alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute.value + "' not found.";
         }else {
             document.getElementById('typeTerm').value = "";
-            document.getElementById('filterTable').innerHTML += "<tr id='filterLine"+filterListID+"'><td>"+attribute+
+            document.getElementById('filterTable').innerHTML += "<tr id='filterLine"+filterListID+"'><td>"+attribute.value+
                 "</td><td>"+term+"</td><td><a onclick='deleteFilter("+filterListID+")'><img src='media/images/trash.svg' height='15px'></a></td></tr>";
-            filterList.push({"id":filterListID,"attribute":attribute, "term":term, "phraseID":phraseID});
+            filterList.push({"id":filterListID,"attribute":attribute.value, "term":term, "phraseID":phraseID});
             filterListID++;
             mergeFilter();
             alertB.setAttribute('class', "alert alert-success alert-dismissible fade show");
-            alertMensage.innerHTML = "DONE!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' was successfully filtered.";
+            alertMensage.innerHTML = "DONE!".bold() + " The term: '" + term + "' in attribute: '" + attribute.value + "' was successfully filtered.";
         }
     }else{
         alertB.setAttribute('class', "alert alert-danger alert-dismissible fade show");
-        alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' not found.";
+        alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute.value + "' not found.";
+        mergeFilter();
     }
 }
 
@@ -292,4 +318,25 @@ function deleteFilter(id){
 
 function hide(){
     document.getElementById('alert').setAttribute('class', "collapse");
+}
+
+function selectOption(){
+    document.getElementById('typeTerm').value=""
+    let option = document.getElementById('selectAttribute').value;
+    if(dataType[option].type == 'continuous'){
+        document.getElementById('filterContinuos').setAttribute('class', '');
+        let rangeMin = document.getElementById('rangeMin');
+        rangeMin.setAttribute("min",dataType[option].min);
+        rangeMin.setAttribute("max",dataType[option].max);
+        let rangeMax = document.getElementById('rangeMax');
+        rangeMax.setAttribute("min",dataType[option].min);
+        rangeMax.setAttribute("max",dataType[option].max);
+    }
+}
+
+function setVal(){
+    document.getElementById("typeTerm").value = document.getElementById("rangeMin").value;
+    if(document.getElementById("checkMax").checked){
+        document.getElementById("typeTerm").value += "-" + document.getElementById("rangeMax").value;
+    }
 }
