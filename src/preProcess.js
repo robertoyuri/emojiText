@@ -3,6 +3,12 @@ let dataType = [];
 let contents = [];
 let filterList = [];
 let filterListID = 0;
+let globalPromises = [];
+let globalAttributeListWithout = [];
+let modalMissingAttr = new bootstrap.Modal(document.getElementById('selectMissingAttrModal'), {
+    keyboard: false
+});
+
 function loadPath(filePath){
     hide();
     datas = [{"name":"Content","path":filePath}];
@@ -14,7 +20,73 @@ function loadPath(filePath){
     loadData(promises);
 }
 
-function loadData(promises){
+function howAre(attributeList, attributeListWithout){
+    d3.select('#selectMissingAttrBody').selectAll('*').remove();
+    for(let aw of attributeListWithout){
+        let select = document.createElement('select');
+        select.setAttribute('id', 'form-select-'+aw);
+        select.setAttribute('class', 'form-select');
+        let label = document.createElement('label');
+        label.setAttribute('class','form-label');
+        label.innerText = aw+':';
+        let div = document.getElementById('selectMissingAttrBody');
+        div.appendChild(label);
+        div.appendChild(select);
+        for(let a in attributeList){
+            let option = document.createElement('option');
+            option.setAttribute('value', a);
+            option.innerText = a;
+            select.appendChild(option);
+        }
+
+        modalMissingAttr.show();
+    }
+}
+
+function hideModalMissingAttr(){
+    modalMissingAttr.hide();
+}
+
+function identifyHowAre(){
+    Promise.all(globalPromises).then((dataJsons) => {
+        for (let a of globalAttributeListWithout) {
+            for (let i = 0; i < dataJsons[0].length; i++) {
+
+                dataJsons[0][i][a] = dataJsons[0][i][document.getElementById('form-select-'+a).value];
+            }
+        }
+        let modal = new bootstrap.Modal(document.getElementById('selectMissingAttrModal'), {
+            keyboard: false
+        });
+        modalMissingAttr.hide();
+        preProcess(globalPromises);
+    });
+}
+
+function loadData(promises) {
+    globalPromises = promises;
+    Promise.all(promises).then((dataJsons) => {
+        let attributeListWithout = [];
+        if (dataJsons[0][0].text == undefined) {
+            attributeListWithout.push('text');
+        }
+        if (dataJsons[0][0].emotion == undefined) {
+            attributeListWithout.push('emotion');
+        }
+        if (dataJsons[0][0].polarity == undefined) {
+            attributeListWithout.push('polarity');
+        }
+        if (attributeListWithout.length > 0) {
+            howAre(dataJsons[0][0], attributeListWithout);
+            globalAttributeListWithout = attributeListWithout;
+        }else{
+            preProcess(promises)
+        }
+    });
+}
+
+function preProcess(promises){
+    d3.select('#datasetInformationData').selectAll('*').remove();
     document.getElementById('filterTable').innerHTML = "<tr><th>Attribute</th><th>Term</th><th></th></tr>";
     filterListID = 0;
     dataType = [];
@@ -63,7 +135,6 @@ function loadData(promises){
     let words = [];
     let links = [];
     let keys = [];
-    let types = [];
     let group = 0;
     contents = [];
     filterList = [];
@@ -79,65 +150,142 @@ function loadData(promises){
     Promise.all(promises).then((dataJsons) => {
         for(let i = 0; i < dataJsons.length; i++){
             let dataJson = dataJsons[i];
+            if(dataJson[0].id == undefined){
+                for(let i = 0; i < dataJson.length; i++){
+                    dataJson[i].id = i;
+                }
+            }
+            let tempCount = 0;
+            let row = document.createElement('div');
             for(let item in dataJson[0]){
-                let option = document.createElement('option');
-                option.setAttribute('value', item);
-                option.text = item;
-                if(isNaN(dataJson[0][item])){
-                    dataType[item] = {"attribute":item, "type":'categorical'};
-                    option.setAttribute('dataType','categorical');
-                }else{
-                    option.setAttribute('dataType','continuous');
-                    let min = Number.MAX_VALUE;
-                    let max = Number.MIN_VALUE;
-                    for(let ddd in dataJson){
-                        console.log(dataJson[ddd][item]);
-                        if(parseFloat(dataJson[ddd][item]) < parseFloat(min)){
-                            min = parseFloat(dataJson[ddd][item]);
+                if(item !== undefined){
+                    let option = document.createElement('option');
+                    option.setAttribute('value', item);
+                    option.text = item;
+                    let datasetInformationData = document.getElementById('datasetInformationData');
+                    if(tempCount == 0 || tempCount%4 == 0){
+                        row = document.createElement('div');
+                        row.setAttribute('class','row');
+                        if(tempCount > 0){
+                            datasetInformationData.innerHTML += "<br>";
                         }
-                        if(parseFloat(dataJson[ddd][item]) > parseFloat(max)){
-                            max = parseFloat(dataJson[ddd][item]);
+                        datasetInformationData.appendChild(row);
+                    }
+                    tempCount++;
+                    let col = document.createElement('div');
+                    col.setAttribute('class', 'col');
+                    row.appendChild(col);
+                    let label = document.createElement('label');
+                    label.setAttribute('class', 'form-label')
+                    label.setAttribute('id', 'formLabel'+item)
+                    label.innerText = item+":";
+                    col.appendChild(label);
+                    let selectDatasetInformationData = document.createElement('select');
+                    selectDatasetInformationData.setAttribute('id', 'formSelectDataInfo'+item);
+                    selectDatasetInformationData.setAttribute('class', 'form-select');
+                    selectDatasetInformationData.setAttribute('size', 5);
+                    col.appendChild(selectDatasetInformationData);
+
+                    let dataListOption = document.getElementById('dataListOption'+item);
+                    if(dataListOption == undefined){
+                        dataListOption = document.createElement('datalist');
+                        dataListOption.setAttribute('id','dataListOption'+item);
+                    }else{
+                        for(let opt in dataListOption.options){
+                            dataListOption.remove(opt);
                         }
                     }
-                    option.setAttribute('min', min);
-                    option.setAttribute('max', max);
-                    dataType[item] = {"attribute":item, "type":'continuous', "min":min, "max":max};
+                    if(isNaN(dataJson[0][item])){
+                        dataType[item] = {"attribute":item, "type":'categorical'};
+                        option.setAttribute('dataType','categorical');
+                        let tempOptions = "";
+                        for(let ddd in dataJson) {
+                            let option2 = document.createElement('option');
+                            option2.value = dataJson[ddd][item];
+                            option2.innerText=dataJson[ddd][item];
+                            if(!tempOptions.includes(dataJson[ddd][item]) && item !== 'text'){
+                                dataListOption.appendChild(option2);
+                                selectDatasetInformationData.appendChild(option2.cloneNode(true));
+                                tempOptions += dataJson[ddd][item] + ',';
+                            }
+                        }
+                    }else{
+                        option.setAttribute('dataType','continuous');
+                        let min = Number.MAX_VALUE;
+                        let max = Number.MIN_VALUE;
+                        for(let ddd in dataJson){
+                            let option2 = document.createElement('option');
+                            option2.value=dataJson[ddd][item];
+                            option2.innerText=dataJson[ddd][item];
+                            dataListOption.appendChild(option2);
+                            selectDatasetInformationData.appendChild(option2.cloneNode(true));
+                            if(parseFloat(dataJson[ddd][item]) < parseFloat(min)){
+                                min = parseFloat(dataJson[ddd][item]);
+                            }
+                            if(parseFloat(dataJson[ddd][item]) > parseFloat(max)){
+                                max = parseFloat(dataJson[ddd][item]);
+                            }
+                        }
+                        let minmaxlabel = document.createElement('label');
+                        minmaxlabel.setAttribute('style', 'font-size: 12px;')
+                        minmaxlabel.innerText = "min: "+ min + " max: " + max + ""
+                        col.appendChild(minmaxlabel);
+                        option.setAttribute('min', min);
+                        option.setAttribute('max', max);
+                        dataType[item] = {"attribute":item, "type":'continuous', "min":min, "max":max};
+                    }
+                    select.add(option, null);
+                    document.getElementById('dataLists').appendChild(dataListOption);
                 }
-                select.add(option, null);
             }
             if((dataJsons[i].length > 0) && (datas[i].name == "Content")){
-                types.push(datas[i].name);
                 contents = dataJson;
             }
         }
 
-        let stopwords = "? ! ) ( e é , . ; \" I de a o que do da em um para com uma os no se na por mais as dos como mas foi ao ele " +
-            "das tem à seu sua ou ser quando há nos já está eu também só pelo pela até isso ela entre era depois " +
-            "sem mesmo aos ter seus quem nas me esse eles estão tinha foram essa num nem suas meu às minha têm numa " +
-            "pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos lhes " +
-            " meus minhas teu tua teus tuas nosso nossa nossos nossas dela delas esta estes estas aquele aquela aqueles " +
-            " aquelas isto aquilo estou está estamos estão estive esteve estivemos estiveram estava estávamos estavam " +
-            "estivera estivéramos esteja estejamos estejam estivesse estivéssemos estivessem estiver estivermos estiverem " +
-            "hei há havemos hão houve houvemos houveram houvera houvéramos haja hajamos hajam houvesse houvéssemos " +
-            "houvessem houver houvermos houverem houverei houverá houveremos houverão houveria houveríamos houveriam sou " +
-            "somos são era éramos eram fui foi fomos foram fora fôramos seja sejamos sejam fosse fôssemos fossem for " +
-            "formos forem serei será seremos serão seria seríamos seriam tenho tem temos tém tinha tínhamos tinham tive " +
-            "teve tivemos tiveram tivera tivéramos tenha tenhamos tenham tivesse tivéssemos tivessem tiver tivermos " +
-            "tiverem gay terei terá teremos terão teria teríamos teriam aí c****** = 1 2 3 4 5 6 7 8 9 0 * + : , roberto " +
-            "a's able about above according accordingly across actually after afterwards again against ain't all allow" +
-            " allows almost alone along already also although always am among amongst an and another any anybody anyhow" +
-            " anyone anything anyway anyways anywhere apart appear appreciate appropriate are aren't around as aside ask" +
-            " asking associated at available away awfully be became because become becomes becoming been before " +
-            "beforehand behind being believe below beside besides best better between beyond both brief but by c'mon" +
-            " c's came can can't cannot cant cause causes certain certainly changes clearly co com come comes concerning" +
-            " consequently consider considering contain containing contains corresponding could couldn't course currently" +
-            " definitely described despite did didn't different do does doesn't doing don't done down downwards during " +
-            "each edu eg eight either else elsewhere enough entirely especially et etc even ever every everybody " +
-            "everyone everything everywhere ex exactly example except far few fifth first five followed following " +
-            "follows for former formerly forth four from further furthermore get gets getting given gives go goes going gone got gotten greetings had hadn't happens hardly has hasn't have haven't having he he's hello help hence her here here's hereafter hereby herein hereupon hers herself hi him himself his hither hopefully how howbeit however i'd i'll i'm i've ie if ignored immediate in inasmuch inc indeed indicate indicated indicates inner insofar instead into inward is isn't it it'd it'll it's its itself just keep keeps kept know known knows last lately later latter latterly least less lest let let's like liked likely little look looking looks ltd mainly many may maybe me mean meanwhile merely might more moreover most mostly much must my myself name namely nd near nearly necessary need needs neither never nevertheless new next nine no nobody non none noone nor normally not nothing novel now nowhere obviously of off often oh ok okay old on once one ones only onto or other others otherwise ought our ours ourselves out outside over overall own particular particularly per perhaps placed please plus possible presumably probably provides que quite qv rather rd re really reasonably regarding regardless regards relatively respectively right said same saw say saying says second secondly see seeing seem seemed seeming seems seen self selves sensible sent serious seriously seven several shall she should shouldn't since six so some somebody somehow someone something sometime sometimes somewhat somewhere soon sorry specified specify specifying still sub such sup sure t's take taken tell tends th than thank thanks thanx that that's thats the their theirs them themselves then thence there there's thereafter thereby therefore therein theres thereupon these they they'd they'll they're they've think third this thorough thoroughly those though three through throughout thru thus to together too took toward towards tried tries truly try trying twice two un under unfortunately unless unlikely until unto up upon us use used useful uses using usually value various very via viz vs want wants was wasn't way we we'd we'll we're we've welcome well went were weren't what what's whatever when whence whenever where where's whereafter whereas whereby wherein whereupon wherever whether which while whither who who's whoever whole whom whose why will willing wish with within without won't wonder would wouldn't yes yet you you'd you'll you're you've your yours yourself yourselves zero";
+        let stopwords = " vou sobre vem de dá ai aí a o que e do da em um para é com não uma os no se na por mais as dos como mas foi ao ele " +
+            "das tem à seu sua ou ser quando muito há nos já está eu também só pelo pela até isso ela entre era depois " +
+            "sem mesmo aos ter seus quem nas me esse eles estão você tinha foram essa num nem suas meu às minha têm " +
+            "numa pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos" +
+            " lhes meus minhas teu tua teus tuas nosso nossa nossos nossas dela delas esta estes estas aquele aquela" +
+            " aqueles aquelas isto aquilo estou está estamos estão estive esteve estivemos estiveram estava estávamos" +
+            " estavam estivera estivéramos esteja estejamos estejam estivesse estivéssemos estivessem estiver " +
+            "estivermos estiverem hei há havemos hão houve houvemos houveram houvera houvéramos haja hajamos hajam " +
+            "houvesse houvéssemos houvessem houver houvermos houverem houverei houverá houveremos houverão houveria " +
+            "houveríamos houveriam sou somos são era éramos eram fui foi fomos foram fora fôramos seja sejamos sejam " +
+            "fosse fôssemos fossem for formos forem serei será seremos serão seria seríamos seriam tenho tem temos tém " +
+            "tinha tínhamos tinham tive teve tivemos tiveram tivera tivéramos tenha tenhamos tenham tivesse tivéssemos " +
+            "tivessem tiver tivermos tiverem terei terá teremos terão teria teríamos teriam a about above across after " +
+            "again against all almost alone along already also although always among an and another any anybody anyone " +
+            "anything anywhere are area areas around as ask asked asking asks at away b back backed backing backs be " +
+            "became because become becomes been before began behind being beings best better between big both but by c " +
+            "came can cannot case cases certain certainly clear clearly come could d did differ different differently " +
+            "do does done down down downed downing downs during e each early either end ended ending ends enough even " +
+            "evenly ever every everybody everyone everything everywhere f face faces fact facts far felt few find finds" +
+            " first for four from full fully further furthered furthering furthers g gave general generally get gets " +
+            "give given gives go going good goods got great greater greatest group grouped grouping groups h had has " +
+            "have having he her here herself high high high higher highest him himself his how however i if important " +
+            "in interest interested interesting interests into is it its itself j just k keep keeps kind knew know " +
+            "known knows l large largely last later latest least less let lets like likely long longer longest m made " +
+            "make making man many may me member members men might more most mostly mr mrs much must my myself n " +
+            "necessary need needed needing needs never new new newer newest next no nobody non noone not nothing " +
+            "now nowhere number numbers o of off often old older oldest on once one only open opened opening opens or " +
+            "order ordered ordering orders other others our out over p part parted parting parts per perhaps place " +
+            "places point pointed pointing points possible present presented presenting presents problem problems put " +
+            "puts q quite r rather really right right room rooms s said same saw say says second seconds see seem " +
+            "seemed seeming seems sees several shall she should show showed showing shows side sides since small " +
+            "smaller smallest so some somebody someone something somewhere state states still still such sure t take " +
+            "taken than that the their them then there therefore these they thing things think thinks this those though " +
+            "thought thoughts three through thus to today together too took toward turn turned turning turns two u " +
+            "under until up upon us use used uses v very w want wanted wanting wants was way ways we well wells went " +
+            "were what when where whether which while who whole whose why will with within without work worked working " +
+            "works would x y year years yet you young younger youngest your yours z roberto gay";
 
         for(let i = 0; i < contents.length; i++){
             contents[i].text = contents[i].text.toLowerCase();
+            contents[i].text = contents[i].text.replaceAll(/[^A-Z0-9 áàâãäéèêëíìîïóòôõöúùûüç!-]/ig,'');
+            contents[i].text = contents[i].text.replaceAll('  ',' ');
+            contents[i].text = contents[i].text.replaceAll('  ',' ');
             if(contents[i].text != undefined && contents[i].text != null && contents[i].text != ""){
                 group++;
                 let ws = contents[i].text.split(" ");
@@ -215,7 +363,19 @@ function loadData(promises){
             return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
         });
         words = temp;
-
+        let dataListOptiontext = document.getElementById('dataListOptiontext');
+        dataListOptiontext.setAttribute('style', 'max-height:80px !important;');
+        let tempOptions = "";
+        for(let w in words) {
+            let option = document.createElement('option');
+            option.value = words[w].word;
+            option.innerText = words[w].word;
+            if(!tempOptions.includes(words[w].word)){
+                dataListOptiontext.appendChild(option);
+                tempOptions += words[w].word + ',';
+                document.getElementById('formSelectDataInfotext').appendChild(option.cloneNode(true));
+            }
+        }
         emojiText("#emojiText", words, links, contents);
     });
 }
@@ -243,7 +403,7 @@ function filter(){
     if(attribute !== "Select attribute" && term !== ""){
         let phraseID = "";
         if(dataType[attribute.value].type == "continuous"){
-            if(attribute.value == 'id'){
+            if(attribute.value == 'id' && !term.includes('-')){
                 if(contents[term] !== undefined){
                     phraseID = term;
                 }
@@ -289,20 +449,24 @@ function filter(){
 }
 
 function mergeFilter(){
-    let phraseID = ""
-    for(let f in filterList){
-        phraseID += filterList[f].phraseID + ",";
-    }
-    let phraseIDEnd = "";
-    for (let s of phraseID.split(',')){
-        if(!(','+phraseIDEnd).includes(','+s+',')){
-            phraseIDEnd += s + ",";
+    if(filterList.length > 0){
+        let phraseID = filterList[0].phraseID;
+        for(let f in filterList){
+            let phraseIDTemp = "";
+            for (let s of filterList[f].phraseID.split(',')){
+                for(let p of phraseID.split(',')){
+                    if(s == p){
+                        phraseIDTemp += s + ",";
+                    }
+                }
+            }
+            phraseID = phraseIDTemp.replace(',,', ',');
         }
+        nodesLinksOFF();
+        nodeLinkOpacity(phraseID);
+    }else{
+        nodesLinksON();
     }
-    phraseIDEnd = phraseIDEnd.replace(',,',',');
-    phraseIDEnd = phraseIDEnd.replace(',,',',');
-    nodesLinksOFF();
-    nodeLinkOpacity(phraseIDEnd);
 }
 
 function deleteFilter(id){
@@ -321,8 +485,10 @@ function hide(){
 }
 
 function selectOption(){
-    document.getElementById('typeTerm').value=""
     let option = document.getElementById('selectAttribute').value;
+    let term = document.getElementById('typeTerm');
+    term.setAttribute('list', "dataListOption" + option);
+    term.value="";
     if(dataType[option].type == 'continuous'){
         document.getElementById('filterContinuos').setAttribute('class', '');
         let rangeMin = document.getElementById('rangeMin');
@@ -331,6 +497,8 @@ function selectOption(){
         let rangeMax = document.getElementById('rangeMax');
         rangeMax.setAttribute("min",dataType[option].min);
         rangeMax.setAttribute("max",dataType[option].max);
+    }else{
+        document.getElementById('filterContinuos').setAttribute('class', 'collapse');
     }
 }
 

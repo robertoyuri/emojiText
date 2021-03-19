@@ -6,7 +6,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,7 +29,6 @@
                         <li><a class="dropdown-item" onclick="loadPath('data6.json')">Necessidade Poetry Data</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loadYourData">Load your dataset</a></li>
-
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -38,11 +36,10 @@
                         Filters
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownFilter">
-                        <li><a class="dropdown-item disabled" href="#">Emotion</a></li>
-                        <li><a class="dropdown-item disabled" href="#">Polarity</a></li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#attributeFilter" role="button" aria-expanded="false" aria-controls="attributeFilter">
                             Attribute</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#datasetInformation">Dataset Informations</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -50,12 +47,14 @@
                         Settings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownSettings">
+                        <li><a class="dropdown-item disabled" data-bs-toggle="collapse" href="#animationPlayer" role="button" aria-expanded="false" aria-controls="animationPlayer">
+                            Animation Player</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#showSentiment" role="button" aria-expanded="false" aria-controls="showSentiment">
                             Sentiment type</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#legendEmotion" role="button" aria-expanded="false" aria-controls="legendEmotion">
                             Legend Emotion</a></li>
-                        <li><a class="dropdown-item disabled" data-bs-toggle="collapse" href="#legendPolarity" role="button" aria-expanded="false" aria-controls="legendPolarity">
+                        <li><a class="dropdown-item" data-bs-toggle="collapse" href="#legendPolarity" role="button" aria-expanded="false" aria-controls="legendPolarity">
                             Legend Polarity</a></li>
                     </ul>
                 </li>
@@ -90,12 +89,45 @@
 
 
 
-
+        <div class="card collapse" id="legendPolarity">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm">
+                        <h5 class="text-nowrap">Polarity</h5>
+                    </div>
+                    <div class="col-sm d-grid justify-content-md-end text-nowrap">
+                        <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#legendPolarity" aria-expanded="false" aria-controls="legendPolarity"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <svg height="118px" transform="translate(-5, -5)">
+                    <g transform="translate(18, 20)">
+                        <circle r="18" class="positive"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/positive.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="positive" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Positive</text>
+                    </g>
+                    <g transform="translate(18, 60)">
+                        <circle r="18" class="neutral"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/neutral.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="neutral" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Neutral</text>
+                    </g>
+                    <g transform="translate(18, 100)">
+                        <circle r="18" class="negative"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/negative.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="negative" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Negative</text>
+                    </g>
+                </svg>
+            </div>
+        </div>
         <div class="card collapse" id="legendEmotion">
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm">
-                        <h5 class="text-nowrap">Legend emotion</h5>
+                        <h5 class="text-nowrap">Emotions</h5>
                     </div>
                     <div class="col-sm d-grid justify-content-md-end text-nowrap">
                         <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#legendEmotion" aria-expanded="false" aria-controls="legendEmotion"></button>
@@ -103,26 +135,56 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
-                    <input type="checkbox" class="btn-check" name="btncheck" id="happy" autocomplete="off" checked onclick="showEmotion()">
-                    <label class="btn btn-outline-secondary" for="happy">Happy</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="surprise" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="surprise">Surprise</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="neutral" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="neutral">Neutral</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="angry" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="angry">
-                        <img src="media/images/angry.svg" height="30px"> Angry</label>
-
-                    <input type="checkbox" class="btn-check" name="btncheck" id="disgust" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="disgust">Disgust</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="fear" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="fear">Fear</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="sad" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="sad">Sad</label>
-                    <input type="checkbox" class="btn-check" name="btncheck" id="contempt" autocomplete="off" checked onclick="showPolarity()">
-                    <label class="btn btn-outline-secondary" for="contempt">Contempt</label>
-                </div>
+                <svg height="158px" transform="translate(-5, -5)">
+                    <g transform="translate(18, 20)">
+                        <circle r="18" class="happy"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/happy.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="happy" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Happy</text>
+                    </g>
+                    <g transform="translate(18, 60)">
+                        <circle r="18" class="neutral"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/neutral.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="neutral" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Neutral</text>
+                    </g>
+                    <g transform="translate(110, 20)">
+                        <circle r="18" class="surprise"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/surprise.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="surprise" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Surprise</text>
+                    </g>
+                    <g transform="translate(18, 140)">
+                        <circle r="18" class="angry"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/angry.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="angry" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Angry</text>
+                    </g>
+                    <g transform="translate(18, 100)">
+                        <circle r="18" class="sad"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/sad.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="sad" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Sad</text>
+                    </g>
+                    <g transform="translate(110, 60)">
+                        <circle r="18" class="fear"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/fear.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="fear" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Fear</text>
+                    </g>
+                    <g transform="translate(110, 100)">
+                        <circle r="18" class="disgust"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/disgust.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="disgust" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Disgust</text>
+                    </g>
+                    <g transform="translate(110, 140)">
+                        <circle r="18" class="contempt"></circle>
+                        <circle r="15" fill="#FFFFFF"></circle>
+                        <image href="media/images/contempt.svg" width="30" height="30" transform="translate(-15, -15)"></image>
+                        <text class="contempt" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Contempt</text>
+                    </g>
+                </svg>
             </div>
         </div>
 
@@ -148,7 +210,7 @@
                     <input class="form-check-input" type="checkbox" value="" id="checkMax" checked>  <label name="rangeLabel" for="rangeMax" class="form-label">Max:</label>
                     <input type="range" class="form-range" min="0" max="5" step="0.1" id="rangeMax" oninput="setVal()">
                 </div>
-                <div class="input-group mb-3">
+                <div id="dataLists" class="input-group mb-3">
                     <input id="typeTerm" type="text" class="form-control" placeholder="Type term" aria-label="Type term" aria-describedby="btnFilter">
                     <button class="btn btn-outline-secondary" type="button" id="btnFilter" onclick="filter()">Filter</button>
                 </div>
@@ -200,8 +262,41 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="datasetInformation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="datasetInformation" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dataset Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="datasetInformationData"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="selectMissingAttrModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Missing Attributes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="selectMissingAttrBody" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="identifyHowAre()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script type="text/javascript" src="preProcess.js"></script>
 <script type="text/javascript" src="emojiText.js"></script>
 </html>
