@@ -1,4 +1,6 @@
-function emojiText(local, nodes, links, dataset) {
+let linksLines = '';
+let node = '';
+function emojiText(local, nodes, links, dataset, emotionPolarity) {
     d3.select(local).selectAll('*').remove();
     if (nodes.length > 0) {
         const lineSize = 20;
@@ -52,20 +54,22 @@ function emojiText(local, nodes, links, dataset) {
 
         function draw(nodes, links) {
 
-            let linksLines = svg.append('g')
+            linksLines = svg.append('g')
                 .attr('class', 'links')
                 .selectAll('g')
                 .data(links)
                 .enter().append('g');
 
             linksLines.attr("name", "links")
-                .attr("phraseID", function (d){return d.id;})
-                .attr("opacity",1);
+                .attr("phraseID", function (d) {
+                    return d.id;
+                })
+                .attr("opacity", 1);
 
             linksLines.each(function (d) {
                 let lines = d.group.split(',');
-                lines = lines.slice(0, lines.length-1).map(v=>({
-                    id:d.id,
+                lines = lines.slice(0, lines.length - 1).map(v => ({
+                    id: d.id,
                     value: v,
                     source: d.source,
                     target: d.target,
@@ -74,10 +78,12 @@ function emojiText(local, nodes, links, dataset) {
                 d3.select(this).selectAll('line').data(lines).enter()
                     .append("line")
                     .attr("class", "shadow")
-                    .attr("transform",d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
+                    .attr("transform", d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
                     .attr("len", lines.length)
-                    .attr("stroke-width", lineSize/lines.length)
-                    .attr("stroke", (d) => {return colors[(parseInt(d.value) - (colors.length * parseInt(""+ parseInt(d.value) / colors.length)))];});
+                    .attr("stroke-width", lineSize / lines.length)
+                    .attr("stroke", (d) => {
+                        return colors[(parseInt(d.value) - (colors.length * parseInt("" + parseInt(d.value) / colors.length)))];
+                    });
             });
 
             linksLines.append("line")
@@ -87,7 +93,9 @@ function emojiText(local, nodes, links, dataset) {
 
             linksLines.append("line")
                 .attr("class", "triangle")
-                .attr("stroke-width", function (d) { return (Math.sqrt(d.value) + "px"); })
+                .attr("stroke-width", function (d) {
+                    return (Math.sqrt(d.value) + "px");
+                })
                 .attr("stroke", "black")
                 .attr("marker-end", "url(#arrow)");
 
@@ -95,8 +103,7 @@ function emojiText(local, nodes, links, dataset) {
                 .on("mouseleave", handleMouseOut);
 
 
-
-            let node = svg.append("g")
+            node = svg.append("g")
                 .attr("class", "nodes")
                 .selectAll("g")
                 .data(nodes)
@@ -107,50 +114,88 @@ function emojiText(local, nodes, links, dataset) {
                     .on("end", dragEnded));
 
             node.attr("name", "nodes")
-                .attr("phraseID", function (d){return d.id;})
-                .attr("opacity",1);
+                .attr("phraseID", function (d) {
+                    return d.id;
+                })
+                .attr("opacity", 1);
 
             node.append("circle")
                 .attr("name", "circle-emotion")
-                .attr("r", function (d) { return (circleScale(d.size) / 2) + 3; })
-                .attr("class", function (d) { return d.emotion; })
-                .attr("emotion", function (d) { return d.emotion; })
-                .attr("polarity", function (d) { return d.polarity; });
+                .attr("r", function (d) {
+                    return (circleScale(d.size) / 2) + 3;
+                })
+                .attr("class", function (d) {
+                    return emotionPolarity[d.emotion];
+                })
+                .attr("emotion", function (d) {
+                    return emotionPolarity[d.emotion];
+                })
+                .attr("polarity", function (d) {
+                    return emotionPolarity[d.polarity];
+                });
 
             node.append("circle")
-                .attr("r", function (d) { return (circleScale(d.size) / 2); })
+                .attr("r", function (d) {
+                    return (circleScale(d.size) / 2);
+                })
                 .attr("fill", "#FFFFFF");
 
             node.append("image")
                 .attr("name", "image-emotion")
-                .attr("xlink:href", function (d) { return (document.location.toString().split('index')[0] + "media/images/" + d.emotion + ".svg"); })
-                .attr("emotion", function (d) { return (document.location.toString().split('index')[0] + "media/images/" + d.emotion + ".svg"); })
-                .attr("polarity", function (d) { return (document.location.toString().split('index')[0] + "media/images/" + d.polarity + ".svg"); })
-                .attr("width", function (d) { return circleScale(d.size); })
-                .attr("height", function (d) { return circleScale(d.size); })
-                .attr("transform", function (d) { return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")"); });
+                .attr("xlink:href", function (d) {
+                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                })
+                .attr("emotion", function (d) {
+                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                })
+                .attr("polarity", function (d) {
+                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.polarity] + ".svg");
+                })
+                .attr("width", function (d) {
+                    return circleScale(d.size);
+                })
+                .attr("height", function (d) {
+                    return circleScale(d.size);
+                })
+                .attr("transform", function (d) {
+                    return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")");
+                });
 
             node.append("text")
                 .attr("name", "text-emotion")
-                .text(function (d) { return d.word; })
-                .style("font-size", function(d) { return sizeScale(d.size) + "px"; })
+                .text(function (d) {
+                    return d.word;
+                })
+                .style("font-size", function (d) {
+                    return sizeScale(d.size) + "px";
+                })
                 .style("font-family", "Arial")
-                .attr("class", function (d) { return d.emotion; })
-                .attr("emotion", function (d) { return d.emotion; })
-                .attr("polarity", function (d) { return d.polarity; })
+                .attr("class", function (d) {
+                    return emotionPolarity[d.emotion];
+                })
+                .attr("emotion", function (d) {
+                    return emotionPolarity[d.emotion];
+                })
+                .attr("polarity", function (d) {
+                    return emotionPolarity[d.polarity];
+                })
                 .attr("text-anchor", "start")
                 .attr("font-weight", "bold")
                 .attr("stroke", "white")
                 .attr("stroke-width", "0.4px")
-                .attr('x', function (d) { return 2+circleScale(d.size)*.6 + "px"; })
-                .attr('y', d => sizeScale(d.size)/2);
+                .attr('x', function (d) {
+                    return 2 + circleScale(d.size) * .6 + "px";
+                })
+                .attr('y', d => sizeScale(d.size) / 2);
 
             node.append("title")
-                .text(function (d) { return d.word; });
+                .text(function (d) {
+                    return d.word;
+                });
 
             node.on("mouseover", handleMouseOver)
                 .on("mouseleave", handleMouseOut);
-
+        }
             simulation
                 .nodes(nodes)
                 .on("tick", ticked);
@@ -205,7 +250,7 @@ function emojiText(local, nodes, links, dataset) {
                                 .style('font-size', '14px')
                                 .style("margin-top", "0px")
                                 .style("margin-bottom", "3px")
-                                .text("(" + id + ") " + n.text + " (" + n.emotion + " - " + n.polarity + ")");
+                                .text("(" + id + ") " + n.text + " (" + emotionPolarity[n.emotion] + " - " + emotionPolarity[n.emotion] + ")");
                         }
                     }
                 }
@@ -215,7 +260,7 @@ function emojiText(local, nodes, links, dataset) {
                 tooltip.style("visibility", "hidden");
                 tooltip.selectAll('*').remove();
             }
-        }
+        //}
 
         function dragStarted(d) {
             if (!d3.event.active) simulation.alphaTarget(1.6).restart();

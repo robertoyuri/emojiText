@@ -1,3 +1,55 @@
+.positive {
+    fill: #669900;
+    background-color: #669900;
+}
+
+.neutral {
+    fill: dimgray/*33b5e5*/;
+    background-color: dimgray/*7CAAD4 #33b5e5*/;
+    color: dimgray;
+    border-color: dimgray;
+}
+
+.negative {
+    fill: #CC0000;
+    background-color: #CC0000;
+}
+
+.happy {
+    fill: #f69b01/*F3B45F*/;
+    background-color: #f69b01/*#ffe854/*F3B45F*/;
+}
+
+.surprise {
+    fill: #59bdff;
+    background-color: #59bdff/*#ff7400*/;
+}
+
+.angry {
+    fill: #CC0000/*DB655F*/;
+    background-color: #CC0000/*#CC0000/*DB655F*/;
+}
+
+.sad {
+    fill: #453d98/*7CAAD4*/;
+    background-color: #453d98/*#453d98/*7CAAD4*/;
+}
+
+.fear {
+    fill: green/*#009600/*921c92*/;
+    background-color: green/*#009600/*#F06DEF/*921c92*/;
+}
+
+.disgust {
+    fill: #5EA884/*639874*/;
+    background-color: #5EA884/*#5EA884/*639874*/;
+}
+
+.contempt {
+    fill: #808080;
+    background-color: #808080;
+}
+
 .home{
     color: red;
 }
@@ -49,16 +101,6 @@ body {
     background-color: #00ff00;
 }
 
-.negative {
-    fill: #CC0000;
-    background-color: #CC0000;
-}
-
-.positive {
-    fill: #669900;
-    background-color: #669900;
-}
-
 .blank {
     fill: #ffffff;
     background-color: #ffffff;
@@ -66,47 +108,6 @@ body {
 
 .none {
     fill: none;
-}
-
-.neutral {
-    fill: dimgray/*33b5e5*/;
-    background-color: dimgray/*7CAAD4 #33b5e5*/;
-    color: dimgray;
-    border-color: dimgray;
-}
-
-.angry {
-    fill: #CC0000/*DB655F*/;
-    background-color: #CC0000/*#CC0000/*DB655F*/;
-}
-
-.disgust {
-    fill: #5EA884/*639874*/;
-    background-color: #5EA884/*#5EA884/*639874*/;
-}
-
-.happy {
-    fill: #f69b01/*F3B45F*/;
-    background-color: #f69b01/*#ffe854/*F3B45F*/;
-}
-
-.sad {
-    fill: #453d98/*7CAAD4*/;
-    background-color: #453d98/*#453d98/*7CAAD4*/;
-}
-
-.surprise {
-    fill: #59bdff;
-    background-color: #59bdff/*#ff7400*/;
-}
-.fear {
-    fill: green/*#009600/*921c92*/;
-    background-color: green/*#009600/*#F06DEF/*921c92*/;
-}
-
-.contempt {
-    fill: #808080;
-    background-color: #808080;
 }
 
 .tooltipBig {

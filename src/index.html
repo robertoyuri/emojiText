@@ -51,7 +51,9 @@
                             Animation Player</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#showSentiment" role="button" aria-expanded="false" aria-controls="showSentiment">
                             Sentiment type</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#selectMissingAttrModal">Select Attributes</a></li>
                         <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#checkEmotionPolarity">Personalize Sentiments</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#legendEmotion" role="button" aria-expanded="false" aria-controls="legendEmotion">
                             Legend Emotion</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#legendPolarity" role="button" aria-expanded="false" aria-controls="legendPolarity">
@@ -100,8 +102,11 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <svg height="118px" transform="translate(-5, -5)">
+            <div class="card-body" style="height:150px;">
+                <input type="color" class="form-control form-control-color" value="#669900" oninput="selectColor(0, this.value)">
+                <input type="color" class="form-control form-control-color" value="#696969" oninput="selectColor(1, this.value)">
+                <input type="color" class="form-control form-control-color" value="#CC0000" oninput="selectColor(2, this.value)">
+                <svg height="118px" width="100px" transform="translate(55, -120)">
                     <g transform="translate(18, 20)">
                         <circle r="18" class="positive"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
@@ -134,9 +139,17 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <svg height="158px" transform="translate(-5, -5)">
-                    <g transform="translate(18, 20)">
+            <div class="card-body" style="height:350px;">
+                <input type="color" class="form-control form-control-color" value="#f69b01" oninput="selectColor(3, this.value)">
+                <input type="color" class="form-control form-control-color" value="#696969" oninput="selectColor(1, this.value)">
+                <input type="color" class="form-control form-control-color" value="#59bdff" oninput="selectColor(4, this.value)">
+                <input type="color" class="form-control form-control-color" value="#CC0000" oninput="selectColor(5, this.value)">
+                <input type="color" class="form-control form-control-color" value="#453d98" oninput="selectColor(6, this.value)">
+                <input type="color" class="form-control form-control-color" value="#278000" oninput="selectColor(7, this.value)">
+                <input type="color" class="form-control form-control-color" value="#5EA884" oninput="selectColor(8, this.value)">
+                <input type="color" class="form-control form-control-color" value="#808080" oninput="selectColor(9, this.value)">
+                <svg height="318px" width="105px" transform="translate(55, -320)">
+                    <g transform="translate(18, 20)" type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c">
                         <circle r="18" class="happy"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/happy.svg" width="30" height="30" transform="translate(-15, -15)"></image>
@@ -148,7 +161,7 @@
                         <image href="media/images/neutral.svg" width="30" height="30" transform="translate(-15, -15)"></image>
                         <text class="neutral" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Neutral</text>
                     </g>
-                    <g transform="translate(110, 20)">
+                    <g transform="translate(18, 100)">
                         <circle r="18" class="surprise"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/surprise.svg" width="30" height="30" transform="translate(-15, -15)"></image>
@@ -160,25 +173,25 @@
                         <image href="media/images/angry.svg" width="30" height="30" transform="translate(-15, -15)"></image>
                         <text class="angry" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Angry</text>
                     </g>
-                    <g transform="translate(18, 100)">
+                    <g transform="translate(18, 180)">
                         <circle r="18" class="sad"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/sad.svg" width="30" height="30" transform="translate(-15, -15)"></image>
                         <text class="sad" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Sad</text>
                     </g>
-                    <g transform="translate(110, 60)">
+                    <g transform="translate(18, 220)">
                         <circle r="18" class="fear"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/fear.svg" width="30" height="30" transform="translate(-15, -15)"></image>
                         <text class="fear" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Fear</text>
                     </g>
-                    <g transform="translate(110, 100)">
+                    <g transform="translate(18, 260)">
                         <circle r="18" class="disgust"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/disgust.svg" width="30" height="30" transform="translate(-15, -15)"></image>
                         <text class="disgust" text-anchor="start" font-weight="bold" stroke="white" stroke-width="0.4px" x="20px" y="7" style="font-size: 14px; font-family: Arial;">Disgust</text>
                     </g>
-                    <g transform="translate(110, 140)">
+                    <g transform="translate(18, 300)">
                         <circle r="18" class="contempt"></circle>
                         <circle r="15" fill="#FFFFFF"></circle>
                         <image href="media/images/contempt.svg" width="30" height="30" transform="translate(-15, -15)"></image>
@@ -285,11 +298,42 @@
                 <h5 class="modal-title">Select Missing Attributes</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="selectMissingAttrBody" class="modal-body">
+            <div class="modal-body">
+                <form id="selectMissingAttrBody" class="was-validated"></form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="identifyHowAre()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="checkEmotionPolarity" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Sentiment Attributes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h5>Emotions</h5>
+                        <div class="row">
+                            <form id="checkEmotionLabel" class="was-validated col"></form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h5>Polarity</h5>
+                        <div class="row">
+                            <form id="checkPolarityLabel" class="was-validated col"></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveEmotionPolarity()">Save changes</button>
             </div>
         </div>
     </div>
