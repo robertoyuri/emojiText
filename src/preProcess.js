@@ -22,9 +22,6 @@ function howAre(attributeList, attributeListWithout){
     for(let aw of attributeListWithout){
         let select = document.createElement('select');
         select.value = aw;
-
-        console.log(select.value);
-        console.log(aw);
         select.setAttribute('id', 'form-select-'+aw);
         select.setAttribute('class', 'form-select');
         select.setAttribute('required', '');
@@ -454,7 +451,6 @@ function preProcess(promises){
             document.getElementById('formSelectDataInfotext').appendChild(option.cloneNode(true));
         }
     }
-    console.log(words);
     emojiText("#emojiText", words, links, contents, emotionPolarity);
 }
 
