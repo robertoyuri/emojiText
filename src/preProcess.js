@@ -148,7 +148,7 @@ function checkEmotionPolarity(promises){
         });
         modal.show();
     }else {
-        preProcess(promises);
+        preProcess(globalPromises);
     }
 }
 
@@ -175,17 +175,27 @@ function preProcess(promises){
         pol["positive"] = 1;
         pol["negative"] = 2;
         pol["neutral"] = 3;
-        let id = 0;
-        for(let i = 0; i < words.length; i++){
-            if(words[i].size == words[0].size){
-                id += pol[words[i].name];
+        if(words.length < 2){
+            return words[0].name;
+        }else{
+            console.log(words);
+            let id = 0;
+            for(let i = 0; i < words.length; i++){
+                if(words[i].size == words[0].size){
+                    id += pol[words[i].name];
+                }
             }
+            return polarity[id];
         }
-        return polarity[id];
     }
 
     function compareEmotion(words) {
-        return words[0].name;
+        if(words.length < 2){
+            return words[0].name;
+        }else{
+            console.log("...",words);
+            return words[0].name;
+        }
     }
 
     function sortSize(words) {
@@ -238,6 +248,7 @@ function preProcess(promises){
         if(item !== undefined){
             let option = document.createElement('option');
             option.setAttribute('value', item);
+            option.innerText = item;
             option.text = item;
             let datasetInformationData = document.getElementById('datasetInformationData');
             if(tempCount == 0 || tempCount%4 == 0){
@@ -291,12 +302,16 @@ function preProcess(promises){
                 option.setAttribute('dataType','continuous');
                 let min = Number.MAX_VALUE;
                 let max = Number.MIN_VALUE;
+                let tempOptions = "";
                 for(let ddd in dataJson){
                     let option2 = document.createElement('option');
                     option2.value=dataJson[ddd][item];
                     option2.innerText=dataJson[ddd][item];
-                    dataListOption.appendChild(option2);
-                    selectDatasetInformationData.appendChild(option2.cloneNode(true));
+                    if(!tempOptions.includes(dataJson[ddd][item]) && item !== 'text') {
+                        dataListOption.appendChild(option2);
+                        selectDatasetInformationData.appendChild(option2.cloneNode(true));
+                        tempOptions += dataJson[ddd][item] + ',';
+                    }
                     if(parseFloat(dataJson[ddd][item]) < parseFloat(min)){
                         min = parseFloat(dataJson[ddd][item]);
                     }
@@ -311,6 +326,9 @@ function preProcess(promises){
                 option.setAttribute('min', min);
                 option.setAttribute('max', max);
                 dataType[item] = {"attribute":item, "type":'continuous', "min":min, "max":max};
+                let optAnin = option.cloneNode();
+                optAnin.innerText = item;
+                document.getElementById('timeAnimation').appendChild(optAnin);
             }
             select.add(option, null);
             document.getElementById('dataLists').appendChild(dataListOption);
@@ -421,8 +439,10 @@ function preProcess(promises){
 
     let temp = [];
     for(let i = 0; i < keys.length; i++){
-        let emotion = compareEmotion(sortSize(words[keys[i]]["emotion"].split(" ")));
-        let polarity = comparePolarity(sortSize(words[keys[i]]["polarity"].split(" ")));
+        let emotion = sortSize(words[keys[i]]["emotion"].split(" "))[0].name;
+        //let emotion = compareEmotion(sortSize(words[keys[i]]["emotion"].split(" ")));
+        //let polarity = comparePolarity(sortSize(words[keys[i]]["polarity"].split(" ")));
+        let polarity = sortSize(words[keys[i]]["polarity"].split(" "))[0].name;
         temp.push({
             "word":keys[i],
             "status":emotion,
@@ -586,4 +606,73 @@ function setVal(){
 function selectColor(id, color){
     document.styleSheets[0].rules[id].style.fill=color;
     document.styleSheets[0].rules[id].style.backgroundColor=color;
+}
+
+let control = true;
+function player(btn){
+    let action = btn.src;
+    action = action.split('/');
+    action = action[action.length-1].split('.')[0];
+
+    let time = document.getElementById('timeAnimation');
+    for(let t of time.childNodes){
+        if(t.innerText === time.value){
+            time = t;
+            break;
+        }
+    }
+    let temp = globalPromises;
+    temp.sort(function(a,b) {
+        return a[time.innerText] < b[time.innerText] ? -1 : a[time.innerText] > b[time.innerText] ? 1 : 0;
+    });
+    let range = document.getElementById('playerRange');
+    range.setAttribute('max', temp.length );
+    if(action == 'play'){
+        control = true;
+        btn.src = 'media/images/pause.svg';
+        play(temp, btn);
+    } else if(action == 'pause'){
+        control = false;
+        btn.src = 'media/images/play.svg';
+    } else if(action == 'next'){
+        range.value = 5 + parseInt(range.value);
+        animationPlay(temp);
+    } else if(action == 'previous'){
+        document.getElementById('playerRange').value-=5;
+        animationPlay(temp);
+    }else {
+        animationPlay(temp)
+    }
+}
+
+async function sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function play(data, btn){
+    let duration = document.getElementById('duarationAnimation').value;
+    duration = duration == '' ? 500 : duration;
+    let range = document.getElementById('playerRange');
+    let i = range.value;
+    while(parseInt(range.value) < parseInt(range.getAttribute('max'))){
+        if(control){
+            animationPlay(data);
+            await sleep(duration);
+            range.value = parseInt(range.getAttribute('step')) + parseInt(range.value);
+        }else {
+            break;
+        }
+        i = parseInt(range.value) + parseInt(range.getAttribute('step'));
+    }
+    if(control){
+        range.value = 0;
+        btn.src = 'media/images/play.svg';
+    }
+}
+
+function animationPlay(temp){
+    let range = document.getElementById('playerRange').value;
+    let phraseID = temp[range].id +',';
+    nodesLinksOFF();
+    nodeLinkOpacity(phraseID);
 }

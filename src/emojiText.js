@@ -250,7 +250,7 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                                 .style('font-size', '14px')
                                 .style("margin-top", "0px")
                                 .style("margin-bottom", "3px")
-                                .text("(" + id + ") " + n.text + " (" + emotionPolarity[n.emotion] + " - " + emotionPolarity[n.emotion] + ")");
+                                .text("(" + id + ") " + n.text + " (" + emotionPolarity[n.emotion] + " - " + emotionPolarity[n.polarity] + ")");
                         }
                     }
                 }

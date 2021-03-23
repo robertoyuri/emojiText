@@ -47,7 +47,7 @@
                         Settings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownSettings">
-                        <li><a class="dropdown-item disabled" data-bs-toggle="collapse" href="#animationPlayer" role="button" aria-expanded="false" aria-controls="animationPlayer">
+                        <li><a class="dropdown-item" data-bs-toggle="collapse" href="#animationPlayer" role="button" aria-expanded="false" aria-controls="animationPlayer">
                             Animation Player</a></li>
                         <li><a class="dropdown-item" data-bs-toggle="collapse" href="#showSentiment" role="button" aria-expanded="false" aria-controls="showSentiment">
                             Sentiment type</a></li>
@@ -84,6 +84,29 @@
                     <label class="btn btn-outline-secondary" for="btnemotion">Emotion</label>
                     <input type="radio" class="btn-check" name="btnradio" id="btnpolarity" autocomplete="off" onclick="showPolarity()">
                     <label class="btn btn-outline-secondary" for="btnpolarity">Polarity</label>
+                </div>
+            </div>
+        </div>
+        <div class="card collapse" id="animationPlayer">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm">
+                        <h5 class="text-nowrap">Animation</h5>
+                    </div>
+                    <div class="col-sm d-grid justify-content-md-end text-nowrap">
+                        <button class="btn-close text-nowrap" aria-label="Close" type="button" data-bs-toggle="collapse" data-bs-target="#animationPlayer" aria-expanded="false" aria-controls="animationPlayer"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <label for="timeAnimation" class="form-label">Time Attribute:</label>
+                <select id="timeAnimation" class="form-select" aria-label="Select attribute"  onchange="player(this)"></select>
+                <input type="text" id="duarationAnimation" class="form-control" placeholder="Phrase duration (ms)" aria-label="Select attribute"  onchange="player(this)"></input>
+                <input type="range" class="form-range" min="0" value="0" max="2" step="1" id="playerRange" onchange="player(this)">
+                <div class="d-flex justify-content-center">
+                    <img src="media/images/previous.svg" height="32px" onclick="player(this)">
+                    <img src="media/images/play.svg" height="32px" onclick="player(this)">
+                    <img src="media/images/next.svg" height="32px" onclick="player(this)">
                 </div>
             </div>
         </div>
