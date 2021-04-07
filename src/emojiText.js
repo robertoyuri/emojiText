@@ -76,31 +76,13 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             })
             .attr("opacity", 1);
 
-        linksLines.each(function (d) {
-            let lines = d.group.split(',');
-            lines = lines.slice(0, lines.length - 1).map(v => ({
-                id: d.id,
-                value: v,
-                emotion: d.emotion,
-                polarity: d.polarity,
-                source: d.source,
-                target: d.target,
-            }));
-
-            d3.select(this).selectAll('line').data(lines).enter()
-                .append("line")
-                .attr('name', 'shadow')
-                .attr("class", d => "shadow " + d.emotion)
-                .attr("emotion", d => "shadow " + d.emotion)
-                .attr("polarity", d => "shadow " + d.polarity)
-                .attr("transform", d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
-                .attr("len", lines.length)
-                .attr("stroke-width", lineSize / lines.length)
-                .attr('opacity', .5)
-            //.attr("stroke", (d) => {
-            //    return colors[(parseInt(d.value) - (colors.length * parseInt("" + parseInt(d.value) / colors.length)))];
-            //});
-        });
+        linksLines.append("line")
+            .attr("name", "shadow")
+            .attr("class", d => "shadow " + d.emotion)
+            .attr("emotion", d => "shadow " + d.emotion)
+            .attr("polarity", d => "shadow " + d.polarity)
+            .attr("stroke-width", lineSize)
+            .attr("opacity", 0.5);
 
         linksLines.append("line")
             .attr("class", "line")
@@ -141,6 +123,7 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
 
         node.append("circle")
             .attr("name", "circle-emotion")
+            .attr("class", "circle-emotion")
             .attr("r", function (d) {
                 return (circleScale(d.size) / 2) + 3;
             })
@@ -249,18 +232,10 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                 });
 
             linksLines.selectAll('line.shadow')
-                .attr("x1", function (d, i) {
-                    return d.source.x + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx;
-                })
-                .attr("y1", function (d, i) {
-                    return d.source.y + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy;
-                })
-                .attr("x2", function (d, i) {
-                    return d.target.x + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx;
-                })
-                .attr("y2", function (d, i) {
-                    return d.target.y + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy;
-                });
+                .attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
 
             node.attr("transform", function (d) {
                 return "translate(" + d.x + "," + d.y + ")";
@@ -278,12 +253,18 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
 
 
     function handleMouseOver(d) {
+        let object = d3.select(this).selectAll('line.shadow');
+        if(object._groups[0].length > 0){
+            object.attr('class', 'shadow selected')
+                .attr('opacity', 1);
+        }else{
+            object = d3.select(this).select('circle');
+            object.attr('class', 'selected');
+        }
         tooltip.selectAll('*').remove();
-        //let top = d3.event.pageY + 10;
         let top = 56;
         let left = document.body.clientWidth - 2*(document.body.clientWidth/12) + 10;
         tooltip.style("top", top + "px")
-            //.style("left", d3.event.pageX + "px")
             .style("left", left + "px")
             .style("visibility", "visible");
         for(let n of datasetData){
@@ -304,8 +285,6 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                     let p = tooltip.append('div')
                         .style("width", 2*(document.body.clientWidth/12))
                         .style("height", 15)
-                        //.style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
-                        //.style('opacity', .5)
                         .attr('class', emotionPolarity[n[classType]]);
                     p.append("p")
                         .style('font-size', '14px')
@@ -313,8 +292,6 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                         .style("margin-bottom", "3px")
                         .style("color", "black")
                         .style('background-color', 1.5)
-                        //.style('font-weight', 'bold')
-                        //.style("-webkit-text-stroke", "1px black")
                         .html(text);
                     p.style('background-color', p.style('background-color').replace('rgb', 'rgba').replace(')', ', 0.5)'));
                 }
@@ -322,7 +299,15 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
         }
     }
 
-    function handleMouseOut() {
+    function handleMouseOut(d) {
+        let object = d3.select(this).selectAll('line.shadow');
+        if(object._groups[0].length > 0){
+            object.attr('class', classType === 'emotion' ? object.attr('emotion') :  object.attr('polarity'))
+                .attr('opacity', 0.5);
+        }else{
+            object = d3.select(this).select('circle');
+            object.attr('class', classType === 'emotion' ? object.attr('emotion') :  object.attr('polarity'));
+        }
         tooltip.style("visibility", "hidden");
         tooltip.selectAll('*').remove();
     }

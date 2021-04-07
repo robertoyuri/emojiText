@@ -147,3 +147,9 @@ text.categoricalLabel {
     stroke: black;
     font-size: 150%;
 }
+
+.selected {
+    fill: #00ff00;
+    background-color: #00ff00;
+    stroke: #00ff00;
+}
