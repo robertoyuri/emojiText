@@ -1,7 +1,7 @@
 let datas = [];
 let dataType = [];
-let contents = [];
 let filterList = [];
+let classType = 'emotion';
 let filterListID = 0;
 let globalPromises = [];
 let globalAttributeListWithout = [];
@@ -34,7 +34,7 @@ function howAre(attributeList, attributeListWithout){
         for(let a in attributeList){
             let option = document.createElement('option');
             option.setAttribute('value', a);
-            if(a == aw){
+            if(a === aw){
                 option.setAttribute('selected', '')
             }
             option.innerText = a;
@@ -44,7 +44,7 @@ function howAre(attributeList, attributeListWithout){
 }
 
 function identifyHowAre(){
-        for (let a of ['text', 'emotion', 'polarity']) {
+        for (let a of globalAttributeListWithout) {
             for (let i = 0; i < globalPromises.length; i++) {
                 if (globalPromises[i][a] !== undefined){
                     globalPromises[i][a+'2'] = globalPromises[i][a];
@@ -52,9 +52,6 @@ function identifyHowAre(){
                 globalPromises[i][a] = globalPromises[i][document.getElementById('form-select-'+a).value];
             }
         }
-        let modal = new bootstrap.Modal(document.getElementById('selectMissingAttrModal'), {
-            keyboard: false
-        });
         modalMissingAttr.hide();
         checkEmotionPolarity(globalPromises);
 }
@@ -62,21 +59,28 @@ function identifyHowAre(){
 function loadData(promises) {
     globalPromises = promises;
     let attributeListWithout = [];
-    if (promises[0].text == undefined) {
+    let attrList = ['text', 'emotion', 'polarity'];
+    if (promises[0].text === undefined) {
         attributeListWithout.push('text');
     }
-    if (promises[0].emotion == undefined) {
+    if (promises[0].emotion === undefined) {
         attributeListWithout.push('emotion');
     }
-    if (promises[0].polarity == undefined) {
+    if (promises[0].polarity === undefined) {
         attributeListWithout.push('polarity');
     }
+    if (promises[0].test === undefined) {
+        let confirmTest = confirm('Does the data have attributes to generate multiple emojiText?');
+        if(confirmTest){
+            attributeListWithout.push('test');
+            attrList.push('test');
+        }
+    }
+    howAre(promises[0], attrList);
     if (attributeListWithout.length > 0) {
-        howAre(promises[0], ['text', 'emotion', 'polarity']);
         modalMissingAttr.show();
         globalAttributeListWithout = attributeListWithout;
     }else{
-        howAre(promises[0], ['text', 'emotion', 'polarity']);
         checkEmotionPolarity(promises)
     }
 }
@@ -142,13 +146,13 @@ function checkEmotionPolarity(promises){
         div.appendChild(selectPolarity);
     }
 
-    if(control == 'true'){
+    if(control === 'true'){
         let modal = new bootstrap.Modal(document.getElementById('checkEmotionPolarity'), {
             keyboard: false
         });
         modal.show();
     }else {
-        preProcess(globalPromises);
+        divideData(globalPromises);
     }
 }
 
@@ -156,79 +160,71 @@ function saveEmotionPolarity(){
     let emo = document.getElementById('checkEmotionLabel').childNodes;
     let pol = document.getElementById('checkPolarityLabel').childNodes;
     for(let e of [...emo, ...pol]){
-        if(e.tagName == 'SELECT'){
+        if(e.tagName === 'SELECT'){
             emotionPolarity[e.name.replaceAll(' ', '')] = e.value.replaceAll(' ', '');
         }
     }
-    preProcess(globalPromises);
+    divideData(globalPromises);
 }
 
-function preProcess(promises){
-    hide();
-    d3.select('#datasetInformationData').selectAll('*').remove();
-    document.getElementById('filterTable').innerHTML = "<tr><th>Attribute</th><th>Term</th><th></th></tr>";
-    filterListID = 0;
-    dataType = [];
-    function comparePolarity(words) {
-        let polarity = ["", "positive", "negative", "neutral", "positive", "negative", "neutral"];
-        let pol = [];
-        pol["positive"] = 1;
-        pol["negative"] = 2;
-        pol["neutral"] = 3;
-        if(words.length < 2){
-            return words[0].name;
-        }else{
-            console.log(words);
-            let id = 0;
-            for(let i = 0; i < words.length; i++){
-                if(words[i].size == words[0].size){
-                    id += pol[words[i].name];
+function divideData(promises){
+    d3.select('#emojiTextBoard').selectAll('*').remove();
+    let board = document.getElementById('emojiTextBoard');
+    let tests = [];
+    createDataModel(promises);
+    for(let p of promises){
+        if(!tests.includes(p.test)){
+            tests.push(p.test)
+        }
+    }
+    if(tests.length > 1){
+        let id = 1;
+        let row;
+        for(let t of tests){
+            let subPromises = [];
+            for(let p of promises){
+                if(t === p.test){
+                    subPromises.push(p);
                 }
             }
-            return polarity[id];
-        }
-    }
-
-    function compareEmotion(words) {
-        if(words.length < 2){
-            return words[0].name;
-        }else{
-            console.log("...",words);
-            return words[0].name;
-        }
-    }
-
-    function sortSize(words) {
-        let sizes = [];
-        let keys = [];
-        for(let i = 0; i < words.length; i++){
-            if(sizes[words[i]] == undefined){
-                keys.push(words[i]);
-                sizes[words[i]] = 1;
-            } else{
-                sizes[words[i]] += 1;
+            if(id % 2 === 1){
+                row = document.createElement('div');
+                row.setAttribute('class', 'row');
+                board.append(row);
             }
+            let col = document.createElement('div');
+            col.setAttribute('class', id % 2 === 1 && id === tests.length ? 'col' : 'col-6');
+            col.setAttribute('id', 'emojiText'+id);
+            row.append(col);
+            preProcess(subPromises, 'emojiText'+id);
+            id++;
         }
-        words = [];
-        for(let i = 0; i < keys.length; i++){
-            words.push({"name":keys[i], "size":sizes[keys[i]]});
-        }
-        if(words.length > 1){
-            words.sort(function(a,b) {
-                return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
-            });
-        }
-        return words;
+    }else{
+        preProcess(promises, 'emojiTextBoard');
     }
+    afterLoad();
+}
 
-    let words = [];
-    let links = [];
-    let keys = [];
-    let group = 0;
-    contents = [];
-    filterList = [];
+function afterLoad(){
+    let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
+    for (let n of nodesLinks){
+        n.addEventListener("click", function (e){
+            if(parseInt(n.getAttribute('opacity')) !== 1){
+                nodesLinksON();
+            }else{
+                nodesLinksOFF();
+                nodeLinkOpacity(n.getAttribute('phraseID'));
+            }
+        });
+
+    }
+}
+
+function createDataModel(dataJson){
     dataType = [];
+    filterList = [];
 
+    d3.select('#datasetInformationData').selectAll('*').remove();
     let select = document.getElementById('selectAttribute');
     for(let opt in select.options){
         select.remove(opt);
@@ -236,8 +232,7 @@ function preProcess(promises){
     let option = document.createElement('option'); option.text="Select attribute";
     select.add(option, null);
 
-    let dataJson = promises;
-    if(dataJson[0].id == undefined){
+    if(dataJson[0].id === undefined){
         for(let i = 0; i < dataJson.length; i++){
             dataJson[i].id = i;
         }
@@ -251,7 +246,7 @@ function preProcess(promises){
             option.innerText = item;
             option.text = item;
             let datasetInformationData = document.getElementById('datasetInformationData');
-            if(tempCount == 0 || tempCount%4 == 0){
+            if(tempCount === 0 || tempCount%4 == 0){
                 row = document.createElement('div');
                 row.setAttribute('class','row');
                 if(tempCount > 0){
@@ -334,7 +329,69 @@ function preProcess(promises){
             document.getElementById('dataLists').appendChild(dataListOption);
         }
     }
-    contents = dataJson;
+}
+
+function preProcess(dataJson, local){
+    hide();
+    document.getElementById('filterTable').innerHTML = "<tr><th>Attribute</th><th>Term</th><th></th></tr>";
+    filterListID = 0;
+
+    function comparePolarity(words) {
+        let polarity = ["", "positive", "negative", "neutral", "positive", "negative", "neutral"];
+        let pol = [];
+        pol["positive"] = 1;
+        pol["negative"] = 2;
+        pol["neutral"] = 3;
+        if(words.length < 2){
+            return words[0].name;
+        }else{
+            let id = 0;
+            for(let i = 0; i < words.length; i++){
+                if(words[i].size === words[0].size){
+                    id += pol[words[i].name];
+                }
+            }
+            return polarity[id];
+        }
+    }
+
+    function compareEmotion(words) {
+        if(words.length < 2){
+            return words[0].name;
+        }else{
+            return words[0].name;
+        }
+    }
+
+    function sortSize(words) {
+        let sizes = [];
+        let keys = [];
+        for(let i = 0; i < words.length; i++){
+            if(sizes[words[i]] === undefined){
+                keys.push(words[i]);
+                sizes[words[i]] = 1;
+            } else{
+                sizes[words[i]] += 1;
+            }
+        }
+        words = [];
+        for(let i = 0; i < keys.length; i++){
+            words.push({"name":keys[i], "size":sizes[keys[i]]});
+        }
+        if(words.length > 1){
+            words.sort(function(a,b) {
+                return a.size > b.size ? -1 : a.size < b.size ? 1 : 0;
+            });
+        }
+        return words;
+    }
+
+    let words = [];
+    let links = [];
+    let keys = [];
+    let group = 0;
+
+
 
     let stopwords = " vou sobre vem de dá ai aí a o que e do da em um para é com não uma os no se na por mais as dos como mas foi ao ele " +
         "das tem à seu sua ou ser quando muito há nos já está eu também só pelo pela até isso ela entre era depois " +
@@ -374,14 +431,14 @@ function preProcess(promises){
         "were what when where whether which while who whole whose why will with within without work worked working " +
         "works would x y year years yet you young younger youngest your yours z roberto gay";
 
-    for(let i = 0; i < contents.length; i++){
-        contents[i].text = contents[i].text.toLowerCase();
-        contents[i].text = contents[i].text.replaceAll(/[^A-Z0-9 áàâãäéèêëíìîïóòôõöúùûüç!-]/ig,'');
-        contents[i].text = contents[i].text.replaceAll('  ',' ');
-        contents[i].text = contents[i].text.replaceAll('  ',' ');
-        if(contents[i].text != undefined && contents[i].text != null && contents[i].text != ""){
+    for(let i = 0; i < dataJson.length; i++){
+        dataJson[i].text = dataJson[i].text.toLowerCase();
+        dataJson[i].text = dataJson[i].text.replaceAll(/[^A-Z0-9 áàâãäéèêëíìîïóòôõöúùûüç!-]/ig,'');
+        dataJson[i].text = dataJson[i].text.replaceAll('  ',' ');
+        dataJson[i].text = dataJson[i].text.replaceAll('  ',' ');
+        if(dataJson[i].text != undefined && dataJson[i].text != null && dataJson[i].text != ""){
             group++;
-            let ws = contents[i].text.split(" ");
+            let ws = dataJson[i].text.split(" ");
             let lastWord = "";
             for (let j = 0; j < ws.length; j++) {
                 ws[j] = ws[j].toLowerCase();
@@ -389,15 +446,15 @@ function preProcess(promises){
                     if(words[ws[j]] == undefined){
                         keys.push(ws[j]);
                         words[ws[j]] = [];
-                        words[ws[j]]["emotion"] = contents[i].emotion;
-                        words[ws[j]]["polarity"] = contents[i].polarity;
+                        words[ws[j]]["emotion"] = dataJson[i].emotion;
+                        words[ws[j]]["polarity"] = dataJson[i].polarity;
                         words[ws[j]]["size"] = 1;
-                        words[ws[j]]["id"] = contents[i].id;
-                        words[ws[j]]["text"] = contents[i].text;
+                        words[ws[j]]["id"] = dataJson[i].id;
+                        words[ws[j]]["text"] = dataJson[i].text;
                         if(lastWord != ""){
                             let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
-                                "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
-                                "text":contents[i].text};
+                                "id":""+dataJson[i].id, "emotion": dataJson[i].emotion, "polarity": dataJson[i].polarity,
+                                "text":dataJson[i].text};
                             let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                 (a.target == line.source && a.source == line.target));
 
@@ -406,19 +463,19 @@ function preProcess(promises){
                             }else {
                                 links[index].value++;
                                 links[index].group += ""+group+",";
-                                links[index].id += ","+contents[i].id;
+                                links[index].id += ","+dataJson[i].id;
                             }
                         }
                     }else{
-                        words[ws[j]]["emotion"] += " " + contents[i].emotion;
-                        words[ws[j]]["polarity"] += " " + contents[i].polarity;
+                        words[ws[j]]["emotion"] += " " + dataJson[i].emotion;
+                        words[ws[j]]["polarity"] += " " + dataJson[i].polarity;
                         words[ws[j]]["size"]++;
-                        words[ws[j]]["id"] += "," + contents[i].id;
-                        words[ws[j]]["text"] = contents[i].text;
+                        words[ws[j]]["id"] += "," + dataJson[i].id;
+                        words[ws[j]]["text"] = dataJson[i].text;
                         if(lastWord != ""){
                             let line = {"source":lastWord, "target":ws[j], "value":1, "group":""+group+",",
-                                "id":""+contents[i].id, "emotion": contents[i].emotion, "polarity": contents[i].polarity,
-                                "text":contents[i].text};
+                                "id":""+dataJson[i].id, "emotion": dataJson[i].emotion, "polarity": dataJson[i].polarity,
+                                "text":dataJson[i].text};
                             let index = links.findIndex(a => (a.source == line.source && a.target == line.target) ||
                                 (a.target == line.source && a.source == line.target));
 
@@ -427,7 +484,7 @@ function preProcess(promises){
                             }else {
                                 links[index].value++;
                                 links[index].group += ""+group+",";
-                                links[index].id += ","+contents[i].id;
+                                links[index].id += ","+dataJson[i].id;
                             }
                         }
                     }
@@ -471,7 +528,7 @@ function preProcess(promises){
             document.getElementById('formSelectDataInfotext').appendChild(option.cloneNode(true));
         }
     }
-    emojiText("#emojiText", words, links, contents, emotionPolarity);
+    new emojiText("#"+local, words, links, dataJson, emotionPolarity);
 }
 
 function loadDataset(){
@@ -498,27 +555,27 @@ function filter(){
         let phraseID = "";
         if(dataType[attribute.value].type == "continuous"){
             if(attribute.value == 'id' && !term.includes('-')){
-                if(contents[term] !== undefined){
+                if(globalPromises[term] !== undefined){
                     phraseID = term;
                 }
             }else{
-                for(let c in contents){
+                for(let c in globalPromises){
                     if(term.includes('-')){
                         let mimMax = term.split('-');
-                        if(parseFloat(contents[c][attribute.value]) >= parseFloat(mimMax[0]) && parseFloat(contents[c][attribute.value]) <= parseFloat(mimMax[1])){
-                            phraseID += contents[c].id + ",";
+                        if(parseFloat(globalPromises[c][attribute.value]) >= parseFloat(mimMax[0]) && parseFloat(globalPromises[c][attribute.value]) <= parseFloat(mimMax[1])){
+                            phraseID += globalPromises[c].id + ",";
                         }
                     }else{
-                        if(parseFloat(contents[c][attribute.value]) == parseFloat(term)){
-                            phraseID += contents[c].id + ",";
+                        if(parseFloat(globalPromises[c][attribute.value]) == parseFloat(term)){
+                            phraseID += globalPromises[c].id + ",";
                         }
                     }
                 }
             }
         }else{
-            for(let c in contents){
-                if(contents[c][attribute.value].includes(term)){
-                    phraseID += contents[c].id + ",";
+            for(let c in globalPromises){
+                if(globalPromises[c][attribute.value].includes(term)){
+                    phraseID += globalPromises[c].id + ",";
                 }
             }
         }
@@ -675,4 +732,30 @@ function animationPlay(temp){
     let phraseID = temp[range].id +',';
     nodesLinksOFF();
     nodeLinkOpacity(phraseID);
+}
+
+function showEmotion(){
+    classType = 'emotion';
+    let circleText = [...document.getElementsByName('circle-emotion'),
+        ...document.getElementsByName('text-emotion'), ...document.getElementsByName('shadow')];
+    let image = document.getElementsByName('image-emotion');
+    for(let c of circleText){
+        c.setAttribute('class', c.getAttribute('emotion'));
+    }
+    for(let i of image){
+        i.setAttribute('href', i.getAttribute('emotion'));
+    }
+}
+
+function showPolarity(){
+    classType = 'polarity';
+    let circleText = [...document.getElementsByName('circle-emotion'),
+        ...document.getElementsByName('text-emotion'), ...document.getElementsByName('shadow')];
+    let image = document.getElementsByName('image-emotion');
+    for(let c of circleText){
+        c.setAttribute('class', c.getAttribute('polarity'));
+    }
+    for(let i of image){
+        i.setAttribute('href', i.getAttribute('polarity'));
+    }
 }

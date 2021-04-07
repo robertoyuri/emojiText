@@ -1,15 +1,24 @@
-let linksLines = '';
-let node = '';
 function emojiText(local, nodes, links, dataset, emotionPolarity) {
+    let linksLines = '';
+    let node = '';
+    let tooltip;
+    let  svg;
+    const lineSize = 15;
+    let sizeScale;
+    let circleScale;
+    let simulation;
+    let datasetData;
+    datasetData = [...dataset];
     d3.select(local).selectAll('*').remove();
     if (nodes.length > 0) {
-        const lineSize = 20;
-        const height = document.getElementById(local.replace('#', '')).clientHeight;
+        let height = document.getElementById(local.replace('#', '')).clientHeight;
+        height = height < 450 ? 450 : height;
         const width = document.getElementById(local.replace('#', '')).clientWidth;
         const colors = d3.schemeSet3;
-        let sizeScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([12, 18]);
-        let circleScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([20, 50]);
-        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, nodes[0].size*15]);
+        sizeScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([12, 18]);
+        circleScale = d3.scaleLinear().domain(d3.extent(nodes, d => d.size)).range([20, 50]);
+        const distanceScalePart = d3.scaleLinear().domain([nodes[nodes.length - 1].size, nodes[0].size]).range([50, nodes[0].size * 15]);
+
         function distanceScale(source, target) {
             if (source.size > target.size) {
                 return distanceScalePart(source.size);
@@ -18,7 +27,7 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             }
         }
 
-        const svg = d3.select(local)
+        svg = d3.select(local)
             .append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -37,249 +46,303 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
             .attr("fill", "black");
 
-        const simulation = d3.forceSimulation([...nodes, ...links]);
-        simulation.force("link", d3.forceLink(links).distance(function (d){
+        simulation = d3.forceSimulation([...nodes, ...links]);
+        simulation.force("link", d3.forceLink(links).distance(function (d) {
             return distanceScale(d.source, d.target);
         }).id(d => d.word));
 
         simulation.force("center", d3.forceCenter(width / 2, height / 2));
-        simulation.force('collision', d3.forceCollide().radius(function(d) {
-            return circleScale(d.size)+(distanceScalePart(d.size)*.25);
+        simulation.force('collision', d3.forceCollide().radius(function (d) {
+            return circleScale(d.size) + (distanceScalePart(d.size) * .25);
         }));
-        simulation.force("charge", d3.forceManyBody().strength(-125));
-        simulation.force('forceX', d3.forceX(d => d.x > (width*.5) ? (width*.5) : d.x));
-        simulation.force('forceY', d3.forceY(d => d.y > (height*.5) ? (height*.5) : d.y));
+        simulation.force("charge", d3.forceManyBody().strength(-250));
+        simulation.force('forceX', d3.forceX(d => d.x > (width * .5) ? (width * .5) : d.x));
+        simulation.force('forceY', d3.forceY(d => d.y > (height * .5) ? (height * .5) : d.y));
 
         draw(nodes, links);
+    }
 
-        function draw(nodes, links) {
+    function draw(nodes, links) {
 
-            linksLines = svg.append('g')
-                .attr('class', 'links')
-                .selectAll('g')
-                .data(links)
-                .enter().append('g');
+        linksLines = svg.append('g')
+            .attr('class', 'links')
+            .selectAll('g')
+            .data(links)
+            .enter().append('g');
 
-            linksLines.attr("name", "links")
-                .attr("phraseID", function (d) {
-                    return d.id;
-                })
-                .attr("opacity", 1);
+        linksLines.attr("name", "links")
+            .attr("phraseID", function (d) {
+                return d.id;
+            })
+            .attr("opacity", 1);
 
-            linksLines.each(function (d) {
-                let lines = d.group.split(',');
-                lines = lines.slice(0, lines.length - 1).map(v => ({
-                    id: d.id,
-                    value: v,
-                    source: d.source,
-                    target: d.target,
-                }));
+        linksLines.each(function (d) {
+            let lines = d.group.split(',');
+            lines = lines.slice(0, lines.length - 1).map(v => ({
+                id: d.id,
+                value: v,
+                emotion: d.emotion,
+                polarity: d.polarity,
+                source: d.source,
+                target: d.target,
+            }));
 
-                d3.select(this).selectAll('line').data(lines).enter()
-                    .append("line")
-                    .attr("class", "shadow")
-                    .attr("transform", d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
-                    .attr("len", lines.length)
-                    .attr("stroke-width", lineSize / lines.length)
-                    .attr("stroke", (d) => {
-                        return colors[(parseInt(d.value) - (colors.length * parseInt("" + parseInt(d.value) / colors.length)))];
-                    });
+            d3.select(this).selectAll('line').data(lines).enter()
+                .append("line")
+                .attr('name', 'shadow')
+                .attr("class", d => "shadow " + d.emotion)
+                .attr("emotion", d => "shadow " + d.emotion)
+                .attr("polarity", d => "shadow " + d.polarity)
+                .attr("transform", d => "translate(" + ((d.id.split(',').length > 2) ? "10,10" : "0,0") + ")")
+                .attr("len", lines.length)
+                .attr("stroke-width", lineSize / lines.length)
+                .attr('opacity', .5)
+            //.attr("stroke", (d) => {
+            //    return colors[(parseInt(d.value) - (colors.length * parseInt("" + parseInt(d.value) / colors.length)))];
+            //});
+        });
+
+        linksLines.append("line")
+            .attr("class", "line")
+            .attr("stroke-width", function (d) {
+                return (Math.sqrt(d.value) + "px");
+            })
+            .attr("stroke", "black")
+            .attr('opacity', .5);
+
+        linksLines.append("line")
+            .attr("class", "triangle")
+            .attr("stroke-width", function (d) {
+                return (Math.sqrt(d.value) + "px");
+            })
+            .attr("stroke", "black")
+            .attr('opacity', .5)
+            .attr("marker-end", "url(#arrow)");
+
+        linksLines.on("mouseover", handleMouseOver)
+            .on("mouseleave", handleMouseOut);
+
+
+        node = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("g")
+            .data(nodes)
+            .enter().append("g")
+            .call(d3.drag()
+                .on("start", dragStarted)
+                .on("drag", dragged)
+                .on("end", dragEnded));
+
+        node.attr("name", "nodes")
+            .attr("phraseID", function (d) {
+                return d.id;
+            })
+            .attr("opacity", 1);
+
+        node.append("circle")
+            .attr("name", "circle-emotion")
+            .attr("r", function (d) {
+                return (circleScale(d.size) / 2) + 3;
+            })
+            .attr("class", function (d) {
+                return emotionPolarity[d.emotion];
+            })
+            .attr("emotion", function (d) {
+                return emotionPolarity[d.emotion];
+            })
+            .attr("polarity", function (d) {
+                return emotionPolarity[d.polarity];
             });
 
-            linksLines.append("line")
-                .attr("class", "line")
-                .attr("stroke-width", 1)
-                .attr("stroke", "black");
+        node.append("circle")
+            .attr("r", function (d) {
+                return (circleScale(d.size) / 2);
+            })
+            .attr("fill", "#FFFFFF");
 
-            linksLines.append("line")
-                .attr("class", "triangle")
-                .attr("stroke-width", function (d) {
-                    return (Math.sqrt(d.value) + "px");
+        node.append("image")
+            .attr("name", "image-emotion")
+            .attr("xlink:href", function (d) {
+                return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+            })
+            .attr("emotion", function (d) {
+                return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+            })
+            .attr("polarity", function (d) {
+                return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.polarity] + ".svg");
+            })
+            .attr("width", function (d) {
+                return circleScale(d.size);
+            })
+            .attr("height", function (d) {
+                return circleScale(d.size);
+            })
+            .attr("transform", function (d) {
+                return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")");
+            });
+
+        node.append("text")
+            .attr("name", "text-emotion")
+            .text(function (d) {
+                return d.word;
+            })
+            .style("font-size", function (d) {
+                return sizeScale(d.size) + "px";
+            })
+            .style("font-family", "Arial")
+            .attr("class", function (d) {
+                return emotionPolarity[d.emotion];
+            })
+            .attr("emotion", function (d) {
+                return emotionPolarity[d.emotion];
+            })
+            .attr("polarity", function (d) {
+                return emotionPolarity[d.polarity];
+            })
+            .attr("text-anchor", "start")
+            .attr("font-weight", "bold")
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.4px")
+            .attr('x', function (d) {
+                return 2 + circleScale(d.size) * .6 + "px";
+            })
+            .attr('y', d => sizeScale(d.size) / 2);
+
+        node.append("title")
+            .text(function (d) {
+                return d.word;
+            });
+
+        node.on("mouseover", handleMouseOver)
+            .on("mouseleave", handleMouseOut);
+    }
+
+    simulation
+        .nodes(nodes)
+        .on("tick", function(){
+            linksLines.selectAll('line.triangle')
+                .attr("x1", function (d) {
+                    return d.source.x;
                 })
-                .attr("stroke", "black")
-                .attr("marker-end", "url(#arrow)");
-
-            linksLines.on("mouseover", handleMouseOver)
-                .on("mouseleave", handleMouseOut);
-
-
-            node = svg.append("g")
-                .attr("class", "nodes")
-                .selectAll("g")
-                .data(nodes)
-                .enter().append("g")
-                .call(d3.drag()
-                    .on("start", dragStarted)
-                    .on("drag", dragged)
-                    .on("end", dragEnded));
-
-            node.attr("name", "nodes")
-                .attr("phraseID", function (d) {
-                    return d.id;
+                .attr("y1", function (d) {
+                    return d.source.y;
                 })
-                .attr("opacity", 1);
-
-            node.append("circle")
-                .attr("name", "circle-emotion")
-                .attr("r", function (d) {
-                    return (circleScale(d.size) / 2) + 3;
+                .attr("x2", function (d) {
+                    return (d.target.x + d.source.x) / 2;
                 })
-                .attr("class", function (d) {
-                    return emotionPolarity[d.emotion];
-                })
-                .attr("emotion", function (d) {
-                    return emotionPolarity[d.emotion];
-                })
-                .attr("polarity", function (d) {
-                    return emotionPolarity[d.polarity];
+                .attr("y2", function (d) {
+                    return (d.target.y + d.source.y) / 2;
                 });
 
-            node.append("circle")
-                .attr("r", function (d) {
-                    return (circleScale(d.size) / 2);
+            linksLines.selectAll('line.line')
+                .attr("x1", function (d) {
+                    return d.source.x;
                 })
-                .attr("fill", "#FFFFFF");
-
-            node.append("image")
-                .attr("name", "image-emotion")
-                .attr("xlink:href", function (d) {
-                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                .attr("y1", function (d) {
+                    return d.source.y;
                 })
-                .attr("emotion", function (d) {
-                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                .attr("x2", function (d) {
+                    return d.target.x;
                 })
-                .attr("polarity", function (d) {
-                    return (document.location.toString().split('index')[0] + "media/images/" + emotionPolarity[d.polarity] + ".svg");
-                })
-                .attr("width", function (d) {
-                    return circleScale(d.size);
-                })
-                .attr("height", function (d) {
-                    return circleScale(d.size);
-                })
-                .attr("transform", function (d) {
-                    return ("translate(-" + circleScale(d.size) / 2 + ", -" + circleScale(d.size) / 2 + ")");
+                .attr("y2", function (d) {
+                    return d.target.y;
                 });
 
-            node.append("text")
-                .attr("name", "text-emotion")
-                .text(function (d) {
-                    return d.word;
+            linksLines.selectAll('line.shadow')
+                .attr("x1", function (d, i) {
+                    return d.source.x + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx;
                 })
-                .style("font-size", function (d) {
-                    return sizeScale(d.size) + "px";
+                .attr("y1", function (d, i) {
+                    return d.source.y + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy;
                 })
-                .style("font-family", "Arial")
-                .attr("class", function (d) {
-                    return emotionPolarity[d.emotion];
+                .attr("x2", function (d, i) {
+                    return d.target.x + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx;
                 })
-                .attr("emotion", function (d) {
-                    return emotionPolarity[d.emotion];
-                })
-                .attr("polarity", function (d) {
-                    return emotionPolarity[d.polarity];
-                })
-                .attr("text-anchor", "start")
-                .attr("font-weight", "bold")
-                .attr("stroke", "white")
-                .attr("stroke-width", "0.4px")
-                .attr('x', function (d) {
-                    return 2 + circleScale(d.size) * .6 + "px";
-                })
-                .attr('y', d => sizeScale(d.size) / 2);
-
-            node.append("title")
-                .text(function (d) {
-                    return d.word;
+                .attr("y2", function (d, i) {
+                    return d.target.y + i * calcTranslationExact((lineSize / d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy;
                 });
 
-            node.on("mouseover", handleMouseOver)
-                .on("mouseleave", handleMouseOut);
-        }
-            simulation
-                .nodes(nodes)
-                .on("tick", ticked);
+            node.attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        });
 
-            function ticked() {
-                linksLines.selectAll('line.triangle')
-                    .attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return (d.target.x + d.source.x) / 2; })
-                    .attr("y2", function (d) { return (d.target.y + d.source.y) / 2; });
+    tooltip = d3.select(local)
+        .append("div")
+        .attr("class", "tooltipBig")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("top", "0px")
+        .style("left", "0px")
+        .style("visibility", "hidden");
 
-                linksLines.selectAll('line.line')
-                    .attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return d.target.x; })
-                    .attr("y2", function (d) { return d.target.y; });
 
-                linksLines.selectAll('line.shadow')
-                    .attr("x1", function (d,i) { return d.source.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
-                    .attr("y1", function (d,i) { return d.source.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; })
-                    .attr("x2", function (d,i) { return d.target.x + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dx; })
-                    .attr("y2", function (d,i) { return d.target.y + i * calcTranslationExact((lineSize/d3.select(this).attr("len")), d.target, d.source, d3.select(this).attr("len")).dy; });
-
-                node.attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
-            }
-            afterLoad();
-
-            let tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "tooltipBig")
-                .style("position", "absolute")
-                .style("z-index", "10")
-                .style("top", "0px")
-                .style("left", "0px")
-                .style("visibility", "hidden");
-
-            function handleMouseOver(d) {
-                tooltip.selectAll('*').remove();
-                let top = d3.event.pageY + 10;
-                tooltip.style("top", top + "px")
-                    .style("left", d3.event.pageX + "px")
-                    .style("visibility", "visible");
-                for(let n of dataset){
-                    for(let id of (d.id+',').split(',')){
-                        if((','+n.id+',').includes(','+id+',')){
-                            tooltip.append('div')
-                                .attr("width", 15).attr("height", 15)
-                                .style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
-                                .append("p")
-                                .style('font-size', '14px')
-                                .style("margin-top", "0px")
-                                .style("margin-bottom", "3px")
-                                .text("(" + id + ") " + n.text + " (" + emotionPolarity[n.emotion] + " - " + emotionPolarity[n.polarity] + ")");
-                        }
+    function handleMouseOver(d) {
+        tooltip.selectAll('*').remove();
+        //let top = d3.event.pageY + 10;
+        let top = 56;
+        let left = document.body.clientWidth - 2*(document.body.clientWidth/12) + 10;
+        tooltip.style("top", top + "px")
+            //.style("left", d3.event.pageX + "px")
+            .style("left", left + "px")
+            .style("visibility", "visible");
+        for(let n of datasetData){
+            for(let id of (d.id+',').split(',')){
+                if((','+n.id+',').includes(','+id+',')){
+                    let text = n.text;
+                    if(d.word !== undefined){
+                        let list = text.split(d.word);
+                        text = list[0] + d.word.bold() + list[1];
+                    }else{
+                        let list = text.split(d.source.word);
+                        text = list[0] + d.source.word.bold() + list[1];
+                        list = text.split(d.target.word);
+                        text = list[0] + d.target.word.bold() + list[1];
                     }
+                    text = "(" + id + ") " + text + " (" + emotionPolarity[n.emotion] + " - " + emotionPolarity[n.polarity] + ")";
+                    tooltip.style("width", 2*(document.body.clientWidth/12));
+                    let p = tooltip.append('div')
+                        .style("width", 2*(document.body.clientWidth/12))
+                        .style("height", 15)
+                        //.style('background-color', colors[parseInt(id) - (colors.length * parseInt(parseInt(id) / colors.length))])
+                        //.style('opacity', .5)
+                        .attr('class', emotionPolarity[n[classType]]);
+                    p.append("p")
+                        .style('font-size', '14px')
+                        .style("margin-top", "0px")
+                        .style("margin-bottom", "3px")
+                        .style("color", "black")
+                        .style('background-color', 1.5)
+                        //.style('font-weight', 'bold')
+                        //.style("-webkit-text-stroke", "1px black")
+                        .html(text);
+                    p.style('background-color', p.style('background-color').replace('rgb', 'rgba').replace(')', ', 0.5)'));
                 }
             }
-
-            function handleMouseOut() {
-                tooltip.style("visibility", "hidden");
-                tooltip.selectAll('*').remove();
-            }
-        //}
-
-        function dragStarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(1.6).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-        }
-
-        function dragEnded(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
         }
     }
 
+    function handleMouseOut() {
+        tooltip.style("visibility", "hidden");
+        tooltip.selectAll('*').remove();
+    }
+
+    function dragStarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(1.6).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function dragEnded(d) {
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
 
     function calcTranslationExact(targetDistance, point0, point1) {
         let x1_x0 = point1.x - point0.x,
@@ -298,21 +361,6 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             dx: x2_x0,
             dy: y2_y0
         };
-    }
-
-    function afterLoad(){
-        let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
-        for (let n of nodesLinks){
-            n.addEventListener("click", function (){
-                if(n.getAttribute('opacity') !== '1'){
-                    nodesLinksON();
-                }else{
-                    nodesLinksOFF();
-                    nodeLinkOpacity(n.getAttribute('phraseID'));
-                }
-            });
-
-        }
     }
 }
 
@@ -338,27 +386,5 @@ function nodesLinksOFF(){
     let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
     for(let n of nodesLinks){
         n.setAttribute('opacity', 0.1);
-    }
-}
-
-function showEmotion(){
-    let circleText = [...document.getElementsByName('circle-emotion'), ...document.getElementsByName('text-emotion')];
-    let image = document.getElementsByName('image-emotion');
-    for(let c of circleText){
-        c.setAttribute('class', c.getAttribute('emotion'));
-    }
-    for(let i of image){
-        i.setAttribute('href', i.getAttribute('emotion'));
-    }
-}
-
-function showPolarity(){
-    let circleText = [...document.getElementsByName('circle-emotion'), ...document.getElementsByName('text-emotion')];
-    let image = document.getElementsByName('image-emotion');
-    for(let c of circleText){
-        c.setAttribute('class', c.getAttribute('polarity'));
-    }
-    for(let i of image){
-        i.setAttribute('href', i.getAttribute('polarity'));
     }
 }

@@ -174,7 +174,7 @@
     "id": 20,
     "start": "340.000000",
     "stop": "345.000000",
-    "text": "telefone 10",
+    "text": "Qual telefone da cor cinza",
     "emotion": "neutral",
     "polarity": "neutral",
     "test": "http://uxmood.roberto.eti.br/UXmood/api/tests/95/"
