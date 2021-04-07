@@ -362,6 +362,14 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             dy: y2_y0
         };
     }
+    let zoom = d3.zoom()
+        .scaleExtent([0.1, 10])
+        .on('zoom', function() {
+            svg.selectAll('g.nodes').attr('transform', d3.event.transform);
+            svg.selectAll('g.links').attr('transform', d3.event.transform);
+        });
+
+    svg.call(zoom);
 }
 
 function nodeLinkOpacity(phraseID){
