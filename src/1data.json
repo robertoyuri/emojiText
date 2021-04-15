@@ -1,0 +1,143 @@
+[
+  {
+    "text": "i feel beautifully emotional knowing that these women of whom i knew just a handful were holding me and my baba on our journey",
+    "emotion": "sad",
+    "polarity": "negative",
+    "id": 12,
+    "test": "test1"
+  },
+  {
+    "text": "i pay attention it deepens into a feeling of being invaded and helpless",
+    "emotion": "fear",
+    "polarity": "negative",
+    "id": 13,
+    "test": "test1"
+  },
+  {
+    "text": "i just feel extremely comfortable with the group of people that i dont even need to hide myself",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 14,
+    "test": "test1"
+  },
+  {
+    "text": "i find myself in the odd position of feeling supportive of",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 15,
+    "test": "test1"
+  },
+  {
+    "text": "i was feeling as heartbroken as im sure katniss was",
+    "emotion": "sad",
+    "polarity": "negative",
+    "id": 16,
+    "test": "test1"
+  },
+  {
+    "text": "i feel a little mature when i pay for the telephone",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 17,
+    "test": "test1"
+  },
+  {
+    "text": "i felt angry when at the end of a telephone call",
+    "emotion": "angry",
+    "polarity": "negative",
+    "id": 7,
+    "test": "test1"
+  },
+  {
+    "text": "i feel like my only role now would be to tear your sails with my pessimism and discontent",
+    "emotion": "sad",
+    "polarity": "negative",
+    "id": 18,
+    "test": "test1"
+  },
+  {
+    "text": "i feel like reds and purples are just so rich and kind of perfect",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 20,
+    "test": "test1"
+  },
+  {
+    "text": "im not sure the feeling of loss will ever go away but it may dull to a sweet feeling of nostalgia at what i shared in this life with my dad and the luck i had to have a dad for years",
+    "emotion": "sad",
+    "polarity": "negative",
+    "id": 21,
+    "test": "test2"
+  },
+  {
+    "text": "i feel like ive gotten to know many of you through comments and emails and for that im appreciative and glad you are a part of this little space",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 22,
+    "test": "test2"
+  },
+  {
+    "text": "i survey my own posts over the last few years and only feel pleased with vague snippets of a few of them only feel that little bits of them capture what its like to be me or someone like me in dublin in the st century",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 23,
+    "test": "test2"
+  },
+  {
+    "text": "i hate it when i feel fearful for absolutely no reason",
+    "emotion": "fear",
+    "polarity": "negative",
+    "id": 26,
+    "test": "test2"
+  },
+
+  {
+    "text": "i highly recommend visiting on a wednesday if youre able because its less crowded so you get to ask the farmers more questions without feeling rude for holding up a line",
+    "emotion": "angry",
+    "polarity": "negative",
+    "id": 30,
+    "test": "test2"
+  },
+  {
+    "text": "i posted on my facebook page earlier this week ive been feeling a little grumpy and out of sorts the past few days",
+    "emotion": "angry",
+    "polarity": "negative",
+    "id": 32,
+    "test": "test2"
+  },
+  {
+    "text": "i feel so cold a href http irish",
+    "emotion": "angry",
+    "polarity": "negative",
+    "id": 34,
+    "test": "test1"
+  },
+  {
+    "text": "i feel more virtuous than when i eat veggies dipped in hummus",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 36,
+    "test": "test2"
+  },
+  {
+    "text": "i feel very honoured to be included in a magzine which prioritises health and clean living so highly im curious do any of you read magazines concerned with health and clean lifestyles such as the green parent",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 37,
+    "test": "test3"
+  },
+  {
+    "text": "im feeling very peaceful about our wedding again now after having",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 39,
+    "test": "test2"
+  },
+  {
+    "text": "i had been talking to coach claudia barcomb and coach ali boe for a long time and they both made me feel very welcomed at union",
+    "emotion": "happy",
+    "polarity": "positive",
+    "id": 40,
+    "test": "test2"
+  }
+]
