@@ -3,20 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <title>TestLuti</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+<div id="hold" class="alert alert-danger text-center fade collapse" role="alert">
+    <h5 class="modal-title">Hold! Animation is being generated.</h5>
+    <hr>
+    <img src="images/load.gif" height="80px">
+</div>
 <div class="container mt-2">
     <div class="row">
-        <div class="col-2">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Configurações</button>
+        <div class="col">
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Settings
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    <li class="dropdown-item">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="cabelo">Hair:</label>
+                            </div>
+                            <div class="col">
+                                <input id="cabelo" type="color" class="form-control form-control-color" value="#FFFF00" oninput="selectColor(['Layer1_0_FILL', 'Layer7_0_FILL'], this.value)">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-item">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="pele">Skin:</label>
+                            </div>
+                            <div class="col">
+                                <input id="pele" type="color" class="form-control form-control-color" value="#FFCC99" oninput="selectColor(['Layer0_0_FILL', 'Layer5_0_FILL', 'Layer4_0_FILL'], this.value)">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-item">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="olhos">Eyes:</label>
+                            </div>
+                            <div class="col">
+                                <input id="olhos" type="color" class="form-control form-control-color" value="#00CCFF" oninput="selectColor(['Layer2_0_FILL'], this.value)">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-item">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="dente">Tooth:</label>
+                            </div>
+                            <div class="col">
+                                <input id="dente" type="color" class="form-control form-control-color" value="#FFFFFF" oninput="selectColor(['Layer3_0_FILL'], this.value)">
+                            </div>
+                        </div>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="dropdown-item">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label" for="blusa">Shirt:</label>
+                            </div>
+                            <div class="col">
+                                <input id="blusa" type="color" class="form-control form-control-color" value="#66CC66" oninput="selectColor(['Layer6_0_FILL', ], this.value)">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
         </div>
-        <div class="col-1">
-            <img src="images/play.svg" height="32px" onclick="player(this)">
+        <div class="col-2 text-center">
+            <img id="img2" src="images/play.svg" height="32px" onclick="player(this)">
+            <img src="images/download.svg" height="32px" onclick="download();">
         </div>
         <div class="col">
-            <input type="text" id="duarationAnimation" class="form-control" placeholder="Phrase duration (ms)" aria-label="Select attribute"  onchange="player(this)">
+            <input type="text" id="duarationAnimation" class="form-control" placeholder="Frame duration (ms)" aria-label="Select attribute"  onchange="player(this)">
         </div>
     </div>
     <div class="row">
@@ -31,78 +95,10 @@
     </div>
 </div>
 
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Configurações</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-2">
-                        <label class="form-label" for="cabelo">Cabelo:</label>
-                    </div>
-                    <div class="col">
-                        <input id="cabelo" type="color" class="form-control form-control-color" value="#FFFF00" oninput="selectColor([0,1], this.value)">
-                    </div>
-                </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <label class="form-label" for="pele">Pele:</label>
-                        </div>
-                        <div class="col">
-                            <input id="pele" type="color" class="form-control form-control-color" value="#FFCC99" oninput="selectColor([2,3,4], this.value)">
-                        </div>
-                    </div>
-                        <div class="row">
-                            <div class="col-2">
-
-                            </div>
-                            <div class="col">
-
-                            </div>
-                        </div>
-                <div class="row">
-                    <div class="col-2">
-                        <label class="form-label" for="olhos">Olhos:</label>
-                    </div>
-                    <div class="col">
-                        <input id="olhos" type="color" class="form-control form-control-color" value="#00CCFF" oninput="selectColor([5], this.value)">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2">
-                        <label class="form-label" for="blusa">Blusa:</label>
-                    </div>
-                    <div class="col">
-                        <input id="blusa" type="color" class="form-control form-control-color" value="#66CC66" oninput="selectColor([6], this.value)">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-2">
-                        <label class="form-label" for="dente">Dente:</label>
-                    </div>
-                    <div class="col">
-                        <input id="dente" type="color" class="form-control form-control-color" value="#FFFFFF" oninput="selectColor([7], this.value)">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <svg id="1" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 738.1 753.15
 L 738.1 260.75
 Q 476.55 109.3 225.9 260.75
@@ -110,14 +106,14 @@ L 225.9 753.15 738.1 753.15 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -125,7 +121,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -135,7 +131,7 @@ Q 721.35 314.95 721.35 314.65 714.475 274.175 707.6 233.7 694.475 195.825 667.7 
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -143,7 +139,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 392.8 310.8
@@ -151,14 +147,14 @@ Q 382.05 310.8 373.55 316.1 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -203,7 +199,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="2" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 736.5 750.6
 L 731.6 258.4
 Q 468.65 109.6 219.55 263.5
@@ -211,14 +207,14 @@ L 224.45 755.7 736.5 750.6 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -226,7 +222,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 716 315.25
 Q 716 314.95 716 314.65
 L 702.25 233.7
@@ -237,7 +233,7 @@ L 716 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 557 485.55
 Q 585.4 456 587.6 416.25
 L 368 420.6
@@ -245,7 +241,7 @@ Q 369.6 437.4 375.85 452.3 384.3 472.25 401.25 488.65 411.45 498.4 422.8 504.9 4
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 565.95 309.4
 Q 550.55 309.7 539.8 320.85 529.1 332 529.4 347.5 529.7 362.95 540.85 373.7 552 384.4 567.45 384.1 582.9 383.8 593.7 372.65 604.4 361.5 604.1 346 603.8 330.55 592.65 319.8 581.45 309.1 565.95 309.4
 M 387 312.95
@@ -253,14 +249,14 @@ Q 376.25 313.15 367.9 318.6 364.15 321 360.75 324.4 350.05 335.55 350.35 351.05 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 740.35 286.5
 Q 721.5 201.9 665.2 136.9 583.45 42.45 470.55 44.7 357.55 46.95 279.6 144.55 225.9 211.75 210.55 297
 L 486 291.55 521.8 224.3 558.55 290.1 740.35 286.5 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -305,7 +301,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="3" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 734.9 748.1
 L 725.1 256
 Q 460.7 109.85 213.25 266.2
@@ -313,14 +309,14 @@ L 223.05 758.25 734.9 748.1 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -328,7 +324,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 710.6 315.25
 Q 710.6 314.95 710.6 314.65
 L 696.85 233.7
@@ -339,7 +335,7 @@ L 710.6 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 554.45 484.15
 Q 582.25 454.05 583.65 414.35
 L 364.35 423.05
@@ -347,7 +343,7 @@ Q 366.25 439.8 372.8 454.5 381.7 474.3 398.95 490.35 409.3 499.85 420.8 506.15 4
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 559.9 308
 Q 544.5 308.6 534.05 319.95 523.55 331.35 524.15 346.8 524.75 362.25 536.1 372.7 547.5 383.2 562.9 382.6 578.35 382 588.85 370.65 599.35 359.3 598.75 343.85 598.15 328.35 586.8 317.9 575.35 307.4 559.9 308
 M 362.2 321.15
@@ -355,14 +351,14 @@ Q 358.55 323.6 355.2 327.05 344.75 338.4 345.35 353.85 345.95 369.35 357.3 379.8
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 733.65 281.7
 Q 713.2 197.55 655.65 133.7 572.1 41 459.35 45.45 346.55 49.95 270.6 149 218.25 217.15 204.65 302.7
 L 479.65 291.75 514.15 223.9 552.1 288.9 733.65 281.7 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -407,7 +403,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="4" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 733.3 745.55
 L 718.6 253.65
 Q 452.8 110.15 206.9 268.95
@@ -415,14 +411,14 @@ L 221.6 760.8 733.3 745.55 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -430,7 +426,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 705.25 315.25
 Q 705.25 314.95 705.25 314.65
 L 691.5 233.7
@@ -441,7 +437,7 @@ L 705.25 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 551.9 482.75
 Q 579.1 452.15 579.7 412.4
 L 360.7 425.45
@@ -449,7 +445,7 @@ Q 362.95 442.15 369.8 456.75 379.05 476.35 396.6 492.05 407.15 501.35 418.75 507
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 553.85 306.6
 Q 538.5 307.5 528.25 319.05 518 330.65 518.9 346.1 519.8 361.5 531.35 371.75 542.95 382 558.35 381.1 573.75 380.2 584.05 368.65 594.3 357.1 593.4 341.65 592.5 326.2 580.95 315.95 569.3 305.7 553.85 306.6
 M 402.35 326.55
@@ -457,7 +453,7 @@ Q 390.8 316.35 375.4 317.25 364.7 317.85 356.55 323.65 352.95 326.2 349.65 329.7
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 506.45 223.45
 L 545.7 287.65 727 276.85
 Q 704.85 193.15 646.1 130.5 560.75 39.5 448.15 46.2 335.5 52.95 261.55 153.45 210.6 222.6 198.7 308.35
@@ -465,7 +461,7 @@ L 473.35 291.95 506.45 223.45 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -510,7 +506,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="5" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 731.65 743
 L 712.1 251.3
 Q 444.85 110.45 200.6 271.65
@@ -518,14 +514,14 @@ L 220.15 763.35 731.65 743 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -533,7 +529,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 699.85 315.25
 Q 699.85 314.95 699.85 314.65
 L 686.1 233.7
@@ -544,7 +540,7 @@ L 699.85 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 549.4 481.4
 Q 575.95 450.2 575.8 410.45
 L 357.1 427.85
@@ -552,7 +548,7 @@ Q 359.65 444.55 366.75 458.95 376.4 478.35 394.3 493.7 405.05 502.8 416.75 508.6
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 522.45 318.2
 Q 512.4 329.95 513.65 345.35 514.9 360.8 526.65 370.8 538.4 380.85 553.75 379.6 569.2 378.35 579.25 366.6 589.3 354.85 588.05 339.45 586.8 324.05 575.05 314 563.25 303.95 547.85 305.2 532.45 306.45 522.45 318.2
 M 396.75 328.2
@@ -560,7 +556,7 @@ Q 384.95 318.15 369.6 319.4 358.9 320.25 350.9 326.2 347.3 328.75 344.15 332.4 3
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 498.75 223
 L 539.3 286.45 720.35 272.05
 Q 696.55 188.8 636.5 127.35 549.4 38.05 437 47 324.45 55.95 252.55 157.85 203 228.05 192.75 314
@@ -568,7 +564,7 @@ L 467.05 292.2 498.75 223 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -613,7 +609,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="6" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 730.05 740.45
 L 705.6 248.95
 Q 436.95 110.75 194.25 274.4
@@ -621,14 +617,14 @@ L 218.7 765.9 730.05 740.45 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -636,7 +632,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 694.5 315.25
 Q 694.5 314.95 694.5 314.65
 L 680.75 233.7
@@ -647,7 +643,7 @@ L 694.5 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 546.85 480
 Q 572.8 448.3 571.85 408.5
 L 353.45 430.25
@@ -655,7 +651,7 @@ Q 356.35 446.9 363.75 461.2 373.75 480.4 391.95 495.4 402.9 504.3 414.7 509.9 44
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 516.65 317.3
 Q 506.85 329.25 508.4 344.65 509.95 360.05 521.9 369.85 533.85 379.65 549.2 378.1 564.6 376.55 574.45 364.6 584.25 352.65 582.7 337.25 581.15 321.9 569.2 312.05 557.2 302.25 541.8 303.8 526.45 305.35 516.65 317.3
 M 345.25 328.7
@@ -663,7 +659,7 @@ Q 341.7 331.35 338.6 335.05 328.8 347 330.35 362.4 331.9 377.75 343.8 387.6 347.
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 491.05 222.55
 L 532.9 285.2 713.7 267.2
 Q 688.2 184.4 626.95 124.15 538.05 36.55 425.8 47.75 313.4 58.95 243.5 162.3 195.35 233.5 186.8 319.65
@@ -671,7 +667,7 @@ L 460.75 292.4 491.05 222.55 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -716,7 +712,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="7" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 728.45 737.95
 L 699.1 246.55
 Q 429 111 187.95 277.1
@@ -724,14 +720,14 @@ L 217.3 768.45 728.45 737.95 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -739,7 +735,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 689.1 315.25
 Q 689.1 314.95 689.1 314.65
 L 675.35 233.7
@@ -750,7 +746,7 @@ L 689.1 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 544.3 478.6
 Q 569.65 446.35 567.9 406.6
 L 349.8 432.7
@@ -758,7 +754,7 @@ Q 353 449.3 360.7 463.4 371.15 482.45 389.65 497.1 400.75 505.75 412.7 511.15 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 563.35 310.15
 Q 551.1 300.55 535.75 302.4 520.4 304.25 510.9 316.4 501.3 328.6 503.15 343.95 505 359.35 517.15 368.85 529.35 378.45 544.65 376.6 560.05 374.75 569.6 362.6 579.2 350.45 577.35 335.1 575.5 319.7 563.35 310.15
 M 339.55 331.25
@@ -766,7 +762,7 @@ Q 336.1 333.95 333.05 337.7 323.5 349.85 325.35 365.2 327.2 380.6 339.3 390.15 3
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 454.4 292.6
 L 483.4 222.15 526.45 284 707 262.4
 Q 679.9 180.05 617.4 120.95 526.7 35.1 414.6 48.5 302.4 61.95 234.5 166.75 187.7 238.9 180.9 325.35
@@ -774,7 +770,7 @@ L 454.4 292.6 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -819,7 +815,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="8" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -827,14 +823,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -842,7 +838,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -853,7 +849,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -861,7 +857,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 557.5 308.2
 Q 545.05 298.85 529.7 301 514.4 303.15 505.1 315.5 495.75 327.9 497.9 343.25 500.05 358.6 512.4 367.9 524.8 377.25 540.1 375.1 555.45 372.95 564.8 360.6 574.15 348.25 572 332.9 569.85 317.55 557.5 308.2
 M 333.9 333.75
@@ -869,7 +865,7 @@ Q 330.5 336.55 327.5 340.35 318.2 352.7 320.35 368.05 322.5 383.4 334.8 392.75 3
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -877,7 +873,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -922,7 +918,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="9" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -930,14 +926,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -945,7 +941,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -956,7 +952,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -964,7 +960,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 559.6 320.05
 Q 547.8 314.4 534.05 316.35 520.35 318.35 510.7 327.1 500.95 335.95 498.9 346.7 501.4 358.55 510.55 366.4 511.75 367.4 513.1 368.4 524.45 376.65 538.25 375.25 541.85 374.85 545.25 373.85 554.7 371.1 561.4 363.75 567.4 357.1 569.7 348.85 570.85 344.6 570.9 340.1 570.95 332.05 567.9 325.25 564.3 322.35 559.6 320.05
 M 339.45 348.2
@@ -974,7 +970,7 @@ Q 324.1 382.55 331.45 389.75 333.6 391.8 336.1 393.6 338.65 395.35 341.25 396.65
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -982,7 +978,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1027,7 +1023,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="10" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -1035,14 +1031,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1050,7 +1046,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -1061,7 +1057,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1069,7 +1065,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 561.7 331.95
 Q 550.5 329.9 538.35 331.75 526.35 333.5 516.3 338.75 506.15 343.95 499.85 350.2 502.95 360.25 511.5 367.15 512.6 368.05 513.75 368.85 524.05 376.1 536.35 375.35 539.55 375.2 542.65 374.5 551.4 372.5 557.95 366.85 563.9 361.8 567.25 354.75 568.95 351.15 569.75 347.3 571.25 340.45 570.05 333.9 566.15 332.75 561.7 331.95
 M 345.05 362.7
@@ -1079,7 +1075,7 @@ Q 326.2 385.2 333.1 391.25 335.15 393 337.4 394.45 339.7 395.9 342.05 397.05 343
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1087,7 +1083,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1132,7 +1128,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="11" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -1140,14 +1136,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1155,7 +1151,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -1166,7 +1162,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1174,7 +1170,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 500.8 353.65
 Q 504.5556640625 361.99296875 512.4 367.9 524.8 377.25 540.1 375.1 555.45 372.95 564.8 360.6 571.1357421875 352.23125 572.2 342.45
 L 500.8 353.65
@@ -1184,7 +1180,7 @@ L 324.65 381.2 Z"/>
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1192,7 +1188,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1237,7 +1233,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="12" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -1245,14 +1241,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1260,7 +1256,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -1271,7 +1267,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1279,7 +1275,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1287,7 +1283,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1328,7 +1324,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="13" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -1336,14 +1332,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1351,7 +1347,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -1362,7 +1358,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1370,7 +1366,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 500.8 353.65
 Q 504.5556640625 361.99296875 512.4 367.9 524.8 377.25 540.1 375.1 555.45 372.95 564.8 360.6 571.1357421875 352.23125 572.2 342.45
 L 500.8 353.65
@@ -1380,7 +1376,7 @@ L 324.65 381.2 Z"/>
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1388,7 +1384,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1433,7 +1429,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="14" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 726.85 735.4
 L 692.6 244.2
 Q 421.1 111.3 181.6 279.85
@@ -1441,14 +1437,14 @@ L 215.85 771 726.85 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1456,7 +1452,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 315.25
 Q 683.75 314.95 683.75 314.65
 L 670 233.7
@@ -1467,7 +1463,7 @@ L 683.75 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1475,7 +1471,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 560.65 326
 Q 549.15 322.15 536.2 324.05 523.35 325.95 513.5 332.95 503.55 339.95 499.4 348.45 502.2 359.4 511.05 366.8 512.2 367.75 513.45 368.65 524.25 376.4 537.3 375.3 540.7 375.05 543.95 374.2 553.05 371.8 559.7 365.3 565.65 359.45 568.5 351.8 569.9 347.9 570.35 343.7 571.1 336.25 569 329.6 565.25 327.55 560.65 326
 M 342.25 355.45
@@ -1485,7 +1481,7 @@ Q 325.15 383.9 332.3 390.5 334.4 392.4 336.75 394.05 339.2 395.65 341.65 396.85 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1493,7 +1489,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1538,7 +1534,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="15" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 725.55 735.4
 L 691.3 244.2
 Q 419.8 111.3 180.3 279.85
@@ -1546,14 +1542,14 @@ L 214.55 771 725.55 735.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1561,7 +1557,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 683.75 316.85
 L 683.75 315.25
 Q 683.75 314.95 683.75 314.65
@@ -1572,7 +1568,7 @@ Q 203.45 363.05 217.75 397.15 231.45 434.4 258 466.35 265.65 475.85 274.55 484.7
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 541.75 477.2
 Q 566.5 444.45 563.95 404.65
 L 346.15 435.1
@@ -1580,7 +1576,7 @@ Q 349.7 451.65 357.7 465.65 368.5 484.5 387.3 498.8 398.6 507.25 410.65 512.4 43
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 557.5 308.2
 Q 545.05 298.85 529.7 301 514.4 303.15 505.1 315.5 495.75 327.9 497.9 343.25 500.05 358.6 512.4 367.9 524.8 377.25 540.1 375.1 555.45 372.95 564.8 360.6 574.15 348.25 572 332.9 569.85 317.55 557.5 308.2
 M 333.9 333.75
@@ -1588,7 +1584,7 @@ Q 330.5 336.55 327.5 340.35 318.2 352.7 320.35 368.05 322.5 383.4 334.8 392.75 3
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 448.1 292.8
 L 475.7 221.7 520.05 282.75 700.35 257.55
 Q 671.55 175.65 607.85 117.75 515.35 33.6 403.4 49.25 291.35 64.95 225.45 171.2 180.05 244.35 174.95 331
@@ -1596,7 +1592,7 @@ L 448.1 292.8 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1641,7 +1637,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="16" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 733 735.2
 L 698.85 244
 Q 427.35 111.1 187.85 279.6
@@ -1649,14 +1645,14 @@ L 222 770.75 733 735.2 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1664,7 +1660,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 690 315.25
 Q 690 314.95 690 314.65
 L 676.25 233.7
@@ -1675,7 +1671,7 @@ L 690 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 544.7 478.85
 Q 570.2 446.7 568.55 406.9
 L 350.4 432.3
@@ -1683,7 +1679,7 @@ Q 353.55 448.9 361.25 463.05 371.6 482.1 390 496.8 401.1 505.5 413 510.95 439.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 564.35 310.45
 Q 552.15 300.85 536.75 302.65 521.45 304.45 511.85 316.55 502.25 328.7 504.05 344.1 505.8 359.45 517.95 369.05 530.1 378.65 545.4 376.85 560.8 375.05 570.4 362.95 580.05 350.85 578.25 335.45 576.45 320.1 564.35 310.45
 M 340.5 330.8
@@ -1691,7 +1687,7 @@ Q 337.05 333.5 333.95 337.25 324.4 349.35 326.2 364.75 328 380.1 340.05 389.75 3
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 455.45 292.55
 L 484.65 222.2 527.55 284.2 708.15 263.2
 Q 681.25 180.75 619 121.5 528.6 35.35 416.45 48.35 304.25 61.45 236 166 188.95 238 181.9 324.4
@@ -1699,7 +1695,7 @@ L 455.45 292.55 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1744,7 +1740,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="17" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 740.45 735.05
 L 706.35 243.85
 Q 434.9 110.9 195.35 279.35
@@ -1752,14 +1748,14 @@ L 229.45 770.5 740.45 735.05 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1767,7 +1763,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 696.3 315.25
 Q 696.3 314.95 696.3 314.65
 L 682.55 233.7
@@ -1778,7 +1774,7 @@ L 696.3 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 547.7 480.45
 Q 573.85 448.95 573.15 409.15
 L 354.65 429.45
@@ -1786,7 +1782,7 @@ Q 357.45 446.1 364.75 460.45 374.65 479.75 392.75 494.85 403.6 503.8 415.4 509.5
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 518.6 317.6
 Q 508.7 329.5 510.15 344.9 511.6 360.3 523.45 370.15 535.4 380.05 550.75 378.6 566.15 377.15 576.05 365.3 585.9 353.4 584.5 338 583.05 322.6 571.15 312.7 559.2 302.85 543.8 304.25 528.45 305.7 518.6 317.6
 M 393 329.25
@@ -1794,7 +1790,7 @@ Q 381.1 319.4 365.75 320.85 355.05 321.8 347.1 327.85 343.6 330.5 340.45 334.15 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 493.65 222.7
 L 535 285.6 715.9 268.8
 Q 691 185.85 630.15 125.2 541.85 37.05 429.5 47.5 317.1 57.95 246.5 160.85 197.9 231.65 188.8 317.8
@@ -1802,7 +1798,7 @@ L 462.85 292.3 493.65 222.7 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1847,7 +1843,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="18" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747.95 734.9
 L 713.9 243.7
 Q 442.45 110.7 202.9 279.1
@@ -1855,14 +1851,14 @@ L 236.95 770.3 747.95 734.9 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1870,7 +1866,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 702.55 315.25
 Q 702.55 314.95 702.55 314.65
 L 688.8 233.7
@@ -1881,7 +1877,7 @@ L 702.55 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 550.65 482.1
 Q 577.55 451.2 577.75 411.45
 L 358.9 426.65
@@ -1889,7 +1885,7 @@ Q 361.3 443.35 368.3 457.85 377.75 477.35 395.45 492.9 406.1 502.1 417.75 508.05
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 525.35 318.65
 Q 515.2 330.3 516.3 345.75 517.35 361.15 529 371.3 540.7 381.45 556.05 380.35 571.5 379.3 581.65 367.65 591.8 356 590.75 340.55 589.65 325.15 578 315 566.3 304.85 550.85 305.9 535.5 307 525.35 318.65
 M 399.55 327.4
@@ -1897,7 +1893,7 @@ Q 387.9 317.25 372.5 318.35 361.8 319.05 353.75 324.95 350.15 327.5 346.9 331.05
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 502.6 223.25
 L 542.5 287.05 723.7 274.45
 Q 700.7 191 641.3 128.95 555.1 38.8 442.6 46.6 330 54.45 257.05 155.65 206.8 225.35 195.75 311.2
@@ -1905,7 +1901,7 @@ L 470.2 292.1 502.6 223.25 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -1950,7 +1946,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="19" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 755.4 734.7
 L 721.4 243.5
 Q 450 110.45 210.4 278.85
@@ -1958,14 +1954,14 @@ L 244.4 770.05 755.4 734.7 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -1973,7 +1969,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 708.8 315.25
 Q 708.8 314.95 708.8 314.65
 L 695.05 233.7
@@ -1984,7 +1980,7 @@ L 708.8 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 553.6 483.7
 Q 581.2 453.4 582.35 413.7
 L 363.15 423.85
@@ -1992,7 +1988,7 @@ Q 365.15 440.6 371.8 455.25 380.8 474.95 398.15 490.9 408.6 500.35 420.1 506.55 
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 557.9 307.55
 Q 542.5 308.25 532.1 319.65 521.7 331.1 522.4 346.55 523.1 362 534.55 372.4 545.95 382.8 561.35 382.1 576.8 381.4 587.25 369.95 597.7 358.55 596.95 343.1 596.25 327.65 584.85 317.25 573.35 306.8 557.9 307.55
 M 360.35 322
@@ -2000,14 +1996,14 @@ Q 356.65 324.45 353.35 327.95 342.95 339.35 343.7 354.8 344.4 370.25 355.8 380.7
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 731.45 280.1
 Q 710.4 196.1 652.45 132.65 568.3 40.5 455.65 45.7 342.85 50.95 267.6 150.45 215.7 219 202.65 304.55
 L 477.55 291.85 511.55 223.75 550 288.5 731.45 280.1 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2052,7 +2048,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="20" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 762.85 734.55
 L 728.9 243.35
 Q 457.55 110.25 217.9 278.6
@@ -2060,14 +2056,14 @@ L 251.85 769.8 762.85 734.55 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2075,7 +2071,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 715.1 315.25
 Q 715.1 314.95 715.1 314.65
 L 701.35 233.7
@@ -2086,7 +2082,7 @@ L 715.1 315.25 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 556.6 485.3
 Q 584.85 455.65 586.95 415.95
 L 367.4 421
@@ -2094,7 +2090,7 @@ Q 369.05 437.8 375.3 452.65 383.85 472.6 400.9 488.95 411.1 498.65 422.5 505.1 4
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 564.95 309.15
 Q 549.5 309.5 538.85 320.7 528.15 331.9 528.5 347.35 528.9 362.85 540.05 373.5 551.25 384.2 566.7 383.85 582.15 383.5 592.9 372.3 603.55 361.1 603.2 345.65 602.85 330.15 591.65 319.5 580.4 308.8 564.95 309.15
 M 386.05 313.3
@@ -2102,14 +2098,14 @@ Q 375.3 313.55 366.95 319.05 363.2 321.45 359.85 324.85 349.15 336.05 349.5 351.
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 739.2 285.7
 Q 720.15 201.2 663.6 136.35 581.55 42.2 468.7 44.85 355.7 47.45 278.1 145.3 224.65 212.65 209.55 297.95
 L 484.95 291.6 520.55 224.25 557.45 289.9 739.2 285.7 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2154,7 +2150,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="21" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 770.3 734.35
 L 736.45 243.15
 Q 465.1 110.05 225.45 278.35
@@ -2162,14 +2158,14 @@ L 259.3 769.55 770.3 734.35 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2177,7 +2173,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2189,7 +2185,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2197,7 +2193,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 392.8 310.8
@@ -2205,14 +2201,14 @@ Q 382.05 310.8 373.55 316.1 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2257,7 +2253,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="22" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 763.85 738.1
 L 736.8 246.65
 Q 467.4 109.9 225.55 274.85
@@ -2265,14 +2261,14 @@ L 252.6 766.25 763.85 738.1 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2280,7 +2276,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2292,7 +2288,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2300,7 +2296,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 373.55 316.1
@@ -2308,14 +2304,14 @@ Q 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 355.35 363.7 366.3 374.65 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2360,7 +2356,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="23" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 757.4 741.85
 L 737.1 250.2
 Q 469.7 109.75 225.65 271.3
@@ -2368,14 +2364,14 @@ L 245.95 763 757.4 741.85 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2383,7 +2379,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2395,7 +2391,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2403,7 +2399,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 373.55 316.1
@@ -2411,14 +2407,14 @@ Q 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 355.35 363.7 366.3 374.65 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2463,7 +2459,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="24" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 751 745.65
 L 737.45 253.7
 Q 471.95 109.6 225.7 267.8
@@ -2471,14 +2467,14 @@ L 239.25 759.7 751 745.65 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2486,7 +2482,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2498,7 +2494,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2506,7 +2502,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 373.55 316.1
@@ -2514,14 +2510,14 @@ Q 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 355.35 363.7 366.3 374.65 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2566,7 +2562,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="25" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 744.55 749.4
 L 737.75 257.25
 Q 474.25 109.45 225.8 264.25
@@ -2574,14 +2570,14 @@ L 232.6 756.45 744.55 749.4 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2589,7 +2585,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2601,7 +2597,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2609,7 +2605,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 373.55 316.1
@@ -2617,14 +2613,14 @@ Q 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 355.35 363.7 366.3 374.65 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2669,7 +2665,7 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
 <svg id="26" style="display:none" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="1000px" height="1000px" viewBox="0 0 1000 1000">
     <defs>
         <g id="Layer7_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 738.1 753.15
 L 738.1 260.75
 Q 476.55 109.3 225.9 260.75
@@ -2677,14 +2673,14 @@ L 225.9 753.15 738.1 753.15 Z"/>
         </g>
 
         <g id="Layer6_0_FILL">
-            <path none="#66CC66" stroke="none" d="
+            <path fill="#66CC66" stroke="none" d="
 M 292.5 544.9
 L 292.5 1000 683.85 1000 683.75 544.9
 Q 494.1 536.1 292.5 544.9 Z"/>
         </g>
 
         <g id="Layer5_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 525 592.35
 Q 535.55 581.05 534.9 569.4 534.8109375 567.803515625 542.85 484.9
 L 439.5 484.9
@@ -2692,7 +2688,7 @@ Q 433.62890625 568.6142578125 433.45 571 432.65 581.05 444 592.35 455.35 603.7 4
         </g>
 
         <g id="Layer4_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 667.7 163.6
 Q 660.05 154.05 651.15 145.15 598.25 92.3 528.9 79.3 506.15 75 481.65 75 453.85 75 428.3 80.5 362.65 94.65 312.15 145.15 303.25 154.05 295.6 163.6 268.825 195.825 255.7 233.7
 L 241.95 314.65 241.95 316.85
@@ -2704,7 +2700,7 @@ Q 694.475 195.825 667.7 163.6 Z"/>
         </g>
 
         <g id="Layer3_0_FILL">
-            <path none="#FFFFFF" stroke="none" d="
+            <path fill="#FFFFFF" stroke="none" d="
 M 559.55 486.95
 Q 588.55 457.9 591.55 418.2
 L 371.65 418.2
@@ -2712,7 +2708,7 @@ Q 372.9 435.05 378.85 450.05 386.95 470.2 403.6 486.95 413.6 496.9 424.85 503.65
         </g>
 
         <g id="Layer2_0_FILL">
-            <path none="#00CCFF" stroke="none" d="
+            <path fill="#00CCFF" stroke="none" d="
 M 534.65 348.2
 Q 534.65 363.7 545.6 374.65 556.55 385.6 572 385.6 587.5 385.6 598.5 374.65 609.45 363.7 609.45 348.2 609.45 332.7 598.5 321.75 587.5 310.8 572 310.8 556.55 310.8 545.6 321.75 534.65 332.7 534.65 348.2
 M 392.8 310.8
@@ -2720,14 +2716,14 @@ Q 382.05 310.8 373.55 316.1 369.75 318.4 366.3 321.75 355.35 332.7 355.35 348.2 
         </g>
 
         <g id="Layer1_0_FILL">
-            <path none="#FFFF00" stroke="none" d="
+            <path fill="#FFFF00" stroke="none" d="
 M 747 291.35
 Q 729.85 206.3 674.75 140.1 594.8 43.95 481.75 43.95 368.6 43.95 288.65 140.1 233.55 206.3 216.5 291.35
 L 492.3 291.35 529.5 224.75 564.95 291.35 747 291.35 Z"/>
         </g>
 
         <g id="Layer0_0_FILL">
-            <path none="#FFCC99" stroke="none" d="
+            <path fill="#FFCC99" stroke="none" d="
 M 292.5 544.9
 Q 218.7 530.8 216.5 620.9
 L 216.5 1000 292.5 1000 292.5 544.9
@@ -2769,9 +2765,17 @@ L 683.75 1000 759.7 1000 759.7 620.9 Z"/>
         <use xlink:href="#Layer0_0_FILL"/>
     </g>
 </svg>
-<script type="text/javascript" src="control.js"/>
+<script type="text/javascript" src="js/control.js"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/LZWEncoder.js"></script>
+<script type="text/javascript" src="js/NeuQuant.js"></script>
+<script type="text/javascript" src="js/GIFEncoder.js"></script>
+<script type="text/javascript" src="js/b64.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    play();
+</script>
 </body>
 </html>
