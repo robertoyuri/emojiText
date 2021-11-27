@@ -21,6 +21,9 @@
                         Datasets
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownDatasets">
+                        <li><a class="dropdown-item" onclick="loadPath('data2.json')">Twitter Data</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('wine.json')">Wine</a></li>
+                        <li><a class="dropdown-item" onclick="loadPath('posttags.json')">VAST MC3</a></li>
                         <li><a class="dropdown-item" onclick="loadPath('data.json')">UX Data</a></li>
                         <li><a class="dropdown-item" onclick="loadPath('0data.json')">UX Data</a></li>
                         <li><a class="dropdown-item" onclick="loadPath('1data.json')">UX Data</a></li>
@@ -263,6 +266,7 @@
             <button type="button" class="btn-close" onclick="hide();" aria-label="Close"></button>
         </div>
         <div id="emojiTextBoard" style="height: 100%;overflow-y:scroll;"></div>
+        <div id="areaBoard" style="height: 100%;overflow-y:scroll;"></div>
     </div>
     <div class="col-2 bg-dark" style="height: 100%;overflow-y:scroll;"></div>
 </div>
@@ -277,7 +281,7 @@
                 <div>
                     <p>Only accept file type <b>.json</b> in mandatory format:</p>
                     <p>[{<b>"id"</b>: 1,<br>
-                        <b>"text"</b>: "Text Text Text",<br>
+                        <b>"text"</b>: "I am feeling very peaceful about our wedding",<br>
                             <b>"emotion"</b>: "happy",<br>
                                 <b>"polarity"</b>: "positive"}]</p>
                     <p>Other fields can be added.</p>
@@ -360,6 +364,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script type="text/javascript" src="preProcess.js"></script>
 <script type="text/javascript" src="emojiText.js"></script>
+<script type="text/javascript" src="area.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26978832-1"></script>
 <script>

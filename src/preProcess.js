@@ -58,6 +58,17 @@ function identifyHowAre(){
 
 function loadData(promises) {
     globalPromises = promises;
+    /*let ttemp = [];
+    let ttemp2 = [];
+    for(let p of promises){
+        console.log(p.message);
+        if(!ttemp.includes(p.message)){
+            ttemp.push(p.message);
+            ttemp2.push(p);
+        }
+    }
+    globalPromises = ttemp2;
+    promises = ttemp2;*/
     let attributeListWithout = [];
     let attrList = ['text', 'emotion', 'polarity'];
     if (promises[0].text === undefined) {
@@ -218,6 +229,23 @@ function afterLoad(){
         });
 
     }
+}
+function preprocessArea(){
+    let data = [];
+    for(let g of globalPromises){
+        data[g.time]= {'total':0,'positive':0,'happy':0,'surprise':0,'neutral':0,'fear':0,'sad':0,'angry':0,'disgust':0,
+            'contempt':0,'negative':0};
+    }
+    for(let g of globalPromises){
+        data[g.time]['total'] += 1;
+        if(g.emotion == 'neutral'){
+            data[g.time]['neutral'] += 1;
+        }else{
+            data[g.time][g.emotion] += 1;
+            data[g.time][g.polarity] += 1;
+        }
+    }
+    stackedarea("#areaBoard", data);
 }
 
 function createDataModel(dataJson){
@@ -393,7 +421,7 @@ function preProcess(dataJson, local){
 
 
 
-    let stopwords = " vou sobre vem de dá ai aí a o que e do da em um para é com não uma os no se na por mais as dos como mas foi ao ele " +
+    let stopwords = " ! rt shift join vou sobre vem de dá ai aí a o que e do da em um para é com não uma os no se na por mais as dos como mas foi ao ele " +
         "das tem à seu sua ou ser quando muito há nos já está eu também só pelo pela até isso ela entre era depois " +
         "sem mesmo aos ter seus quem nas me esse eles estão você tinha foram essa num nem suas meu às minha têm " +
         "numa pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este fosse dele tu te vocês vos" +
@@ -407,7 +435,7 @@ function preProcess(dataJson, local){
         "tinha tínhamos tinham tive teve tivemos tiveram tivera tivéramos tenha tenhamos tenham tivesse tivéssemos " +
         "tivessem tiver tivermos tiverem terei terá teremos terão teria teríamos teriam a about above across after " +
         "again against all almost alone along already also although always among an and another any anybody anyone " +
-        "anything anywhere are area areas around as ask asked asking asks at away b back backed backing backs be " +
+        "anything anywhere are around as ask asked asking asks at away b back backed backing backs be " +
         "became because become becomes been before began behind being beings best better between big both but by c " +
         "came can cannot case cases certain certainly clear clearly come could d did differ different differently " +
         "do does done down down downed downing downs during e each early either end ended ending ends enough even " +
@@ -433,7 +461,7 @@ function preProcess(dataJson, local){
 
     for(let i = 0; i < dataJson.length; i++){
         dataJson[i].text = dataJson[i].text.toLowerCase();
-        dataJson[i].text = dataJson[i].text.replaceAll(/[^A-Z0-9 áàâãäéèêëíìîïóòôõöúùûüç!-]/ig,'');
+        dataJson[i].text = dataJson[i].text.replaceAll(/[^A-Z0-9 áàâãäéèêëíìîïóòôõöúùûüç!]/ig,'');
         dataJson[i].text = dataJson[i].text.replaceAll('  ',' ');
         dataJson[i].text = dataJson[i].text.replaceAll('  ',' ');
         if(dataJson[i].text != undefined && dataJson[i].text != null && dataJson[i].text != ""){
@@ -529,6 +557,7 @@ function preProcess(dataJson, local){
         }
     }
     new emojiText("#"+local, words, links, dataJson, emotionPolarity);
+    preprocessArea();
 }
 
 function loadDataset(){
@@ -602,16 +631,17 @@ function filter(){
 function mergeFilter(){
     if(filterList.length > 0){
         let phraseID = filterList[0].phraseID;
+        //console.log(phraseID);
         for(let f in filterList){
-            let phraseIDTemp = "";
             for (let s of filterList[f].phraseID.split(',')){
-                for(let p of phraseID.split(',')){
-                    if(s == p){
-                        phraseIDTemp += s + ",";
+                //for(let p of phraseID.split(',')){
+                   // if(s == p){
+                    if(phraseID.indexOf(s)){
+                        phraseID += s + ",";
                     }
-                }
+                //}
             }
-            phraseID = phraseIDTemp.replace(',,', ',');
+            phraseID = phraseID.replace(',,', ',');
         }
         nodesLinksOFF();
         nodeLinkOpacity(phraseID);

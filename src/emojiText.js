@@ -1,3 +1,4 @@
+let cont = 0;
 function emojiText(local, nodes, links, dataset, emotionPolarity) {
     let linksLines = '';
     let node = '';
@@ -27,6 +28,41 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             }
         }
 
+        let nodeStart = [];
+        let nodeEnd = [];
+        for(let n of nodes){
+            n['links'] = 0;
+            for(let l of links){
+                if(n.word == l.source){
+                    n['links'] = n['links'] + 1;
+                }
+                if(n.word == l.target){
+                    n['links'] = n['links'] + 1;
+                }
+            }
+        }
+
+        let start = 0;
+        let end = 0;
+        for(let n of nodes){
+            if(n.links == 1){
+                for(let l of links){
+                    if(n.word == l.source){
+                        nodeStart.push(n);
+                        n['x'] = start;
+                        n['y'] = start/2;
+                        start = start + 50;
+                    }
+                    if(n.word == l.target){
+                        nodeEnd.push(n);
+                        n['x'] = end;
+                        n['y'] = end/2;
+                        end = end + 50;
+                    }
+                }
+            }
+        }
+
         svg = d3.select(local)
             .append("svg")
             .attr("width", width)
@@ -46,24 +82,41 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
             .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
             .attr("fill", "black");
 
-        simulation = d3.forceSimulation([...nodes, ...links]);
-        simulation.force("link", d3.forceLink(links).distance(function (d) {
-            return distanceScale(d.source, d.target);
-        }).id(d => d.word));
+        //simulation = d3.forceSimulation([...nodes, ...links]);
+        //simulation.force("link", d3.forceLink(links).distance(function (d) {
+        //    return distanceScale(d.source, d.target);
+        //}).id(d => d.word));
 
-        simulation.force("center", d3.forceCenter(width / 2, height / 2));
-        simulation.force('collision', d3.forceCollide().radius(function (d) {
-            return circleScale(d.size) + (distanceScalePart(d.size) * .25);
-        }));
-        simulation.force("charge", d3.forceManyBody().strength(-250));
-        simulation.force('forceX', d3.forceX(d => d.x > (width * .5) ? (width * .5) : d.x));
-        simulation.force('forceY', d3.forceY(d => d.y > (height * .5) ? (height * .5) : d.y));
+        //simulation.force("center", d3.forceCenter(width / 2, height / 2));
+        //simulation.force('collision', d3.forceCollide().radius(function (d) {
+        //    return circleScale(d.size) + (distanceScalePart(d.size) * .25);
+        //}));
+        //simulation.force("charge", d3.forceManyBody().strength(-250));
+        //simulation.force('forceX', d3.forceX(d => d.x > (width * .5) ? (width * .5) : d.x));
+        //simulation.force('forceY', d3.forceY(d => d.y > (height * .5) ? (height * .5) : d.y));
 
+        //simulation = d3.forceSimulation(nodes).alphaDecay(0.01)
+        //    .force("linkForce",d3.forceLink(links).distance(30).strength(2));
+
+        simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.word).distance(75))
+            .force("charge", d3.forceManyBody().strength(-150))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("x", d3.forceX())
+            .force("y", d3.forceY());
+        simulation.initial=15000;
+
+        /*simulation = d3.forceSimulation(nodes).alphaDecay(0.01)
+            .force("link", d3.forceLink(links).distance(d => distanceScale(d.source, d.target)).id(d => d.word))
+            //.force('collision', d3.forceCollide().radius(d => (circleScale(d.size) + (distanceScalePart(d.size))* .25)))
+            //.force("charge", d3.forceManyBody())
+            //.force("charge", d3.forceManyBody().strength(-50))
+            .force("center", d3.forceCenter(width / 2, height / 2));
+         */
         draw(nodes, links);
     }
 
     function draw(nodes, links) {
-
         linksLines = svg.append('g')
             .attr('class', 'links')
             .selectAll('g')
@@ -115,7 +168,10 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                 .on("drag", dragged)
                 .on("end", dragEnded));
 
-        node.attr("name", "nodes")
+        node.attr('name', d => "nodes " + d.word)
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            })
             .attr("phraseID", function (d) {
                 return d.id;
             })
@@ -198,6 +254,36 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
 
         node.on("mouseover", handleMouseOver)
             .on("mouseleave", handleMouseOut);
+    }
+
+    simulation.on("tick", simulationTick());
+    simulation.autoplay=false;
+    //invalidation.then(() => simulation.stop());
+    function simulationTick(){
+        if(cont%1000 == 0){
+            linksLines.selectAll('line.line')
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            linksLines.selectAll('line.triangle')
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => (d.target.x + d.source.x) / 2)
+                .attr("y2", d => (d.target.y + d.source.y) / 2);
+
+            linksLines.selectAll('line.shadow')
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node.attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        }
+        cont += 1;
     }
 
     simulation
@@ -380,4 +466,102 @@ function nodesLinksOFF(){
     for(let n of nodesLinks){
         n.setAttribute('opacity', 0.1);
     }
+}
+
+function reorder() {
+    let result = {};
+    let diameter = (new VertexModel()).diameter;
+    let maxDistance = diameter * 3;
+    let gravityDistanceSqr =  10  * (maxDistance * maxDistance);
+    let edgeGravityKof     =  10  / (maxDistance);
+    let kCenterForce       =  10  / (maxDistance * 10);
+    let velocityMax = maxDistance * 10;
+    let centerPoint = new Point();
+
+    // loop through vertices
+    for(let i = 0; i < this.vertices.length; i++) {
+        centerPoint.add(this.vertices[i].position);
+    }
+    centerPoint.multiply(1.0 / this.vertices.length);
+
+    let edgesMatrix = {};
+    for (let i = 0; i < this.edges.length; i++) {
+        edgesMatrix[this.edges[i].vertex1.id + this.edges[i].vertex2.id * 1000] = 1;
+        edgesMatrix[this.edges[i].vertex2.id + this.edges[i].vertex1.id * 1000] = 1;
+    }
+
+    let k = 0;
+    let bChanged = true;
+    while (k < 1000 && bChanged) {
+        let vertexData = [];
+        // loop through vertices
+        for(let i = 0; i < this.vertices.length; i++){
+            // Has no in newVertexes.
+            let currentVertex = {};
+            currentVertex.object    = this.vertices[i];
+            currentVertex.net_force = new Point (0, 0);
+            currentVertex.velocity   = new Point (0, 0);
+            vertexData.push(currentVertex);
+
+            // loop through other vertices
+            for(let j = 0; j < this.vertices.length; j++){
+                let otherVertex = this.vertices[j];
+
+                if (otherVertex == currentVertex.object) continue;
+
+                // squared distance between "u" and "v" in 2D space
+                let rsq = currentVertex.object.position.distanceSqr(otherVertex.position);
+                {
+                    // counting the repulsion between two vertices
+                    let force = (currentVertex.object.position.subtract(otherVertex.position)).normalize(gravityDistanceSqr / rsq);
+                    currentVertex.net_force = currentVertex.net_force.add(force);
+                }
+            }
+
+            // loop through edges
+            for(let j = 0; j < this.vertices.length; j++){
+                let otherVertex = this.vertices[j];
+                if (edgesMatrix.hasOwnProperty(currentVertex.object.id + 1000 * otherVertex.id)) {
+                    let distance = currentVertex.object.position.distance(otherVertex.position);
+
+                    if (distance > maxDistance)
+                    {
+                        // countin the attraction
+                        let force = (otherVertex.position.subtract(currentVertex.object.position)).normalize(edgeGravityKof * (distance - maxDistance));
+                        currentVertex.net_force = currentVertex.net_force.add(force);
+                    }
+                }
+            }
+
+            // Calculate force to center of world.
+            let distanceToCenter = centerPoint.distance(currentVertex.object.position);
+            let force = centerPoint.subtract(currentVertex.object.position).normalize(distanceToCenter * kCenterForce);
+            currentVertex.net_force = currentVertex.net_force.add(force);
+
+            // counting the velocity (with damping 0.85)
+            currentVertex.velocity = currentVertex.velocity.add(currentVertex.net_force);
+        }
+
+        bChanged = false;
+
+        // set new positions
+        for(let i = 0; i < vertexData.length; i++){
+            let v = vertexData[i];
+            let velocity = v.velocity;
+            if (velocity.length() > velocityMax) {
+                velocity = velocity.normalize(velocityMax);
+            }
+            v.object.position = v.object.position.add(velocity);
+            if (velocity.length() >= 1) {
+                bChanged = true;
+            }
+        }
+        k++;
+    }
+
+    this.app.OnAutoAdjustViewport();
+    this.app.SetHandlerMode("default");
+    // Looks like somthing going wrong and will use circle algorithm for reposition.
+
+    return result;
 }
