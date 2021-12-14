@@ -202,13 +202,13 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
         node.append("image")
             .attr("name", "image-emotion")
             .attr("xlink:href", function (d) {
-                return (document.location.origin.toString() + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                return (document.location.origin.toString() + "/media/images/" + emotionPolarity[d.emotion] + ".svg");
             })
             .attr("emotion", function (d) {
-                return (document.location.origin.toString() + "media/images/" + emotionPolarity[d.emotion] + ".svg");
+                return (document.location.origin.toString() + "/media/images/" + emotionPolarity[d.emotion] + ".svg");
             })
             .attr("polarity", function (d) {
-                return (document.location.origin.toString() + "media/images/" + emotionPolarity[d.polarity] + ".svg");
+                return (document.location.origin.toString() + "/media/images/" + emotionPolarity[d.polarity] + ".svg");
             })
             .attr("width", function (d) {
                 return circleScale(d.size);
