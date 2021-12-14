@@ -1,3 +1,12 @@
+let query = window.location.search.substring(1).replaceAll('%20', ' ').split('&');
+let r = [];
+for(let a=0; a < query.length; a++){
+    query[a] = query[a].split('=');
+    r[query[a][0]] = query[a][1];
+}
+if(r['data'] != undefined){
+    loadPath(r['data']);
+}
 let datas = [];
 let dataType = [];
 let filterList = [];
@@ -80,12 +89,16 @@ function loadData(promises) {
     if (promises[0].polarity === undefined) {
         attributeListWithout.push('polarity');
     }
-    if (promises[0].test === undefined) {
+    if (promises[0].test === undefined && r['multi'] == undefined) {
         let confirmTest = confirm('Does the data have attributes to generate multiple emojiText?');
         if(confirmTest){
             attributeListWithout.push('test');
             attrList.push('test');
         }
+    }
+    if(r['multi'] == 'true'){
+        attributeListWithout.push('test');
+        attrList.push('test');
     }
     howAre(promises[0], attrList);
     if (attributeListWithout.length > 0) {
@@ -557,7 +570,8 @@ function preProcess(dataJson, local){
         }
     }
     new emojiText("#"+local, words, links, dataJson, emotionPolarity);
-    preprocessArea();
+    startQuerys();
+    //preprocessArea();
 }
 
 function loadDataset(){
@@ -575,12 +589,63 @@ function loadDataset(){
     reader.readAsText(file);
 }
 
+function filterW(attribute, term){
+    let alertB = document.getElementById('alert');
+    let alertMensage = document.getElementById('alertMensage');
+    if(attribute !== "Select attribute" && term !== ""){
+        let phraseID = "";
+        if(dataType[attribute].type == "continuous"){
+            if(attribute == 'id' && !term.includes('-')){
+                if(globalPromises[term] !== undefined){
+                    phraseID = term;
+                }
+            }else{
+                for(let c in globalPromises){
+                    if(term.includes('-')){
+                        let mimMax = term.split('-');
+                        if(parseFloat(globalPromises[c][attribute]) >= parseFloat(mimMax[0]) && parseFloat(globalPromises[c][attribute]) <= parseFloat(mimMax[1])){
+                            phraseID += globalPromises[c].id + ",";
+                        }
+                    }else{
+                        if(parseFloat(globalPromises[c][attribute]) == parseFloat(term)){
+                            phraseID += globalPromises[c].id + ",";
+                        }
+                    }
+                }
+            }
+        }else{
+            for(let c in globalPromises){
+                if(globalPromises[c][attribute].includes(term)){
+                    phraseID += globalPromises[c].id + ",";
+                }
+            }
+        }
+        if(phraseID.length == 0){
+            alertB.setAttribute('class', "alert alert-danger alert-dismissible fade show");
+            alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' not found.";
+        }else {
+            document.getElementById('typeTerm').value = "";
+            document.getElementById('filterTable').innerHTML += "<tr id='filterLine"+filterListID+"'><td>"+attribute+
+                "</td><td>"+term+"</td><td><a onclick='deleteFilter("+filterListID+")'><img src='media/images/trash.svg' height='15px'></a></td></tr>";
+            filterList.push({"id":filterListID,"attribute":attribute, "term":term, "phraseID":phraseID});
+            filterListID++;
+            mergeFilter();
+            alertB.setAttribute('class', "alert alert-success alert-dismissible fade show");
+            alertMensage.innerHTML = "DONE!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' was successfully filtered.";
+        }
+    }else{
+        alertB.setAttribute('class', "alert alert-danger alert-dismissible fade show");
+        alertMensage.innerHTML = "ERROR!".bold() + " The term: '" + term + "' in attribute: '" + attribute + "' not found.";
+        mergeFilter();
+    }
+}
+
 function filter(){
     let alertB = document.getElementById('alert');
     let alertMensage = document.getElementById('alertMensage');
     let attribute = document.getElementById('selectAttribute');
     let term = document.getElementById('typeTerm').value;
-    if(attribute !== "Select attribute" && term !== ""){
+    if(attribute.value !== "Select attribute" && term !== ""){
         let phraseID = "";
         if(dataType[attribute.value].type == "continuous"){
             if(attribute.value == 'id' && !term.includes('-')){
@@ -631,7 +696,6 @@ function filter(){
 function mergeFilter(){
     if(filterList.length > 0){
         let phraseID = filterList[0].phraseID;
-        //console.log(phraseID);
         for(let f in filterList){
             for (let s of filterList[f].phraseID.split(',')){
                 //for(let p of phraseID.split(',')){
@@ -787,5 +851,24 @@ function showPolarity(){
     }
     for(let i of image){
         i.setAttribute('href', i.getAttribute('polarity'));
+    }
+}
+
+function startQuerys() {
+    if (r['filt'] != undefined) {
+        let f = r['filt'].split(',');
+        for (let a = 0; a < f.length; a++) {
+            document.getElementById('selectAttribute').value = r['att'];
+            document.getElementById('typeTerm').value = f[a];
+            filterW(r['att'], f[a]);
+        }
+    }
+    if(r['stype'] != undefined){
+        if(r['stype'] == 'emotion'){
+            showEmotion();
+        }
+        if(r['stype'] == 'polarity'){
+            showPolarity();
+        }
     }
 }
