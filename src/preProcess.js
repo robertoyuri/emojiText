@@ -5,7 +5,7 @@ for(let a=0; a < query.length; a++){
     r[query[a][0]] = query[a][1];
 }
 if(r['data'] != undefined){
-    loadPath(r['data']);
+    loadPath("media/data/" + r['data'] + ".json");
 }
 let datas = [];
 let dataType = [];
