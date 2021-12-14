@@ -858,9 +858,8 @@ function startQuerys() {
     if (r['filt'] != undefined) {
         let f = r['filt'].split(',');
         for (let a = 0; a < f.length; a++) {
-            document.getElementById('selectAttribute').value = r['att'];
-            document.getElementById('typeTerm').value = f[a];
-            filterW(r['att'], f[a]);
+            let temp  = f[a].split(':');
+            filterW(temp[0], temp[1]);
         }
     }
     if(r['stype'] != undefined){
