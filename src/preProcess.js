@@ -861,7 +861,8 @@ async function startQuerys() {
             let temp  = f[a].split(':');
             filterW(temp[0], temp[1]);
         }
-        document.getElementById('attributeFilter').style.display='flex';
+        let docAF = document.getElementById('attributeFilter');
+        docAF.setAttribute('class', docAF.getAttribute('class') + ' show');
     }
     if(r['stype'] != undefined){
         if(r['stype'] == 'emotion'){
@@ -878,7 +879,8 @@ async function startQuerys() {
         if(r['play'] == 'true'){
             await sleep(5000);
             player(document.getElementById('pplay'));
-            document.getElementById('animationPlayer').style.display='flex';
+            let docAP = document.getElementById('animationPlayer');
+            docAP.setAttribute('class', docAP.getAttribute('class') + ' show');
         }
     }
 }
