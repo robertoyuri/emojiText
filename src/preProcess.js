@@ -372,7 +372,7 @@ function createDataModel(dataJson){
     }
 }
 
-function preProcess(dataJson, local){
+async function preProcess(dataJson, local){
     hide();
     document.getElementById('filterTable').innerHTML = "<tr><th>Attribute</th><th>Term</th><th></th></tr>";
     filterListID = 0;
@@ -854,7 +854,7 @@ function showPolarity(){
     }
 }
 
-function startQuerys() {
+async function startQuerys() {
     if (r['filt'] != undefined) {
         let f = r['filt'].split(',');
         for (let a = 0; a < f.length; a++) {
@@ -868,6 +868,15 @@ function startQuerys() {
         }
         if(r['stype'] == 'polarity'){
             showPolarity();
+        }
+    }
+    if(r['duration'] != undefined){
+        document.getElementById('duarationAnimation').value = r['duration'];
+    }
+    if(r['play'] != undefined){
+        if(r['play'] == 'true'){
+            await sleep(5000);
+            player(document.getElementById('pplay'));
         }
     }
 }
