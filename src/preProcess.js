@@ -756,6 +756,7 @@ function setVal(){
 
 function selectColor(id, color){
     document.styleSheets[0].rules[id].style.fill=color;
+    document.styleSheets[0].rules[id].style.stroke=color;
     document.styleSheets[0].rules[id].style.backgroundColor=color;
 }
 

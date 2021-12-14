@@ -168,7 +168,7 @@ function emojiText(local, nodes, links, dataset, emotionPolarity) {
                 .on("drag", dragged)
                 .on("end", dragEnded));
 
-        node.attr('name', d => "nodes " + d.word)
+        node.attr('name', d => "nodes" )//+ d.word)
             .attr("transform", function (d) {
                 return "translate(" + d.x + "," + d.y + ")";
             })
@@ -455,6 +455,7 @@ function nodeLinkOpacity(phraseID){
 }
 
 function nodesLinksON(){
+    console.log(document.getElementsByName('node'));
     let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
     for(let n of nodesLinks){
         n.setAttribute('opacity', 1);
@@ -462,6 +463,7 @@ function nodesLinksON(){
 }
 
 function nodesLinksOFF(){
+    console.log(document.getElementsByName('nodes'));
     let nodesLinks = [...document.getElementsByName('nodes'), ...document.getElementsByName('links')];
     for(let n of nodesLinks){
         n.setAttribute('opacity', 0.1);
