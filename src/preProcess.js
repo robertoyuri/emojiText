@@ -861,6 +861,7 @@ async function startQuerys() {
             let temp  = f[a].split(':');
             filterW(temp[0], temp[1]);
         }
+        document.getElementById('attributeFilter').style.display='flex';
     }
     if(r['stype'] != undefined){
         if(r['stype'] == 'emotion'){
@@ -877,6 +878,7 @@ async function startQuerys() {
         if(r['play'] == 'true'){
             await sleep(5000);
             player(document.getElementById('pplay'));
+            document.getElementById('animationPlayer').style.display='flex';
         }
     }
 }
