@@ -1,0 +1,272 @@
+[
+  {
+    "text":"oclusão, dificuldade em acompanhar certos fluxo, dificuldade em compreender contextos, dificuldade em comparar o tamanho de alguns elementos visuais, dificuldade em analisar alguns fluxo desencadeados.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Nenhum",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Para alguns casos simplificar as palavras mais importante para transmissão da informações, pois a visualização podera ficar muito grande e para quem não é da área, podera não entender.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"A remoção das stop words pode deixar a compreensão do texto confusa e desconfortável, logo, naquela janela que fica no canto superior direito, as stop words poderiam não ser removidas.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Dependendo do tamanho da base dados a aplicação pode ser mais ou menos eficiente, no sentido de identificar os dados, visto que, quanto maior a base de dados fica mais difícil realizar algumas tarefas de InfoVis, mesmo com a utilização de seleção e de filtros. A aplicação também mostrou-se sensível em relação ao processamento/carregamento dos dados, quando carreguei a base de dados do VAST MC3, que parece ser a maior base disponível na mesma, o tempo de resposta das interações girou em torno de 11 segundos, prejudicando a análise desta base. A mensagem de feedback das interações precisa estar fixa na tela, se baixarmos a barra de rolagem da página para ver alguma informação, a mensagem fica escondida no topo.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Senti falta de uma demostração de analise",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Identificação do assunto ao qual a visualização se refere. Identificação de características específicas que mesmo com o detalhe sob demanda não ficam muito claras.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Posicionamento da visualização por vezes oculta parte das informações, sendo difícil reposicionar a visualização e voltar a enxergar todas as informações.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"parte de texto com as cores confusas",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Com muitas palavras a visualização fica poluída e pode ser difícil compreender alguns dados",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"As vezes é difícil buscar frases diferentes, pois os nós próximos são geralmente da mesma frase.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Seria útil destacar as frases quando o mouse está sobre um nó.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Um pouco confuso.",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"A interpretação do texto é comprometida, não dá pra saber do que se trata o texto. Achei complexo a ligação entre palavras e não entendi para que serviam as arestas dos grafos. Creio que seja necessário a instrução por um profissional.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"vários nós podem deixar a interpretação um pouco confusa.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Quantidade de vezes repetidas deveriam ser colocadas mais em evidência.",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Identificação de tópicos e informações atreladas a possíveis tópicos",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"transmitem um fluxo que pode ser sequenciado de informações",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"a possibilidade de arrastar as bolinhas para melhor visualização, os diversos filtros, informação por demanda",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Uma forma nova e bem interativa de apresentar as informações",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Rápida percepção se o texto em geral é negativo ou positivo. Rápida percepção se o texto é complexo e/ou repetitivo.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Facilidade para identificar padrões nos dados devido as variáveis visuais de tamanho e cor",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Evidencia dos textos por Polaridade e por repetição retorna uma boa analise",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Rápida identificação dos termos mais utilizados tomando por base o tamanho do emoji de polaridade.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Facilidade de análise da descrição e comparação do quantitativo dos pontos negativos, neutros e positivos, assim como análise individual de emoções relacionadas aos termos utilizados no texto.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"ideia interessante.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Fácil visualização dos sentimentos em relação as palavras",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Possibilidade de reorganização dos nós para visibilidade",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Fornece uma boa visualização dos sentimentos e palavras mais faladas.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Fácil visualização",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Demonstrar as emoções pelo teto é muito interessante e diretamente ligado ao usuário.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Identificação de palavras mais usadas e sentimentos atrelados a ela.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"para expressar o fluxo de sentimentos em listas de assuntos no twitter ou facebook",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Textos jornalísticos",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"O esquema de engenharia de antologias ou web sematica pode ou não te ajudar a esquematizar melhor ou reduzir as palavras chaves para transmitir a informação. Só uma sugestão.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Redes sociais, uma análise rápida de um texto para uma pessoa saber se aquele texto é tóxico, complexo, longo etc.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Análise de textos em redes sociais, o EmojiText pode facilitar com a análise de sentimentos, o encontro de gatilhos negativos ou suspeitos expostos pelos os usuários na internet. Também pode ser usado para garimpar a opinião de pessoas sobre um determinado assunto ou pesquisa.",
+    "type":"sugestão",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Cenários com filtros sob filtros para achar questões direcionadas",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Análise de partidas de e-sports.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Aplicar sobre análise de grande quantidade de textos extraídos das redes sociais, sobre grandes relatórios como resultados de auditorias, análise de riscos, compliance, etc. Também pode ser utilizado para aplicação em grandes bases de dados com as decisões de tribunais, identificando os padrões de emoções em diversos temas nas decisões.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"cor e texto focos de confusão",
+    "type":"sugestão",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Bom para análisar grandes volumes de texto sobre um mesmo assunto para achar padrões",
+    "type":"sugestão",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"logística",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Nenhuma",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Talvez em reviews de produtos e avaliação de empresas por funcionários (glassdoor).",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  }
+]

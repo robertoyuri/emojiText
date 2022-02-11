@@ -1,0 +1,104 @@
+[
+  {
+    "text":"oclusão, dificuldade em acompanhar certos fluxo, dificuldade em compreender contextos, dificuldade em comparar o tamanho de alguns elementos visuais, dificuldade em analisar alguns fluxo desencadeados.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Nenhum",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Para alguns casos simplificar as palavras mais importante para transmissão da informações, pois a visualização podera ficar muito grande e para quem não é da área, podera não entender.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"A remoção das stop words pode deixar a compreensão do texto confusa e desconfortável, logo, naquela janela que fica no canto superior direito, as stop words poderiam não ser removidas.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Dependendo do tamanho da base dados a aplicação pode ser mais ou menos eficiente, no sentido de identificar os dados, visto que, quanto maior a base de dados fica mais difícil realizar algumas tarefas de InfoVis, mesmo com a utilização de seleção e de filtros. A aplicação também mostrou-se sensível em relação ao processamento/carregamento dos dados, quando carreguei a base de dados do VAST MC3, que parece ser a maior base disponível na mesma, o tempo de resposta das interações girou em torno de 11 segundos, prejudicando a análise desta base. A mensagem de feedback das interações precisa estar fixa na tela, se baixarmos a barra de rolagem da página para ver alguma informação, a mensagem fica escondida no topo.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Senti falta de uma demostração de analise",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Identificação do assunto ao qual a visualização se refere. Identificação de características específicas que mesmo com o detalhe sob demanda não ficam muito claras.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Posicionamento da visualização por vezes oculta parte das informações, sendo difícil reposicionar a visualização e voltar a enxergar todas as informações.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"parte de texto com as cores confusas",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Com muitas palavras a visualização fica poluída e pode ser difícil compreender alguns dados",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"As vezes é difícil buscar frases diferentes, pois os nós próximos são geralmente da mesma frase.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Seria útil destacar as frases quando o mouse está sobre um nó.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Um pouco confuso.",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"A interpretação do texto é comprometida, não dá pra saber do que se trata o texto. Achei complexo a ligação entre palavras e não entendi para que serviam as arestas dos grafos. Creio que seja necessário a instrução por um profissional.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"vários nós podem deixar a interpretação um pouco confusa.",
+    "type":"negativo",
+    "polarity":"negative",
+    "emotion":"sad"
+  },
+  {
+    "text":"Quantidade de vezes repetidas deveriam ser colocadas mais em evidência.",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Identificação de tópicos e informações atreladas a possíveis tópicos",
+    "type":"negativo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  }
+]

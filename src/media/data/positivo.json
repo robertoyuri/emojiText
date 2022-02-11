@@ -1,0 +1,92 @@
+[
+  {
+    "text":"transmitem um fluxo que pode ser sequenciado de informações",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"a possibilidade de arrastar as bolinhas para melhor visualização, os diversos filtros, informação por demanda",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Uma forma nova e bem interativa de apresentar as informações",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Rápida percepção se o texto em geral é negativo ou positivo. Rápida percepção se o texto é complexo e/ou repetitivo.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Facilidade para identificar padrões nos dados devido as variáveis visuais de tamanho e cor",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Evidencia dos textos por Polaridade e por repetição retorna uma boa analise",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Rápida identificação dos termos mais utilizados tomando por base o tamanho do emoji de polaridade.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Facilidade de análise da descrição e comparação do quantitativo dos pontos negativos, neutros e positivos, assim como análise individual de emoções relacionadas aos termos utilizados no texto.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"ideia interessante.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Fácil visualização dos sentimentos em relação as palavras",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Possibilidade de reorganização dos nós para visibilidade",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Fornece uma boa visualização dos sentimentos e palavras mais faladas.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Fácil visualização",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Demonstrar as emoções pelo teto é muito interessante e diretamente ligado ao usuário.",
+    "type":"positivo",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Identificação de palavras mais usadas e sentimentos atrelados a ela.",
+    "type":"positivo",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  }
+]

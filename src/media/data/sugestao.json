@@ -1,0 +1,80 @@
+[
+  {
+    "text":"para expressar o fluxo de sentimentos em listas de assuntos no twitter ou facebook",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Textos jornalísticos",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"O esquema de engenharia de antologias ou web sematica pode ou não te ajudar a esquematizar melhor ou reduzir as palavras chaves para transmitir a informação. Só uma sugestão.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Redes sociais, uma análise rápida de um texto para uma pessoa saber se aquele texto é tóxico, complexo, longo etc.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Análise de textos em redes sociais, o EmojiText pode facilitar com a análise de sentimentos, o encontro de gatilhos negativos ou suspeitos expostos pelos os usuários na internet. Também pode ser usado para garimpar a opinião de pessoas sobre um determinado assunto ou pesquisa.",
+    "type":"sugestão",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"Cenários com filtros sob filtros para achar questões direcionadas",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Análise de partidas de e-sports.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Aplicar sobre análise de grande quantidade de textos extraídos das redes sociais, sobre grandes relatórios como resultados de auditorias, análise de riscos, compliance, etc. Também pode ser utilizado para aplicação em grandes bases de dados com as decisões de tribunais, identificando os padrões de emoções em diversos temas nas decisões.",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"cor e texto focos de confusão",
+    "type":"sugestão",
+    "polarity":"negative",
+    "emotion":"angry"
+  },
+  {
+    "text":"Bom para análisar grandes volumes de texto sobre um mesmo assunto para achar padrões",
+    "type":"sugestão",
+    "polarity":"positive",
+    "emotion":"happy"
+  },
+  {
+    "text":"logística",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Nenhuma",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  },
+  {
+    "text":"Talvez em reviews de produtos e avaliação de empresas por funcionários (glassdoor).",
+    "type":"sugestão",
+    "polarity":"neutral",
+    "emotion":"neutral"
+  }
+]
